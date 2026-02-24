@@ -676,9 +676,8 @@
                 const GQL_ENDPOINT = 'https://api.carwashcx.com/graphql';
                 // const GQL_ENDPOINT = 'http://localhost:8081/graphql';
 
-                const query = `
-                    mutation CreateEarlyAccessEnquiry($input: CreateEarlyAccessEnquiryInput!) {
-                        createEarlyAccessEnquiry(input: $input) {
+                const query = `mutation CreateEarlyAccessRequest($input: CreateEarlyAccessInput!) {
+                        createEarlyAccessRequest(input: $input) {
                             id
                             firstName
                             lastName
