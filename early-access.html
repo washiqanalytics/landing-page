@@ -200,6 +200,7 @@
             border-left: 3px solid #4CAF50;
             margin-bottom: 1.25rem;
             line-height: 1.6;
+            display: none;
         }
 
         .btn-submit {
@@ -650,11 +651,11 @@
                 const formData = {
                     firstName: firstName.value.trim(),
                     lastName: lastName.value.trim(),
-                    email: email.value.trim(),
+                    workEmail: email.value.trim(),
                     phone: phone.value.trim(),
-                    locations: locations.value,
-                    pos: pos.value,
-                    challenge: challenge.value
+                    numberOfLocations: locations.value,
+                    currentPosSystem: pos.value,
+                    biggestOperationalChallenge: challenge.value
                 };
 
                 // --- GraphQL Integration ---
@@ -672,16 +673,25 @@
                 btnSubmit.classList.add('loading');
                 btnSubmit.disabled = true;
 
-                const GQL_ENDPOINT = 'https://api.washiq.com/graphql'; // Change this to your actual endpoint
+                // const GQL_ENDPOINT = 'https://api.washiq.com/graphql'; // Change this to your actual endpoint
+                const GQL_ENDPOINT = 'http://localhost:8081/graphql'; // Change this to your actual endpoint
 
                 const query = `
-        mutation CreateEarlyAccessRequest($input: EarlyAccessInput!) {
-            createEarlyAccessRequest(input: $input) {
-            success
-                            message
+                    mutation CreateEarlyAccessEnquiry($input: CreateEarlyAccessEnquiryInput!) {
+                        createEarlyAccessEnquiry(input: $input) {
+                            id
+                            firstName
+                            lastName
+                            workEmail
+                            phone
+                            numberOfLocations
+                            currentPosSystem
+                            biggestOperationalChallenge
+                            createdAt
+                            updatedAt
                         }
                     }
-        `;
+                `;
 
                 try {
                     const response = await fetch(GQL_ENDPOINT, {
@@ -701,6 +711,11 @@
 
                     if (result.errors) {
                         throw new Error(result.errors[0].message || 'GraphQL Error');
+                    }
+
+                    const enquiry = result.data?.createEarlyAccessEnquiry;
+                    if (!enquiry || !enquiry.id) {
+                        throw new Error('Unexpected response from server');
                     }
 
                     // Success handling
