@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Careers - WashIQ</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         :root {
             --primary: #0066FF;
@@ -26,84 +32,9 @@
             background: #ffffff;
             -webkit-font-smoothing: antialiased;
         }
-
-        /* ── Nav ── */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1.25rem 3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--dark);
-            text-decoration: none;
-            letter-spacing: -0.02em;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            align-items: center;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--dark);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1rem;
-            transition: opacity 0.2s ease;
-        }
-
-        .nav-links a:hover { opacity: 0.6; }
-
-        .nav-cta {
-            background: var(--green);
-            color: white !important;
-            padding: 0.75rem 1.5rem;
-            border-radius: 6px;
-            font-weight: 600;
-            transition: all 0.2s ease;
-        }
-
-        .nav-cta:hover { opacity: 0.85 !important; transform: translateY(-1px); }
-
-        .nav-login {
-            background: transparent;
-            color: var(--dark) !important;
-            padding: 0.75rem 1.5rem;
-            border-radius: 6px;
-            font-weight: 600;
-            border: 2px solid var(--dark);
-            transition: all 0.2s ease;
-        }
-
-        .nav-login:hover { background: var(--dark); color: white !important; transform: translateY(-1px); }
-
-        .mobile-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--dark);
-        }
-
+    </style>
+    <link rel="stylesheet" href="/assets/css/navbar.css">
+    <style>
         /* ── Hero ── */
         .hero {
             padding: 10rem 3rem 7rem;
@@ -168,7 +99,7 @@
             right: -60px;
             width: 200px;
             height: 200px;
-            background: radial-gradient(circle, rgba(0,208,132,0.25) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(0, 208, 132, 0.25) 0%, transparent 70%);
             border-radius: 50%;
         }
 
@@ -200,7 +131,7 @@
             display: flex;
             align-items: center;
             gap: 0.875rem;
-            color: rgba(255,255,255,0.8);
+            color: rgba(255, 255, 255, 0.8);
             font-size: 0.9375rem;
             font-weight: 500;
         }
@@ -258,7 +189,9 @@
             gap: 1rem;
         }
 
-        .form-input, .form-select, .form-textarea {
+        .form-input,
+        .form-select,
+        .form-textarea {
             padding: 0.875rem 1rem;
             border: 1px solid var(--border);
             border-radius: 8px;
@@ -270,13 +203,18 @@
             width: 100%;
         }
 
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
             outline: none;
             border-color: var(--green);
-            box-shadow: 0 0 0 3px rgba(0,208,132,0.1);
+            box-shadow: 0 0 0 3px rgba(0, 208, 132, 0.1);
         }
 
-        .form-input::placeholder, .form-textarea::placeholder { color: #bbb; }
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: #bbb;
+        }
 
         .form-select {
             appearance: none;
@@ -312,7 +250,7 @@
         .btn-submit:hover {
             background: #00B872;
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0,208,132,0.3);
+            box-shadow: 0 8px 24px rgba(0, 208, 132, 0.3);
         }
 
         /* No roles visual side */
@@ -355,10 +293,10 @@
             font-size: 0.75rem;
             font-weight: 700;
             color: var(--green);
-            background: rgba(0,208,132,0.08);
+            background: rgba(0, 208, 132, 0.08);
             padding: 0.25rem 0.625rem;
             border-radius: 100px;
-            border: 1px solid rgba(0,208,132,0.2);
+            border: 1px solid rgba(0, 208, 132, 0.2);
         }
 
         .role-placeholder-left h5 {
@@ -388,8 +326,8 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background: rgba(0,208,132,0.12);
-            border: 1px solid rgba(0,208,132,0.3);
+            background: rgba(0, 208, 132, 0.12);
+            border: 1px solid rgba(0, 208, 132, 0.3);
             color: var(--green);
             padding: 0.375rem 0.875rem;
             border-radius: 100px;
@@ -409,8 +347,8 @@
             max-width: 600px;
         }
 
-        .why-inner > p {
-            color: rgba(255,255,255,0.55);
+        .why-inner>p {
+            color: rgba(255, 255, 255, 0.55);
             font-size: 1.0625rem;
             line-height: 1.7;
             max-width: 520px;
@@ -424,16 +362,16 @@
         }
 
         .why-card {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 16px;
             padding: 2rem;
             transition: all 0.25s ease;
         }
 
         .why-card:hover {
-            background: rgba(255,255,255,0.08);
-            border-color: rgba(0,208,132,0.3);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(0, 208, 132, 0.3);
             transform: translateY(-4px);
         }
 
@@ -462,7 +400,7 @@
 
         .why-card p {
             font-size: 0.9375rem;
-            color: rgba(255,255,255,0.55);
+            color: rgba(255, 255, 255, 0.55);
             line-height: 1.65;
         }
 
@@ -473,12 +411,14 @@
             padding: 3rem 2rem;
         }
 
-        .success-message.show { display: block; }
+        .success-message.show {
+            display: block;
+        }
 
         .success-icon {
             width: 64px;
             height: 64px;
-            background: rgba(0,208,132,0.1);
+            background: rgba(0, 208, 132, 0.1);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -493,16 +433,46 @@
             margin-bottom: 0.75rem;
         }
 
-        .success-message p { color: var(--gray); }
+        .success-message p {
+            color: var(--gray);
+        }
 
-        
 
-        .footer-about h3 { color: var(--dark); margin-bottom: 1rem; font-size: 1.5rem; font-weight: 700; }
-        .footer-about p { color: var(--gray); line-height: 1.7; }
-        .footer-links h4 { color: var(--dark); margin-bottom: 1.25rem; font-size: 1rem; font-weight: 600; }
-        .footer-links ul { list-style: none; display: grid; gap: 0.875rem; }
-        .footer-links a { color: var(--gray); text-decoration: none; transition: opacity 0.2s ease; }
-        .footer-links a:hover { opacity: 0.6; }
+
+        .footer-about h3 {
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .footer-about p {
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        .footer-links h4 {
+            color: var(--dark);
+            margin-bottom: 1.25rem;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            display: grid;
+            gap: 0.875rem;
+        }
+
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 0.6;
+        }
 
         .footer-bottom {
             max-width: 1400px;
@@ -516,33 +486,77 @@
 
         /* ── Mobile ── */
         @media (max-width: 1024px) {
-            .hero, .no-roles { grid-template-columns: 1fr; gap: 3rem; }
-            .why-grid { grid-template-columns: repeat(2, 1fr); }
-            .footer-content { grid-template-columns: 1fr 1fr; }
+
+            .hero,
+            .no-roles {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .why-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
         @media (max-width: 768px) {
-            .nav-container { padding: 1.25rem 1.5rem; }
+            .nav-container {
+                padding: 1.25rem 1.5rem;
+            }
+
             .nav-links {
                 display: none;
                 position: fixed;
-                top: 70px; left: 0; right: 0;
+                top: 70px;
+                left: 0;
+                right: 0;
                 background: white;
                 flex-direction: column;
                 padding: 2rem 1.5rem;
                 border-bottom: 1px solid var(--border);
                 gap: 1.5rem;
             }
-            .nav-links.active { display: flex; }
-            .mobile-toggle { display: block; }
-            .hero, .no-roles, .why-section { padding-left: 1.5rem; padding-right: 1.5rem; }
-            .form-row { grid-template-columns: 1fr; }
-            .why-grid { grid-template-columns: 1fr; }
-            .footer-content { grid-template-columns: 1fr; gap: 2.5rem; }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .hero,
+            .no-roles,
+            .why-section {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .why-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
         }
+
         /* Products Dropdown */
-        .nav-item { position: relative; }
-        .products-dropdown { position: relative; }
+        .nav-item {
+            position: relative;
+        }
+
+        .products-dropdown {
+            position: relative;
+        }
 
         .dropdown-toggle {
             display: flex;
@@ -556,7 +570,9 @@
             transition: transform 0.2s ease;
         }
 
-        .products-dropdown:hover .dropdown-arrow { transform: rotate(180deg); }
+        .products-dropdown:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
 
         .dropdown-menu {
             position: absolute;
@@ -568,7 +584,7 @@
             border-radius: 20px;
             padding: 1.5rem;
             min-width: 480px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -597,15 +613,19 @@
             background: white;
         }
 
-        .dropdown-menu a:last-child { margin-bottom: 0; }
+        .dropdown-menu a:last-child {
+            margin-bottom: 0;
+        }
 
         .dropdown-menu a:hover {
             background: #FAFAFA;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
         }
 
-        .dropdown-menu a:hover .menu-item-title { color: var(--primary); }
+        .dropdown-menu a:hover .menu-item-title {
+            color: var(--primary);
+        }
 
         .menu-icon {
             width: 48px;
@@ -617,9 +637,14 @@
             flex-shrink: 0;
         }
 
-        .menu-icon svg { width: 28px; height: 28px; }
+        .menu-icon svg {
+            width: 28px;
+            height: 28px;
+        }
 
-        .menu-item-content { flex: 1; }
+        .menu-item-content {
+            flex: 1;
+        }
 
         .menu-item-title {
             font-weight: 600;
@@ -634,6 +659,7 @@
             font-weight: 400;
             line-height: 1.4;
         }
+
         /* ── Footer ── */
         footer {
             background: var(--gray-light);
@@ -680,7 +706,9 @@
             transition: opacity 0.2s ease;
         }
 
-        .footer-links a:hover { opacity: 0.6; }
+        .footer-links a:hover {
+            opacity: 0.6;
+        }
 
         .footer-bottom {
             max-width: 1400px;
@@ -693,94 +721,43 @@
         }
     </style>
 </head>
+
 <body>
 
     <!-- Navigation -->
-    <nav>
-        <div class="nav-container">
-            <a href="/" class="logo">WashIQ</a>
-            <ul class="nav-links">
-                <li class="nav-item products-dropdown">
-                    <a href="/#products" class="dropdown-toggle">
-                        Products
-                        <span class="dropdown-arrow">▼</span>
-                    </a>
-                    <div class="dropdown-menu">
-                        <a href="/dashboards-updated.html">
-                            <div class="menu-icon" style="background: #E8F4FF;">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="4" y="14" width="3" height="6" rx="1" fill="#0066FF"/>
-                                    <rect x="10.5" y="8" width="3" height="12" rx="1" fill="#0066FF"/>
-                                    <rect x="17" y="4" width="3" height="16" rx="1" fill="#0066FF"/>
-                                </svg>
-                            </div>
-                            <div class="menu-item-content">
-                                <div class="menu-item-title">Real-Time Dashboards</div>
-                                <div class="menu-item-description">Track every metric that matters in one place</div>
-                            </div>
-                        </a>
-                        <a href="/alerts.html">
-                            <div class="menu-icon" style="background: #FFF4ED;">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="12" cy="12" r="8" stroke="#FF6B35" stroke-width="2"/>
-                                    <circle cx="12" cy="12" r="5" stroke="#FF6B35" stroke-width="2"/>
-                                    <circle cx="12" cy="12" r="2" fill="#FF6B35"/>
-                                </svg>
-                            </div>
-                            <div class="menu-item-content">
-                                <div class="menu-item-title">Proactive Alerts</div>
-                                <div class="menu-item-description">Catch issues in real-time and take immediate action</div>
-                            </div>
-                        </a>
-                        <a href="/intelligence.html">
-                            <div class="menu-icon" style="background: #F0F0FF;">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="12" cy="12" r="8" stroke="#6366F1" stroke-width="2"/>
-                                    <line x1="12" y1="4" x2="12" y2="8" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="12" y1="16" x2="12" y2="20" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="4" y1="12" x2="8" y2="12" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="16" y1="12" x2="20" y2="12" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="6.34" y1="6.34" x2="8.46" y2="8.46" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="15.54" y1="15.54" x2="17.66" y2="17.66" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="17.66" y1="6.34" x2="15.54" y2="8.46" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="8.46" y1="15.54" x2="6.34" y2="17.66" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                </svg>
-                            </div>
-                            <div class="menu-item-content">
-                                <div class="menu-item-title">AI-Powered Intelligence</div>
-                                <div class="menu-item-description">Turn complex data into clear actions that drive growth</div>
-                            </div>
-                        </a>
-                    </div>
-                </li>
-                <li><a href="/about.html">About</a></li>
-                <li><a href="/blog.html">Blog</a></li>
-                <li><a href="/careers.html">Careers</a></li>
-                <li><a href="/login.html" class="nav-login">Login</a></li>
-                <li><a href="/early-access.html" class="nav-cta">Request Early Access</a></li>
-            </ul>
-            <button class="mobile-toggle" id="mobileToggle">☰</button>
-        </div>
-    </nav>
+    <nav></nav>
 
     <!-- Hero -->
     <div class="hero">
         <div class="hero-body">
             <div class="eyebrow">🚀 We're hiring (soon)</div>
             <h1>Help us change<br>how car washes<br><em>think.</em></h1>
-            <p>WashIQ is a tiny team doing ambitious things. We're building AI-powered intelligence for an industry that's never had it — and we're looking for people who want in early.</p>
+            <p>WashIQ is a tiny team doing ambitious things. We're building AI-powered intelligence for an industry
+                that's never had it — and we're looking for people who want in early.</p>
         </div>
 
         <div class="hero-card">
             <div class="hero-card-label">Life at WashIQ</div>
             <h3>Small team. Big problem.<br>Real impact.</h3>
             <div class="card-perks">
-                <div class="card-perk"><div class="perk-dot"></div>Work directly with the founders</div>
-                <div class="card-perk"><div class="perk-dot"></div>Own meaningful pieces of the product</div>
-                <div class="card-perk"><div class="perk-dot"></div>Fully remote — work from wherever</div>
-                <div class="card-perk"><div class="perk-dot"></div>Competitive salary + equity</div>
-                <div class="card-perk"><div class="perk-dot"></div>No bureaucracy, no death by meeting</div>
-                <div class="card-perk"><div class="perk-dot"></div>Build something that actually ships</div>
+                <div class="card-perk">
+                    <div class="perk-dot"></div>Work directly with the founders
+                </div>
+                <div class="card-perk">
+                    <div class="perk-dot"></div>Own meaningful pieces of the product
+                </div>
+                <div class="card-perk">
+                    <div class="perk-dot"></div>Fully remote — work from wherever
+                </div>
+                <div class="card-perk">
+                    <div class="perk-dot"></div>Competitive salary + equity
+                </div>
+                <div class="card-perk">
+                    <div class="perk-dot"></div>No bureaucracy, no death by meeting
+                </div>
+                <div class="card-perk">
+                    <div class="perk-dot"></div>Build something that actually ships
+                </div>
             </div>
         </div>
     </div>
@@ -789,7 +766,8 @@
     <div class="no-roles">
         <div class="no-roles-text">
             <h2>No open roles<br>right now —<br><em>get in line.</em></h2>
-            <p>We don't have any open positions at the moment, but we're growing and that'll change. Drop your info and we'll reach out when something opens up that fits.</p>
+            <p>We don't have any open positions at the moment, but we're growing and that'll change. Drop your info and
+                we'll reach out when something opens up that fits.</p>
 
             <div id="formWrapper">
                 <form class="interest-form" onsubmit="handleSubmit(event)">
@@ -810,12 +788,14 @@
                         <option>Operations</option>
                         <option>Something else</option>
                     </select>
-                    <textarea class="form-input form-textarea" placeholder="Anything you want us to know — totally optional."></textarea>
+                    <textarea class="form-input form-textarea"
+                        placeholder="Anything you want us to know — totally optional."></textarea>
                     <button type="submit" class="btn-submit">
                         Stay in touch
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="22" y1="2" x2="11" y2="13"/>
-                            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13" />
+                            <polygon points="22 2 15 22 11 13 2 9 22 2" />
                         </svg>
                     </button>
                 </form>
@@ -823,8 +803,9 @@
 
             <div class="success-message" id="successMsg">
                 <div class="success-icon">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00D084" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="20 6 9 17 4 12"/>
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00D084" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
                     </svg>
                 </div>
                 <h3>You're on the list 🎉</h3>
@@ -877,74 +858,88 @@
         <div class="why-inner">
             <div class="section-eyebrow">Why WashIQ</div>
             <h2>This is the kind of job you'll actually talk about at dinner.</h2>
-            <p>We're early, we're moving fast, and the people who join now will shape what this company looks like at 10x the size.</p>
+            <p>We're early, we're moving fast, and the people who join now will shape what this company looks like at
+                10x the size.</p>
 
             <div class="why-grid">
                 <div class="why-card">
                     <div class="why-icon" style="background: rgba(0,208,132,0.15);">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="#00D084" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#00D084" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
                         </svg>
                     </div>
                     <h3>Move fast, ship real things</h3>
-                    <p>No 6-week planning cycles. No approval committees. If it's good, it ships. We're moving at a pace that most companies can't touch.</p>
+                    <p>No 6-week planning cycles. No approval committees. If it's good, it ships. We're moving at a pace
+                        that most companies can't touch.</p>
                 </div>
 
                 <div class="why-card">
                     <div class="why-icon" style="background: rgba(0,102,255,0.15);">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                            <circle cx="9" cy="7" r="4"/>
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                         </svg>
                     </div>
                     <h3>Work with operators, not just data</h3>
-                    <p>You'll talk to real car wash operators. You'll see your work used. The feedback loop here is days, not quarters.</p>
+                    <p>You'll talk to real car wash operators. You'll see your work used. The feedback loop here is
+                        days, not quarters.</p>
                 </div>
 
                 <div class="why-card">
                     <div class="why-icon" style="background: rgba(255,107,53,0.15);">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="12" y1="1" x2="12" y2="23"/>
-                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <line x1="12" y1="1" x2="12" y2="23" />
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
                         </svg>
                     </div>
                     <h3>Equity that actually means something</h3>
-                    <p>We're early. That means the equity on the table now is the kind that could matter. We don't lowball it and we don't bury it in footnotes.</p>
+                    <p>We're early. That means the equity on the table now is the kind that could matter. We don't
+                        lowball it and we don't bury it in footnotes.</p>
                 </div>
 
                 <div class="why-card">
                     <div class="why-icon" style="background: rgba(139,92,246,0.15);">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"/>
-                            <line x1="2" y1="12" x2="22" y2="12"/>
-                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="2" y1="12" x2="22" y2="12" />
+                            <path
+                                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                         </svg>
                     </div>
                     <h3>Fully remote, actually</h3>
-                    <p>Not remote-ish. Not "remote with required on-sites every 6 weeks." We're built remote from day one and we trust people to do great work from wherever they are.</p>
+                    <p>Not remote-ish. Not "remote with required on-sites every 6 weeks." We're built remote from day
+                        one and we trust people to do great work from wherever they are.</p>
                 </div>
 
                 <div class="why-card">
                     <div class="why-icon" style="background: rgba(0,208,132,0.15);">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="#00D084" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#00D084" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
                         </svg>
                     </div>
                     <h3>A problem worth solving</h3>
-                    <p>Car washes are an $18B industry running on gut feel and spreadsheets. There's real, meaningful work to do here — and almost nobody has done it yet.</p>
+                    <p>Car washes are an $18B industry running on gut feel and spreadsheets. There's real, meaningful
+                        work to do here — and almost nobody has done it yet.</p>
                 </div>
 
                 <div class="why-card">
                     <div class="why-icon" style="background: rgba(0,102,255,0.15);">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
                         </svg>
                     </div>
                     <h3>Direct access to leadership</h3>
-                    <p>You'll work directly with Akbar and Shams. No layers. No game of telephone. If you have a strong opinion, you can actually make the case for it.</p>
+                    <p>You'll work directly with Akbar and Shams. No layers. No game of telephone. If you have a strong
+                        opinion, you can actually make the case for it.</p>
                 </div>
             </div>
         </div>
@@ -955,12 +950,13 @@
         <div class="footer-content">
             <div class="footer-about">
                 <h3>WashIQ</h3>
-                <p>Data-driven intelligence platform designed specifically for modern car wash businesses. Make smarter decisions, optimize operations, and drive growth.</p>
+                <p>Data-driven intelligence platform designed specifically for modern car wash businesses. Make smarter
+                    decisions, optimize operations, and drive growth.</p>
             </div>
             <div class="footer-links">
                 <h4>Product</h4>
                 <ul>
-                    <li><a href="/dashboards-updated.html">Real-Time Dashboards</a></li>
+                    <li><a href="/dashboards.html">Real-Time Dashboards</a></li>
                     <li><a href="/intelligence.html">AI Intelligence</a></li>
                     <li><a href="/alerts.html">Proactive Alerts</a></li>
                     <li><a href="/early-access.html">Early Access</a></li>
@@ -988,16 +984,7 @@
         </div>
     </footer>
 
-    <script>
-                const mobileToggle = document.getElementById('mobileToggle');
-        const navLinksList = document.querySelector('.nav-links');
-        if (mobileToggle) {
-            mobileToggle.addEventListener('click', () => {
-                navLinksList.classList.toggle('active');
-                mobileToggle.textContent = navLinksList.classList.contains('active') ? '✕' : '☰';
-            });
-        }
-
-    </script>
+    <script src="/assets/js/navbar.js"></script>
 </body>
+
 </html>

@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proactive Alerts - WashIQ</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -31,346 +33,9 @@
             background: #ffffff;
             -webkit-font-smoothing: antialiased;
         }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1.25rem 3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--dark);
-            text-decoration: none;
-            letter-spacing: -0.02em;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            align-items: center;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--dark);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1rem;
-            position: relative;
-            transition: color 0.2s ease;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .nav-cta {
-            background: var(--green);
-            color: white !important;
-            padding: 0.75rem 1.5rem;
-            border-radius: 6px;
-            font-weight: 600;
-            transition: all 0.2s ease;
-        }
-
-        .nav-cta::after {
-            display: none;
-        }
-
-        .nav-cta:hover {
-            background: #00B872;
-            opacity: 0.85 !important;
-            transform: translateY(-1px);
-        }
-
-        .nav-login {
-            background: transparent;
-            color: var(--dark) !important;
-            padding: 0.75rem 1.5rem;
-            border-radius: 6px;
-            font-weight: 600;
-            border: 2px solid var(--dark);
-            transition: all 0.2s ease;
-        }
-
-        .nav-login::after {
-            display: none;
-        }
-
-        .nav-login:hover {
-            background: var(--dark);
-            color: white !important;
-            transform: translateY(-1px);
-        }
-            transform: translateY(-1px);
-            color: white !important;
-        }
-
-        .mobile-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--dark);
-        }
-
-        /* Products Dropdown - Mega Menu Style */
-        .nav-item {
-            position: relative;
-        }
-
-        .products-dropdown {
-            position: relative;
-        }
-
-        .dropdown-toggle {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-            cursor: pointer;
-        }
-
-        .dropdown-arrow {
-            font-size: 0.7rem;
-            transition: transform 0.2s ease;
-        }
-
-        .products-dropdown:hover .dropdown-arrow {
-            transform: rotate(180deg);
-        }
-
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%) translateY(-10px);
-            background: #F5F5F5;
-            border: 1px solid #E0E0E0;
-            border-radius: 20px;
-            padding: 1.5rem;
-            min-width: 480px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 100;
-            margin-top: 0.5rem;
-        }
-
-        .products-dropdown:hover .dropdown-menu,
-        .dropdown-menu.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .dropdown-menu a {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem 1.25rem;
-            color: var(--dark);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            border-radius: 16px;
-            margin-bottom: 0.5rem;
-            background: white;
-        }
-
-        .dropdown-menu a:last-child {
-            margin-bottom: 0;
-        }
-
-        .menu-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .menu-icon svg {
-            width: 28px;
-            height: 28px;
-        }
-
-        .menu-item-content {
-            flex: 1;
-        }
-
-        .menu-item-title {
-            font-weight: 600;
-            margin-bottom: 0.125rem;
-            color: var(--dark);
-            font-size: 1rem;
-        }
-
-        .menu-item-description {
-            font-size: 0.875rem;
-            color: #666;
-            font-weight: 400;
-            line-height: 1.4;
-        }
-
-        .dropdown-menu a::after {
-            display: none;
-        }
-
-        .dropdown-menu a:hover {
-            background: #FAFAFA;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-        }
-
-        .dropdown-menu a:hover .menu-item-title {
-            color: var(--primary);
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                position: fixed;
-                top: 70px;
-                left: 0;
-                right: 0;
-                background: white;
-                flex-direction: column;
-                padding: 2rem;
-                gap: 1.5rem;
-                border-bottom: 1px solid var(--border);
-                transform: translateY(-100%);
-                opacity: 0;
-                transition: all 0.3s ease;
-                pointer-events: none;
-                z-index: 999;
-                align-items: stretch;
-            }
-
-            .nav-links.active {
-                transform: translateY(0);
-                opacity: 1;
-                pointer-events: all;
-            }
-
-            .mobile-toggle {
-                display: block;
-            }
-
-            .nav-cta {
-                width: 100%;
-                text-align: center;
-                justify-content: center;
-            }
-
-            .nav-login {
-                width: 100%;
-                text-align: center;
-                justify-content: center;
-                display: block;
-            }
-
-            .dropdown-menu {
-                position: static;
-                opacity: 1;
-                visibility: visible;
-                transform: none;
-                box-shadow: none;
-                border: none;
-                border-radius: 0;
-                border-left: 2px solid var(--border);
-                margin-left: 1rem;
-                padding: 0 0 0 1rem;
-                min-width: 0;
-                width: auto;
-                max-height: 0;
-                overflow: hidden;
-                transition: max-height 0.3s ease;
-                background: transparent;
-            }
-
-            .dropdown-menu.active {
-                max-height: 600px;
-            }
-
-            .dropdown-menu a {
-                flex-direction: row;
-                padding: 0.75rem 0.5rem;
-                margin-bottom: 0.5rem;
-                background: transparent;
-                border-radius: 8px;
-            }
-
-            .dropdown-menu a:hover {
-                background: #FAFAFA;
-            }
-
-            .menu-icon {
-                width: 40px;
-                height: 40px;
-                flex-shrink: 0;
-            }
-
-            .menu-icon svg {
-                width: 24px;
-                height: 24px;
-            }
-
-            .menu-item-content {
-                flex: 1;
-                min-width: 0;
-            }
-
-            .menu-item-title {
-                font-size: 0.9375rem;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-
-            .menu-item-description {
-                font-size: 0.8125rem;
-                line-height: 1.3;
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-            }
-        }
-
+    </style>
+    <link rel="stylesheet" href="/assets/css/navbar.css">
+    <style>
         /* Breadcrumbs */
         .breadcrumbs {
             max-width: 1400px;
@@ -759,8 +424,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .scenario-layout {
@@ -1672,76 +1344,10 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Navigation -->
-    <nav>
-        <div class="nav-container">
-            <a href="/" class="logo">WashIQ</a>
-            
-            <ul class="nav-links">
-                <li class="nav-item products-dropdown">
-                    <a href="#products" class="dropdown-toggle">
-                        Products
-                        <span class="dropdown-arrow">▼</span>
-                    </a>
-                    <div class="dropdown-menu">
-                        <a href="/dashboards-updated.html">
-                            <div class="menu-icon" style="background: #E8F4FF;">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="4" y="14" width="3" height="6" rx="1" fill="#0066FF"/>
-                                    <rect x="10.5" y="8" width="3" height="12" rx="1" fill="#0066FF"/>
-                                    <rect x="17" y="4" width="3" height="16" rx="1" fill="#0066FF"/>
-                                </svg>
-                            </div>
-                            <div class="menu-item-content">
-                                <div class="menu-item-title">Real-Time Dashboards</div>
-                                <div class="menu-item-description">Track every metric that matters in one place</div>
-                            </div>
-                        </a>
-                        <a href="/alerts.html">
-                            <div class="menu-icon" style="background: #FFF4ED;">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="12" cy="12" r="8" stroke="#FF6B35" stroke-width="2"/>
-                                    <circle cx="12" cy="12" r="5" stroke="#FF6B35" stroke-width="2"/>
-                                    <circle cx="12" cy="12" r="2" fill="#FF6B35"/>
-                                </svg>
-                            </div>
-                            <div class="menu-item-content">
-                                <div class="menu-item-title">Proactive Alerts</div>
-                                <div class="menu-item-description">Catch issues in real-time and take immediate action</div>
-                            </div>
-                        </a>
-                        <a href="/intelligence.html">
-                            <div class="menu-icon" style="background: #F0F0FF;">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="12" cy="12" r="8" stroke="#6366F1" stroke-width="2"/>
-                                    <line x1="12" y1="4" x2="12" y2="8" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="12" y1="16" x2="12" y2="20" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="4" y1="12" x2="8" y2="12" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="16" y1="12" x2="20" y2="12" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="6.34" y1="6.34" x2="8.46" y2="8.46" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="15.54" y1="15.54" x2="17.66" y2="17.66" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="17.66" y1="6.34" x2="15.54" y2="8.46" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="8.46" y1="15.54" x2="6.34" y2="17.66" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                </svg>
-                            </div>
-                            <div class="menu-item-content">
-                                <div class="menu-item-title">AI-Powered Intelligence</div>
-                                <div class="menu-item-description">Turn complex data into clear actions that drive growth</div>
-                            </div>
-                        </a>
-                    </div>
-                </li>
-                <li><a href="/#case-studies">Case Studies</a></li>
-                <li><a href="/#why-washiq">Why WashIQ</a></li>
-                <li><a href="/#faq">FAQ</a></li>
-                <li><a href="/login.html" class="nav-login">Login</a></li>
-                <li><a href="/early-access.html" class="nav-cta">Request Early Access</a></li>
-            </ul>
-
-            <button class="mobile-toggle">☰</button>
-        </div>
-    </nav>
+    <nav></nav>
 
     <!-- Breadcrumbs -->
     <div class="breadcrumbs">
@@ -1755,9 +1361,10 @@
     <!-- Hero Section -->
     <section class="hero">
         <h1>Stay ahead of problems <em>before</em> they impact your business</h1>
-        
-        <p>Get notified when sales drop below your targets, staffing falls short, or conversion rates dip—with intelligent alerts you customize for your business.</p>
-        
+
+        <p>Get notified when sales drop below your targets, staffing falls short, or conversion rates dip—with
+            intelligent alerts you customize for your business.</p>
+
         <div class="hero-buttons">
             <a href="/early-access.html" class="btn-primary">Request Early Access</a>
             <a href="#alerts" class="btn-secondary">See How It Works</a>
@@ -1769,13 +1376,13 @@
         <div class="alert-feed-container">
             <h2>See alerts in action</h2>
             <p class="subtitle">Real scenarios car wash operators face every day—caught in minutes, not days.</p>
-            
+
             <div class="alert-feed">
                 <div class="feed-header">
                     <span class="feed-title">Your Alerts This Week</span>
                     <button class="feed-filter">All Types ▼</button>
                 </div>
-                
+
                 <div class="alert-item critical">
                     <div class="alert-status">🔴 CRITICAL</div>
                     <div class="alert-content">
@@ -1906,7 +1513,7 @@
         <div class="scenarios-container">
             <h2>Real problems. Real solutions. Real impact.</h2>
             <p class="subtitle">See how operators like you catch issues before they cost thousands.</p>
-            
+
             <div class="scenario-tabs">
                 <button class="tab-btn active" data-tab="revenue">Revenue Loss</button>
                 <button class="tab-btn" data-tab="staffing">Staffing</button>
@@ -1918,12 +1525,14 @@
                 <div class="scenario-layout">
                     <div class="scenario-story">
                         <div class="quote-mark">"</div>
-                        <p class="scenario-quote">We lost $47K before realizing Location B's payment processor was down for 3 days. Every Saturday, we'd process $15K+ and just... nothing. By the time our bookkeeper noticed in the weekly report, we'd lost an entire weekend's revenue.</p>
+                        <p class="scenario-quote">We lost $47K before realizing Location B's payment processor was down
+                            for 3 days. Every Saturday, we'd process $15K+ and just... nothing. By the time our
+                            bookkeeper noticed in the weekly report, we'd lost an entire weekend's revenue.</p>
                         <div class="scenario-attribution">
                             <strong>— Sarah M., Operations Director</strong>
                             <span>Suds Deluxe, 8 locations across Austin</span>
                         </div>
-                        
+
                         <div class="scenario-impact">
                             <div class="impact-stat">
                                 <div class="stat-number">$47K</div>
@@ -1950,10 +1559,11 @@
                         </div>
 
                         <div class="scenario-result">
-                            <strong>6-Month Impact:</strong> Caught 12 critical issues. Recovered $23K in potential losses. No more surprise revenue gaps.
+                            <strong>6-Month Impact:</strong> Caught 12 critical issues. Recovered $23K in potential
+                            losses. No more surprise revenue gaps.
                         </div>
                     </div>
-                    
+
                     <div class="scenario-visual">
                         <div class="screenshot-container">
                             <div class="screenshot-label">Alert received at 9:04 AM</div>
@@ -1965,8 +1575,8 @@
                                 <div class="screenshot-title">Location B - Payment Processing Failure</div>
                                 <div class="screenshot-body">
                                     <p><strong>No transactions processed in last 2 hours</strong></p>
-                                    <p>Expected: ~$2,400/hr on Saturday morning<br/>
-                                    Actual: $0</p>
+                                    <p>Expected: ~$2,400/hr on Saturday morning<br />
+                                        Actual: $0</p>
                                     <p style="color: #FF6B35; margin-top: 12px;">Estimated loss: $4,800 and growing</p>
                                 </div>
                                 <div class="screenshot-action">Action: Payment processor restarted at 9:22 AM</div>
@@ -1981,12 +1591,14 @@
                 <div class="scenario-layout">
                     <div class="scenario-story">
                         <div class="quote-mark">"</div>
-                        <p class="scenario-quote">Every Saturday at 8 AM we'd have a line 20 cars deep because someone didn't show up and I wouldn't know until I drove by on my way to the office. By then it's too late—customers are already leaving. We were losing $2K-3K every time this happened.</p>
+                        <p class="scenario-quote">Every Saturday at 8 AM we'd have a line 20 cars deep because someone
+                            didn't show up and I wouldn't know until I drove by on my way to the office. By then it's
+                            too late—customers are already leaving. We were losing $2K-3K every time this happened.</p>
                         <div class="scenario-attribution">
                             <strong>— Mike T., Owner</strong>
                             <span>Bubble Bay Car Wash, Brockton MA</span>
                         </div>
-                        
+
                         <div class="scenario-impact">
                             <div class="impact-stat">
                                 <div class="stat-number">$3,200</div>
@@ -2013,22 +1625,23 @@
                         </div>
 
                         <div class="scenario-result">
-                            <strong>3-Month Impact:</strong> Zero staffing-related revenue loss on Saturdays. Saved $18K+ in overtime costs. Manager responds before customers arrive.
+                            <strong>3-Month Impact:</strong> Zero staffing-related revenue loss on Saturdays. Saved
+                            $18K+ in overtime costs. Manager responds before customers arrive.
                         </div>
                     </div>
-                    
+
                     <div class="scenario-visual">
                         <div class="screenshot-container">
                             <div class="screenshot-label">SMS sent at 7:23 AM</div>
                             <div class="mock-sms-screenshot">
                                 <div class="sms-header">WashIQ Alerts</div>
                                 <div class="sms-bubble urgent">
-                                    <strong>⚠️ UNDERSTAFFED - Location A</strong><br/><br/>
-                                    Only 2 staff clocked in for Saturday AM shift<br/><br/>
-                                    Required: 4 staff by 7:20 AM<br/>
-                                    Current: 2 staff<br/>
-                                    Missing: Sarah K, David M<br/><br/>
-                                    Cars on lot: 8 waiting<br/><br/>
+                                    <strong>⚠️ UNDERSTAFFED - Location A</strong><br /><br />
+                                    Only 2 staff clocked in for Saturday AM shift<br /><br />
+                                    Required: 4 staff by 7:20 AM<br />
+                                    Current: 2 staff<br />
+                                    Missing: Sarah K, David M<br /><br />
+                                    Cars on lot: 8 waiting<br /><br />
                                     [Contact Backup Crew]
                                 </div>
                                 <div class="sms-bubble response">
@@ -2046,12 +1659,14 @@
                 <div class="scenario-layout">
                     <div class="scenario-story">
                         <div class="quote-mark">"</div>
-                        <p class="scenario-quote">Our conversion rate at the Northgate location dropped from 43% to 28% over two weeks. We had no idea until the monthly review. Turns out a new employee was pushing the wrong packages. Cost us $31K in lost membership sales before we caught it.</p>
+                        <p class="scenario-quote">Our conversion rate at the Northgate location dropped from 43% to 28%
+                            over two weeks. We had no idea until the monthly review. Turns out a new employee was
+                            pushing the wrong packages. Cost us $31K in lost membership sales before we caught it.</p>
                         <div class="scenario-attribution">
                             <strong>— Jennifer L., Regional Manager</strong>
                             <span>Clean Machine, 6 locations in Phoenix</span>
                         </div>
-                        
+
                         <div class="scenario-impact">
                             <div class="impact-stat">
                                 <div class="stat-number">$31K</div>
@@ -2078,10 +1693,11 @@
                         </div>
 
                         <div class="scenario-result">
-                            <strong>4-Month Impact:</strong> Identified 3 training gaps immediately. Conversion rate stabilized at 41-44% across all locations. $67K more in membership revenue.
+                            <strong>4-Month Impact:</strong> Identified 3 training gaps immediately. Conversion rate
+                            stabilized at 41-44% across all locations. $67K more in membership revenue.
                         </div>
                     </div>
-                    
+
                     <div class="scenario-visual">
                         <div class="screenshot-container">
                             <div class="screenshot-label">Email alert - Day 3 of decline</div>
@@ -2097,14 +1713,18 @@
                                         <div>Baseline: <strong>42.8%</strong></div>
                                         <div>Decline: <strong style="color: #FF6B35;">↓ 14.4%</strong></div>
                                     </div>
-                                    <p style="margin-top: 16px;">This is <strong>significantly below</strong> your other locations:</p>
+                                    <p style="margin-top: 16px;">This is <strong>significantly below</strong> your other
+                                        locations:</p>
                                     <ul style="margin: 8px 0; padding-left: 20px;">
                                         <li>Central: 44.1%</li>
                                         <li>Westside: 41.2%</li>
                                         <li>Downtown: 43.8%</li>
                                     </ul>
-                                    <p style="margin-top: 16px; color: #FF6B35;"><strong>Potential revenue impact: $2,400/day</strong></p>
-                                    <button style="background: #00D084; color: white; padding: 12px 24px; border: none; border-radius: 6px; font-weight: 600; margin-top: 12px;">View Detailed Analysis</button>
+                                    <p style="margin-top: 16px; color: #FF6B35;"><strong>Potential revenue impact:
+                                            $2,400/day</strong></p>
+                                    <button
+                                        style="background: #00D084; color: white; padding: 12px 24px; border: none; border-radius: 6px; font-weight: 600; margin-top: 12px;">View
+                                        Detailed Analysis</button>
                                 </div>
                             </div>
                             <div class="screenshot-label">Immediate coaching prevented further loss</div>
@@ -2117,12 +1737,15 @@
                 <div class="scenario-layout">
                     <div class="scenario-story">
                         <div class="quote-mark">"</div>
-                        <p class="scenario-quote">Our payment processor had an issue that caused 127 subscription renewals to fail in one day. We didn't notice for 5 days. By then, 43 people had already canceled because they thought we charged them and didn't process their wash. Lost $12K in recurring revenue that month.</p>
+                        <p class="scenario-quote">Our payment processor had an issue that caused 127 subscription
+                            renewals to fail in one day. We didn't notice for 5 days. By then, 43 people had already
+                            canceled because they thought we charged them and didn't process their wash. Lost $12K in
+                            recurring revenue that month.</p>
                         <div class="scenario-attribution">
                             <strong>— Carlos R., VP Operations</strong>
                             <span>Sparkle Express, 12 locations in DFW</span>
                         </div>
-                        
+
                         <div class="scenario-impact">
                             <div class="impact-stat">
                                 <div class="stat-number">43</div>
@@ -2149,10 +1772,11 @@
                         </div>
 
                         <div class="scenario-result">
-                            <strong>5-Month Impact:</strong> Zero undetected payment failures. Recovered 89% of failed payments within 48 hours. MRR grew 34% vs previous year.
+                            <strong>5-Month Impact:</strong> Zero undetected payment failures. Recovered 89% of failed
+                            payments within 48 hours. MRR grew 34% vs previous year.
                         </div>
                     </div>
-                    
+
                     <div class="scenario-visual">
                         <div class="screenshot-container">
                             <div class="screenshot-label">Slack alert - Real time</div>
@@ -2165,11 +1789,14 @@
                                     <div class="slack-content">
                                         <div class="slack-name">WashIQ Bot <span class="slack-time">9:42 AM</span></div>
                                         <div class="slack-text">
-                                            <strong style="color: #FF6B35;">🚨 PAYMENT FAILURE SPIKE DETECTED</strong><br/><br/>
-                                            <strong>23 failed renewals</strong> in the last hour (normal: 1-2/day)<br/><br/>
-                                            Affected: All locations<br/>
-                                            Pattern: All same error code (declined)<br/><br/>
-                                            <strong style="color: #FF6B35;">This looks like a processor issue, not individual cards.</strong><br/><br/>
+                                            <strong style="color: #FF6B35;">🚨 PAYMENT FAILURE SPIKE
+                                                DETECTED</strong><br /><br />
+                                            <strong>23 failed renewals</strong> in the last hour (normal:
+                                            1-2/day)<br /><br />
+                                            Affected: All locations<br />
+                                            Pattern: All same error code (declined)<br /><br />
+                                            <strong style="color: #FF6B35;">This looks like a processor issue, not
+                                                individual cards.</strong><br /><br />
                                             Potential impact: $1,840 MRR if not resolved today
                                         </div>
                                         <div class="slack-buttons">
@@ -2183,7 +1810,8 @@
                                     <div class="slack-content">
                                         <div class="slack-name">Carlos R. <span class="slack-time">9:58 AM</span></div>
                                         <div class="slack-text">
-                                            On it. Processor confirmed issue on their end. Fixed. Re-running all 23 payments now.
+                                            On it. Processor confirmed issue on their end. Fixed. Re-running all 23
+                                            payments now.
                                         </div>
                                     </div>
                                 </div>
@@ -2199,39 +1827,46 @@
     <!-- Smart Features Section -->
     <section class="smart-features-section">
         <h2>Intelligent alerts that reduce noise</h2>
-        <p class="subtitle">Pre-configured alerts ready to use, plus the flexibility to create custom alerts tailored to your business.</p>
-        
+        <p class="subtitle">Pre-configured alerts ready to use, plus the flexibility to create custom alerts tailored to
+            your business.</p>
+
         <div class="features-grid">
             <div class="feature-box">
                 <div class="feature-box-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 2v20M2 12h20M6 6l12 12M6 18L18 6"></path>
                     </svg>
                 </div>
                 <h3>Smart Thresholds</h3>
-                <p>Set thresholds that make sense for your business. Compare against rolling averages, set different targets by day of week, or use absolute values—whatever fits your operation.</p>
+                <p>Set thresholds that make sense for your business. Compare against rolling averages, set different
+                    targets by day of week, or use absolute values—whatever fits your operation.</p>
             </div>
 
             <div class="feature-box">
                 <div class="feature-box-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                         <circle cx="12" cy="10" r="3"></circle>
                     </svg>
                 </div>
                 <h3>Site-Specific Configuration</h3>
-                <p>Configure alerts per location with different thresholds. High-volume sites can have different targets than newer locations—customize based on your market conditions.</p>
+                <p>Configure alerts per location with different thresholds. High-volume sites can have different targets
+                    than newer locations—customize based on your market conditions.</p>
             </div>
 
             <div class="feature-box">
                 <div class="feature-box-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"></circle>
                         <polyline points="12 6 12 12 16 14"></polyline>
                     </svg>
                 </div>
                 <h3>Snooze & Acknowledge</h3>
-                <p>Temporarily snooze alerts you're already addressing and acknowledge issues to keep your team coordinated.</p>
+                <p>Temporarily snooze alerts you're already addressing and acknowledge issues to keep your team
+                    coordinated.</p>
             </div>
         </div>
     </section>
@@ -2241,22 +1876,26 @@
         <div class="delivery-container">
             <h2>Get notified where you work</h2>
             <p>Receive alerts through the channels you already use—no need to check another app or dashboard.</p>
-            
+
             <div class="delivery-grid">
                 <div class="delivery-card">
                     <div class="delivery-card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                         </svg>
                     </div>
                     <h3>SMS Text Messages</h3>
-                    <p>Critical alerts sent directly to your phone for immediate attention, even when you're away from your desk.</p>
+                    <p>Critical alerts sent directly to your phone for immediate attention, even when you're away from
+                        your desk.</p>
                 </div>
 
                 <div class="delivery-card">
                     <div class="delivery-card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                            </path>
                             <polyline points="22,6 12,13 2,6"></polyline>
                         </svg>
                     </div>
@@ -2266,7 +1905,8 @@
 
                 <div class="delivery-card">
                     <div class="delivery-card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="3" y="3" width="7" height="7"></rect>
                             <rect x="14" y="3" width="7" height="7"></rect>
                             <rect x="14" y="14" width="7" height="7"></rect>
@@ -2274,7 +1914,8 @@
                         </svg>
                     </div>
                     <h3>Slack Integration</h3>
-                    <p>Alert notifications sent to dedicated Slack channels to keep your team informed and coordinated.</p>
+                    <p>Alert notifications sent to dedicated Slack channels to keep your team informed and coordinated.
+                    </p>
                 </div>
             </div>
         </div>
@@ -2284,7 +1925,7 @@
     <section class="cta-section">
         <h2>Never miss a critical issue again</h2>
         <p>Join operators getting intelligent alerts working for them today.</p>
-        
+
         <div class="cta-buttons">
             <a href="/early-access.html" class="btn-white">Request Early Access</a>
             <a href="#alerts" class="btn-outline-white">See How It Works</a>
@@ -2298,12 +1939,12 @@
                 <div class="footer-column">
                     <h4>Product</h4>
                     <ul>
-                        <li><a href="/dashboards-updated.html">Dashboards</a></li>
+                        <li><a href="/dashboards.html">Dashboards</a></li>
                         <li><a href="/alerts.html">Alerts</a></li>
                         <li><a href="/intelligence.html">AI Intelligence</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-column">
                     <h4>Resources</h4>
                     <ul>
@@ -2311,7 +1952,7 @@
                         <li><a href="/#faq">FAQ</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-column">
                     <h4>Company</h4>
                     <ul>
@@ -2321,7 +1962,7 @@
                         <li><a href="/contact.html">Contact</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-column">
                     <h4>Legal</h4>
                     <ul>
@@ -2330,60 +1971,15 @@
                     </ul>
                 </div>
             </div>
-            
+
             <div class="footer-bottom">
                 © 2026 WashIQ. All rights reserved.
             </div>
         </div>
     </footer>
 
+    <script src="/assets/js/navbar.js"></script>
     <script>
-        // Mobile menu toggle
-        const mobileToggle = document.querySelector('.mobile-toggle');
-        const navLinks = document.querySelector('.nav-links');
-
-        if (mobileToggle && navLinks) {
-            mobileToggle.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
-                mobileToggle.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
-            });
-
-            // Close mobile menu when clicking a link (except Products dropdown)
-            document.querySelectorAll('.nav-links a:not(.dropdown-toggle)').forEach(link => {
-                link.addEventListener('click', () => {
-                    navLinks.classList.remove('active');
-                    mobileToggle.textContent = '☰';
-                });
-            });
-        }
-
-        // Mobile dropdown toggle
-        const dropdownToggle = document.querySelector('.dropdown-toggle');
-        const productsDropdown = document.querySelector('.products-dropdown');
-        const dropdownMenu = document.querySelector('.dropdown-menu');
-
-        if (dropdownToggle && productsDropdown && dropdownMenu) {
-            dropdownToggle.addEventListener('click', (e) => {
-                if (window.innerWidth <= 768) {
-                    e.preventDefault();
-                    dropdownMenu.classList.toggle('active');
-                }
-            });
-
-            // Close mobile menu when clicking dropdown items
-            document.querySelectorAll('.dropdown-menu a').forEach(link => {
-                link.addEventListener('click', () => {
-                    if (navLinks) {
-                        navLinks.classList.remove('active');
-                    }
-                    if (mobileToggle) {
-                        mobileToggle.textContent = '☰';
-                    }
-                    dropdownMenu.classList.remove('active');
-                });
-            });
-        }
-
         // Tab switching functionality
         const tabBtns = document.querySelectorAll('.tab-btn');
         const tabContents = document.querySelectorAll('.tab-content');
@@ -2391,11 +1987,11 @@
         tabBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 const tabName = btn.getAttribute('data-tab');
-                
+
                 // Remove active from all tabs and contents
                 tabBtns.forEach(b => b.classList.remove('active'));
                 tabContents.forEach(c => c.classList.remove('active'));
-                
+
                 // Add active to clicked tab and corresponding content
                 btn.classList.add('active');
                 const activeContent = document.querySelector(`[data-content="${tabName}"]`);
@@ -2406,4 +2002,5 @@
         });
     </script>
 </body>
+
 </html>

@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI-Powered Intelligence - WashIQ</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -31,186 +33,9 @@
             background: #ffffff;
             -webkit-font-smoothing: antialiased;
         }
-
-        /* Navigation - Same as other pages */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1.25rem 3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--dark);
-            text-decoration: none;
-            letter-spacing: -0.02em;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            align-items: center;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--dark);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1rem;
-            transition: opacity 0.2s ease;
-            position: relative;
-        }
-
-        .nav-links a:hover {
-            opacity: 0.6;
-        }
-
-        .dropdown-toggle {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-
-        .dropdown-arrow {
-            font-size: 0.75rem;
-        }
-
-        .products-dropdown {
-            position: relative;
-        }
-
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1rem;
-            min-width: 320px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.2s ease;
-            margin-top: 0.5rem;
-        }
-
-        .products-dropdown:hover .dropdown-menu {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .dropdown-menu a {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 0.875rem;
-            border-radius: 8px;
-            transition: background 0.2s ease;
-            text-decoration: none;
-        }
-
-        .dropdown-menu a:hover {
-            background: var(--gray-light);
-            opacity: 1;
-        }
-
-        .menu-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .menu-icon svg {
-            width: 24px;
-            height: 24px;
-        }
-
-        .menu-item-content {
-            flex: 1;
-        }
-
-        .menu-item-title {
-            font-weight: 600;
-            color: var(--dark);
-            margin-bottom: 0.125rem;
-        }
-
-        .menu-item-description {
-            font-size: 0.875rem;
-            color: var(--gray);
-            line-height: 1.4;
-        }
-
-        .nav-cta {
-            background: var(--green);
-            color: white !important;
-            padding: 0.75rem 1.5rem;
-            border-radius: 6px;
-            font-weight: 600;
-            transition: all 0.2s ease;
-        }
-
-        .nav-cta::after {
-            display: none;
-        }
-
-        .nav-cta:hover {
-            background: #00B872;
-            opacity: 0.85 !important;
-            transform: translateY(-1px);
-        }
-
-        .nav-login {
-            background: transparent;
-            color: var(--dark) !important;
-            padding: 0.75rem 1.5rem;
-            border-radius: 6px;
-            font-weight: 600;
-            border: 2px solid var(--dark);
-            transition: all 0.2s ease;
-        }
-
-        .nav-login::after {
-            display: none;
-        }
-
-        .nav-login:hover {
-            background: var(--dark);
-            color: white !important;
-            transform: translateY(-1px);
-        }
-
-        .mobile-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--dark);
-        }
-
+    </style>
+    <link rel="stylesheet" href="/assets/css/navbar.css">
+    <style>
         /* Breadcrumbs */
         .breadcrumbs {
             max-width: 1400px;
@@ -612,75 +437,10 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Navigation -->
-    <nav>
-        <div class="nav-container">
-            <a href="/" class="logo">WashIQ</a>
-            <ul class="nav-links">
-                <li class="nav-item products-dropdown">
-                    <a href="#products" class="dropdown-toggle">
-                        Products
-                        <span class="dropdown-arrow">▼</span>
-                    </a>
-                    <div class="dropdown-menu">
-                        <a href="/dashboards-updated.html">
-                            <div class="menu-icon" style="background: #E8F4FF;">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="4" y="14" width="3" height="6" rx="1" fill="#0066FF"/>
-                                    <rect x="10.5" y="8" width="3" height="12" rx="1" fill="#0066FF"/>
-                                    <rect x="17" y="4" width="3" height="16" rx="1" fill="#0066FF"/>
-                                </svg>
-                            </div>
-                            <div class="menu-item-content">
-                                <div class="menu-item-title">Real-Time Dashboards</div>
-                                <div class="menu-item-description">Track every metric that matters in one place</div>
-                            </div>
-                        </a>
-                        <a href="/alerts.html">
-                            <div class="menu-icon" style="background: #FFF4ED;">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="12" cy="12" r="8" stroke="#FF6B35" stroke-width="2"/>
-                                    <circle cx="12" cy="12" r="5" stroke="#FF6B35" stroke-width="2"/>
-                                    <circle cx="12" cy="12" r="2" fill="#FF6B35"/>
-                                </svg>
-                            </div>
-                            <div class="menu-item-content">
-                                <div class="menu-item-title">Proactive Alerts</div>
-                                <div class="menu-item-description">Catch issues in real-time and take immediate action</div>
-                            </div>
-                        </a>
-                        <a href="/intelligence.html">
-                            <div class="menu-icon" style="background: #EEF2FF;">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="12" cy="12" r="8" stroke="#A5B4FC" stroke-width="2"/>
-                                    <line x1="12" y1="4" x2="12" y2="8" stroke="#A5B4FC" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="12" y1="16" x2="12" y2="20" stroke="#A5B4FC" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="4" y1="12" x2="8" y2="12" stroke="#A5B4FC" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="16" y1="12" x2="20" y2="12" stroke="#A5B4FC" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="6.34" y1="6.34" x2="8.46" y2="8.46" stroke="#A5B4FC" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="15.54" y1="15.54" x2="17.66" y2="17.66" stroke="#A5B4FC" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="17.66" y1="6.34" x2="15.54" y2="8.46" stroke="#A5B4FC" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="8.46" y1="15.54" x2="6.34" y2="17.66" stroke="#A5B4FC" stroke-width="2" stroke-linecap="round"/>
-                                </svg>
-                            </div>
-                            <div class="menu-item-content">
-                                <div class="menu-item-title">AI-Powered Intelligence</div>
-                                <div class="menu-item-description">Turn complex data into clear actions that drive growth</div>
-                            </div>
-                        </a>
-                    </div>
-                </li>
-                <li><a href="/#case-studies">Case Studies</a></li>
-                <li><a href="/#why-washiq">Why WashIQ</a></li>
-                <li><a href="/#faq">FAQ</a></li>
-                <li><a href="/login.html" class="nav-login">Login</a></li>
-                <li><a href="/early-access.html" class="nav-cta">Request Early Access</a></li>
-            </ul>
-
-            <button class="mobile-toggle">☰</button>
-        </div>
-    </nav>
+    <nav></nav>
 
     <!-- Breadcrumbs -->
     <div class="breadcrumbs">
@@ -695,7 +455,8 @@
     <section class="hero">
         <h1>Turn data into <em>clear actions</em> that drive growth</h1>
         <p>
-            AI-powered insights that tell you what to do next—no guesswork, no manual analysis, just actionable recommendations.
+            AI-powered insights that tell you what to do next—no guesswork, no manual analysis, just actionable
+            recommendations.
         </p>
         <div class="hero-buttons">
             <a href="/early-access.html" class="btn-primary">Request Early Access</a>
@@ -714,68 +475,86 @@
             <div class="feature-card">
                 <div class="feature-icon">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z" stroke="white" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
                     </svg>
                 </div>
                 <h3>Smart Recommendations</h3>
-                <p>AI analyzes your data and tells you exactly what actions to take: "Increase staffing on Saturdays by 2 people" or "Raise premium package price by $3 at Location A."</p>
+                <p>AI analyzes your data and tells you exactly what actions to take: "Increase staffing on Saturdays by
+                    2 people" or "Raise premium package price by $3 at Location A."</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <polyline points="3.27 6.96 12 12.01 20.73 6.96" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <line x1="12" y1="22.08" x2="12" y2="12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path
+                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
+                            stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96" stroke="white" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <line x1="12" y1="22.08" x2="12" y2="12" stroke="white" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
                     </svg>
                 </div>
                 <h3>Pattern Detection</h3>
-                <p>Spot trends you'd never catch manually. The AI identifies conversion drops, seasonal patterns, and anomalies across all your locations instantly.</p>
+                <p>Spot trends you'd never catch manually. The AI identifies conversion drops, seasonal patterns, and
+                    anomalies across all your locations instantly.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="12" cy="12" r="3" stroke="white" stroke-width="2"/>
-                        <path d="M12 1v6m0 6v6M1 12h6m6 0h6" stroke="white" stroke-width="2" stroke-linecap="round"/>
-                        <path d="M4.93 4.93l4.24 4.24m5.66 5.66l4.24 4.24M19.07 4.93l-4.24 4.24m-5.66 5.66l-4.24 4.24" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="12" cy="12" r="3" stroke="white" stroke-width="2" />
+                        <path d="M12 1v6m0 6v6M1 12h6m6 0h6" stroke="white" stroke-width="2" stroke-linecap="round" />
+                        <path d="M4.93 4.93l4.24 4.24m5.66 5.66l4.24 4.24M19.07 4.93l-4.24 4.24m-5.66 5.66l-4.24 4.24"
+                            stroke="white" stroke-width="2" stroke-linecap="round" />
                     </svg>
                 </div>
                 <h3>Revenue Optimization</h3>
-                <p>Get pricing recommendations based on demand, competition, and customer behavior. Maximize revenue without guessing.</p>
+                <p>Get pricing recommendations based on demand, competition, and customer behavior. Maximize revenue
+                    without guessing.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <circle cx="9" cy="7" r="4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="white" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <circle cx="9" cy="7" r="4" stroke="white" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="white" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </div>
                 <h3>Staffing Insights</h3>
-                <p>Know exactly when to schedule more staff based on traffic patterns, conversion rates, and weather predictions. Reduce overtime and maximize efficiency.</p>
+                <p>Know exactly when to schedule more staff based on traffic patterns, conversion rates, and weather
+                    predictions. Reduce overtime and maximize efficiency.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <line x1="12" y1="1" x2="12" y2="23" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <line x1="12" y1="1" x2="12" y2="23" stroke="white" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="white" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </div>
                 <h3>Membership Growth</h3>
-                <p>AI identifies which customers are most likely to convert to memberships and suggests targeted offers to maximize subscriber growth.</p>
+                <p>AI identifies which customers are most likely to convert to memberships and suggests targeted offers
+                    to maximize subscriber growth.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke="white" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </div>
                 <h3>Predictive Forecasting</h3>
-                <p>See what's coming next. The AI forecasts revenue, traffic, and trends so you can plan ahead instead of reacting.</p>
+                <p>See what's coming next. The AI forecasts revenue, traffic, and trends so you can plan ahead instead
+                    of reacting.</p>
             </div>
         </div>
     </section>
@@ -796,7 +575,8 @@
             <div>
                 <h3>WashIQ</h3>
                 <p>
-                    Data-driven intelligence platform designed specifically for modern car wash businesses. Make smarter decisions, optimize operations, and drive growth.
+                    Data-driven intelligence platform designed specifically for modern car wash businesses. Make smarter
+                    decisions, optimize operations, and drive growth.
                 </p>
             </div>
 
@@ -833,53 +613,8 @@
         </div>
     </footer>
 
+    <script src="/assets/js/navbar.js"></script>
     <script>
-        // Mobile menu toggle
-        const mobileToggle = document.querySelector('.mobile-toggle');
-        const navLinks = document.querySelector('.nav-links');
-
-        if (mobileToggle && navLinks) {
-            mobileToggle.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
-                mobileToggle.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
-            });
-
-            // Close mobile menu when clicking a link (except Products dropdown)
-            document.querySelectorAll('.nav-links a:not(.dropdown-toggle)').forEach(link => {
-                link.addEventListener('click', () => {
-                    navLinks.classList.remove('active');
-                    mobileToggle.textContent = '☰';
-                });
-            });
-        }
-
-        // Mobile dropdown toggle
-        const dropdownToggle = document.querySelector('.dropdown-toggle');
-        const productsDropdown = document.querySelector('.products-dropdown');
-        const dropdownMenu = document.querySelector('.dropdown-menu');
-
-        if (dropdownToggle && productsDropdown && dropdownMenu) {
-            dropdownToggle.addEventListener('click', (e) => {
-                if (window.innerWidth <= 768) {
-                    e.preventDefault();
-                    dropdownMenu.classList.toggle('active');
-                }
-            });
-
-            // Close mobile menu when clicking dropdown items
-            document.querySelectorAll('.dropdown-menu a').forEach(link => {
-                link.addEventListener('click', () => {
-                    if (navLinks) {
-                        navLinks.classList.remove('active');
-                    }
-                    if (mobileToggle) {
-                        mobileToggle.textContent = '☰';
-                    }
-                    dropdownMenu.classList.remove('active');
-                });
-            });
-        }
-
         // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -898,4 +633,5 @@
         });
     </script>
 </body>
+
 </html>

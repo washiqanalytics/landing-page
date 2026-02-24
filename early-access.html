@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,237 +27,9 @@
             background: white;
             padding-top: 80px;
         }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1.25rem 3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            align-items: center;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--dark);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1rem;
-            position: relative;
-            transition: color 0.2s ease;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .nav-cta {
-            background: var(--green);
-            color: white !important;
-            padding: 0.75rem 1.5rem;
-            border-radius: 6px;
-            font-weight: 600;
-            transition: all 0.2s ease;
-        }
-
-        .nav-cta::after {
-            display: none;
-        }
-
-        .nav-cta:hover {
-            opacity: 0.85 !important;
-            transform: translateY(-1px);
-            color: white !important;
-        }
-
-        .nav-login {
-            background: transparent;
-            color: var(--dark) !important;
-            padding: 0.75rem 1.5rem;
-            border-radius: 6px;
-            font-weight: 600;
-            border: 2px solid var(--dark);
-            transition: all 0.2s ease;
-        }
-
-        .nav-login::after {
-            display: none;
-        }
-
-        .nav-login:hover {
-            background: var(--dark);
-            color: white !important;
-            transform: translateY(-1px);
-        }
-
-        .mobile-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--dark);
-        }
-
-        /* Products Dropdown - Mega Menu Style */
-        .nav-item {
-            position: relative;
-        }
-
-        .products-dropdown {
-            position: relative;
-        }
-
-        .dropdown-toggle {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-            cursor: pointer;
-        }
-
-        .dropdown-arrow {
-            font-size: 0.7rem;
-            transition: transform 0.2s ease;
-        }
-
-        .products-dropdown:hover .dropdown-arrow {
-            transform: rotate(180deg);
-        }
-
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%) translateY(-10px);
-            background: #F5F5F5;
-            border: 1px solid #E0E0E0;
-            border-radius: 20px;
-            padding: 1.5rem;
-            min-width: 480px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 100;
-            margin-top: 0.5rem;
-        }
-
-        .products-dropdown:hover .dropdown-menu,
-        .dropdown-menu.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .dropdown-menu a {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem 1.25rem;
-            color: var(--dark);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            border-radius: 16px;
-            margin-bottom: 0.5rem;
-            background: white;
-        }
-
-        .dropdown-menu a:last-child {
-            margin-bottom: 0;
-        }
-
-        .dropdown-menu a::after {
-            display: none;
-        }
-
-        .dropdown-menu a:hover {
-            background: #FAFAFA;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-        }
-
-        .dropdown-menu a:hover .menu-item-title {
-            color: var(--primary);
-        }
-
-        .menu-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .menu-icon svg {
-            width: 28px;
-            height: 28px;
-        }
-
-        .menu-item-content {
-            flex: 1;
-        }
-
-        .menu-item-title {
-            font-weight: 600;
-            margin-bottom: 0.125rem;
-            color: var(--dark);
-            font-size: 1rem;
-        }
-
-        .menu-item-description {
-            font-size: 0.875rem;
-            color: #666;
-            font-weight: 400;
-            line-height: 1.4;
-        }
-
-        /* Header (keep for logo outside nav) */
-        .header {
-            display: none;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--dark);
-            text-decoration: none;
-        }
-
+    </style>
+    <link rel="stylesheet" href="/assets/css/navbar.css">
+    <style>
         /* Main Container */
         .container {
             max-width: 1200px;
@@ -616,78 +389,61 @@
                 padding: 1.5rem;
             }
         }
+
+        .btn-submit.loading {
+            opacity: 0.7;
+            cursor: not-allowed;
+            position: relative;
+            color: transparent !important;
+        }
+
+        .btn-submit.loading::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-top: -10px;
+            margin-left: -10px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+
+        .alert-success {
+            background: #E8F5E9;
+            color: #2E7D32;
+            border: 1px solid #C8E6C9;
+            display: block;
+        }
+
+        .alert-error {
+            background: #FFEBEE;
+            color: #C62828;
+            border: 1px solid #FFCDD2;
+            display: block;
+        }
     </style>
 </head>
+
 <body>
     <!-- Navigation -->
-    <nav>
-        <div class="nav-container">
-            <a href="/" class="logo">WashIQ</a>
-            
-            <ul class="nav-links">
-                <li class="nav-item products-dropdown">
-                    <a href="#products" class="dropdown-toggle">
-                        Products
-                        <span class="dropdown-arrow">▼</span>
-                    </a>
-                    <div class="dropdown-menu">
-                        <a href="/dashboards-updated.html">
-                            <div class="menu-icon" style="background: #E8F4FF;">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="4" y="14" width="3" height="6" rx="1" fill="#0066FF"/>
-                                    <rect x="10.5" y="8" width="3" height="12" rx="1" fill="#0066FF"/>
-                                    <rect x="17" y="4" width="3" height="16" rx="1" fill="#0066FF"/>
-                                </svg>
-                            </div>
-                            <div class="menu-item-content">
-                                <div class="menu-item-title">Real-Time Dashboards</div>
-                                <div class="menu-item-description">Track every metric that matters in one place</div>
-                            </div>
-                        </a>
-                        <a href="/alerts.html">
-                            <div class="menu-icon" style="background: #FFF4ED;">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="12" cy="12" r="8" stroke="#FF6B35" stroke-width="2"/>
-                                    <circle cx="12" cy="12" r="5" stroke="#FF6B35" stroke-width="2"/>
-                                    <circle cx="12" cy="12" r="2" fill="#FF6B35"/>
-                                </svg>
-                            </div>
-                            <div class="menu-item-content">
-                                <div class="menu-item-title">Proactive Alerts</div>
-                                <div class="menu-item-description">Catch issues in real-time and take immediate action</div>
-                            </div>
-                        </a>
-                        <a href="/intelligence.html">
-                            <div class="menu-icon" style="background: #F0F0FF;">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="12" cy="12" r="8" stroke="#6366F1" stroke-width="2"/>
-                                    <line x1="12" y1="4" x2="12" y2="8" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="12" y1="16" x2="12" y2="20" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="4" y1="12" x2="8" y2="12" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="16" y1="12" x2="20" y2="12" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="6.34" y1="6.34" x2="8.46" y2="8.46" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="15.54" y1="15.54" x2="17.66" y2="17.66" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="17.66" y1="6.34" x2="15.54" y2="8.46" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="8.46" y1="15.54" x2="6.34" y2="17.66" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                </svg>
-                            </div>
-                            <div class="menu-item-content">
-                                <div class="menu-item-title">AI-Powered Intelligence</div>
-                                <div class="menu-item-description">Turn complex data into clear actions that drive growth</div>
-                            </div>
-                        </a>
-                    </div>
-                </li>
-                <li><a href="/#case-studies">Case Studies</a></li>
-                <li><a href="/#why-washiq">Why WashIQ</a></li>
-                <li><a href="/#faq">FAQ</a></li>
-                <li><a href="/login.html" class="nav-login">Login</a></li>
-                <li><a href="/early-access.html" class="nav-cta">Request Early Access</a></li>
-            </ul>
-
-            <button class="mobile-toggle">☰</button>
-        </div>
-    </nav>
+    <nav></nav>
 
     <!-- Main Container -->
     <div class="container">
@@ -695,7 +451,8 @@
             <!-- Left Column - Value Prop -->
             <div class="value-prop">
                 <h1>Request early access to WashIQ</h1>
-                <p class="subhead">Join 10 operators getting first access to AI-powered insights for car wash operations</p>
+                <p class="subhead">Join 10 operators getting first access to AI-powered insights for car wash operations
+                </p>
 
                 <ul class="benefits">
                     <li>Free access through 2026</li>
@@ -705,7 +462,7 @@
                     <li>No credit card needed</li>
                 </ul>
 
-                <p class="login-link">Already have access? <a href="/login.html">Log in</a></p>
+                <p class="login-link">Already have access? <a href="https://www.carwashcx.com/auth">Log in</a></p>
             </div>
 
             <!-- Right Column - Form -->
@@ -790,65 +547,22 @@
 
     <!-- Footer -->
     <footer>
-        <p>Use of WashIQ signifies agreement with our <a href="/privacy.html">Privacy Policy</a> and <a href="/terms.html">Terms of Service</a></p>
+        <p>Use of WashIQ signifies agreement with our <a href="/privacy.html">Privacy Policy</a> and <a
+                href="/terms.html">Terms of Service</a></p>
         <p style="margin-top: 0.5rem;">© 2026 WashIQ. All rights reserved.</p>
     </footer>
 
+    <script src="/assets/js/navbar.js"></script>
     <script>
-        // Mobile menu toggle
-        const mobileToggle = document.querySelector('.mobile-toggle');
-        const navLinks = document.querySelector('.nav-links');
-
-        if (mobileToggle && navLinks) {
-            mobileToggle.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
-                mobileToggle.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
-            });
-
-            // Close mobile menu when clicking a link (except Products dropdown)
-            document.querySelectorAll('.nav-links a:not(.dropdown-toggle)').forEach(link => {
-                link.addEventListener('click', () => {
-                    navLinks.classList.remove('active');
-                    mobileToggle.textContent = '☰';
-                });
-            });
-        }
-
-        // Mobile dropdown toggle
-        const dropdownToggle = document.querySelector('.dropdown-toggle');
-        const productsDropdown = document.querySelector('.products-dropdown');
-        const dropdownMenu = document.querySelector('.dropdown-menu');
-
-        if (dropdownToggle && productsDropdown && dropdownMenu) {
-            dropdownToggle.addEventListener('click', (e) => {
-                if (window.innerWidth <= 768) {
-                    e.preventDefault();
-                    dropdownMenu.classList.toggle('active');
-                }
-            });
-
-            // Close mobile menu when clicking dropdown items
-            document.querySelectorAll('.dropdown-menu a').forEach(link => {
-                link.addEventListener('click', () => {
-                    if (navLinks) {
-                        navLinks.classList.remove('active');
-                    }
-                    if (mobileToggle) {
-                        mobileToggle.textContent = '☰';
-                    }
-                    dropdownMenu.classList.remove('active');
-                });
-            });
-        }
 
         // Form validation and submission
         const form = document.getElementById('earlyAccessForm');
 
         if (form) {
-            form.addEventListener('submit', function(e) {
+            form.addEventListener('submit', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
-                
+
                 // Clear all previous errors
                 document.querySelectorAll('.form-group').forEach(group => {
                     group.classList.remove('error');
@@ -942,17 +656,83 @@
                     pos: pos.value,
                     challenge: challenge.value
                 };
-                
-                // Here you would normally send to your backend
-                // For now, show a success message
-                alert('Thank you for requesting early access! We\'ll review your application and be in touch within 3 business days.');
-                
-                // Optionally reset form and redirect
-                form.reset();
-                // window.location.href = '/thank-you';
-                
+
+                // --- GraphQL Integration ---
+                submitToGraphQL(formData);
+
                 return false;
             });
+
+            async function submitToGraphQL(data) {
+                const btnSubmit = form.querySelector('.btn-submit');
+                const submitNote = document.querySelector('.submit-note');
+                const originalNoteContent = submitNote.innerHTML;
+
+                // Set loading state
+                btnSubmit.classList.add('loading');
+                btnSubmit.disabled = true;
+
+                const GQL_ENDPOINT = 'https://api.washiq.com/graphql'; // Change this to your actual endpoint
+
+                const query = `
+        mutation CreateEarlyAccessRequest($input: EarlyAccessInput!) {
+            createEarlyAccessRequest(input: $input) {
+            success
+                            message
+                        }
+                    }
+        `;
+
+                try {
+                    const response = await fetch(GQL_ENDPOINT, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            query,
+                            variables: {
+                                input: data
+                            }
+                        })
+                    });
+
+                    const result = await response.json();
+
+                    if (result.errors) {
+                        throw new Error(result.errors[0].message || 'GraphQL Error');
+                    }
+
+                    // Success handling
+                    submitNote.className = 'alert alert-success';
+                    submitNote.innerHTML = '<strong>Success!</strong> Thank you for requesting early access. We\'ll reach out within 3 business days.';
+                    form.reset();
+
+                    // Optional: Scroll to success message
+                    submitNote.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                } catch (error) {
+                    console.error('Submission error:', error);
+
+                    // Error handling
+                    submitNote.className = 'alert alert-error';
+                    submitNote.innerHTML = '<strong>Error:</strong> Sorry, we couldn\'t process your request. Please try again or email us directly.';
+
+                    // Reset button after a short delay so user can try again
+                    setTimeout(() => {
+                        btnSubmit.classList.remove('loading');
+                        btnSubmit.disabled = false;
+                        // Keep the error message visible but maybe restore original after some time if requested
+                    }, 2000);
+                } finally {
+                    // If success, we don't necessarily want to re-enable the button immediately
+                    // unless we want them to be able to submit again.
+                    if (!submitNote.classList.contains('alert-success')) {
+                        btnSubmit.classList.remove('loading');
+                        btnSubmit.disabled = false;
+                    }
+                }
+            }
 
             // Clear error on input
             form.querySelectorAll('input, select').forEach(field => {
@@ -985,15 +765,16 @@
         function showError(field, message) {
             const formGroup = field.closest('.form-group');
             if (!formGroup) return;
-            
+
             formGroup.classList.add('error');
             const errorMessage = formGroup.querySelector('.error-message');
             if (!errorMessage) return;
-            
+
             errorMessage.textContent = message;
             errorMessage.classList.add('show');
             errorMessage.style.display = 'block';
         }
     </script>
 </body>
+
 </html>

@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>What anomaly detection actually looks like in a car wash context - WashIQ Blog</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         :root {
             --primary: #0066FF;
@@ -26,83 +32,9 @@
             background: #ffffff;
             -webkit-font-smoothing: antialiased;
         }
-
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1.25rem 3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--dark);
-            text-decoration: none;
-            letter-spacing: -0.02em;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            align-items: center;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--dark);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1rem;
-            transition: opacity 0.2s ease;
-        }
-
-        .nav-links a:hover { opacity: 0.6; }
-
-        .nav-cta {
-            background: var(--green);
-            color: white !important;
-            padding: 0.75rem 1.5rem;
-            border-radius: 6px;
-            font-weight: 600;
-            transition: all 0.2s ease;
-        }
-
-        .nav-cta:hover { opacity: 0.85 !important; transform: translateY(-1px); }
-
-        .nav-login {
-            background: transparent;
-            color: var(--dark) !important;
-            padding: 0.75rem 1.5rem;
-            border-radius: 6px;
-            font-weight: 600;
-            border: 2px solid var(--dark);
-            transition: all 0.2s ease;
-        }
-
-        .nav-login:hover { background: var(--dark); color: white !important; transform: translateY(-1px); }
-
-        .mobile-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--dark);
-        }
-
+    </style>
+    <link rel="stylesheet" href="/assets/css/navbar.css">
+    <style>
         /* ── Post Hero ── */
         .post-hero {
             padding: 8rem 3rem 5rem;
@@ -123,7 +55,9 @@
             transition: color 0.2s ease;
         }
 
-        .back-link:hover { color: var(--dark); }
+        .back-link:hover {
+            color: var(--dark);
+        }
 
         .post-tag {
             display: inline-flex;
@@ -137,10 +71,25 @@
             width: fit-content;
         }
 
-        .tag-operations { background: rgba(0,208,132,0.1); color: #008F5A; }
-        .tag-ai         { background: #F0F0FF; color: var(--purple); }
-        .tag-growth     { background: #E8F4FF; color: var(--primary); }
-        .tag-industry   { background: #FFF4ED; color: var(--orange); }
+        .tag-operations {
+            background: rgba(0, 208, 132, 0.1);
+            color: #008F5A;
+        }
+
+        .tag-ai {
+            background: #F0F0FF;
+            color: var(--purple);
+        }
+
+        .tag-growth {
+            background: #E8F4FF;
+            color: var(--primary);
+        }
+
+        .tag-industry {
+            background: #FFF4ED;
+            color: var(--orange);
+        }
 
         .post-hero h1 {
             font-size: clamp(2rem, 4vw, 3.25rem);
@@ -188,10 +137,17 @@
             color: white;
         }
 
-        .avatar-ab { background: linear-gradient(135deg, #00D084, #00B872); }
-        .avatar-sc { background: linear-gradient(135deg, #0066FF, #0052CC); }
+        .avatar-ab {
+            background: linear-gradient(135deg, #00D084, #00B872);
+        }
 
-        .meta-dot { color: var(--border); }
+        .avatar-sc {
+            background: linear-gradient(135deg, #0066FF, #0052CC);
+        }
+
+        .meta-dot {
+            color: var(--border);
+        }
 
         /* ── Hero Image ── */
         .hero-image {
@@ -238,7 +194,7 @@
             border-left: 4px solid var(--green);
             padding: 1.25rem 1.75rem;
             margin: 2.5rem 0;
-            background: rgba(0,208,132,0.05);
+            background: rgba(0, 208, 132, 0.05);
             border-radius: 0 12px 12px 0;
         }
 
@@ -269,7 +225,7 @@
         }
 
         .post-cta p {
-            color: rgba(255,255,255,0.65);
+            color: rgba(255, 255, 255, 0.65);
             font-size: 1rem;
             margin-bottom: 1.5rem;
         }
@@ -286,7 +242,10 @@
             transition: all 0.2s ease;
         }
 
-        .cta-btn:hover { background: #00B872; transform: translateY(-2px); }
+        .cta-btn:hover {
+            background: #00B872;
+            transform: translateY(-2px);
+        }
 
         /* ── More Posts ── */
         .more-posts {
@@ -324,11 +283,13 @@
 
         .more-card:hover {
             border-color: var(--green);
-            box-shadow: 0 4px 16px rgba(0,208,132,0.1);
+            box-shadow: 0 4px 16px rgba(0, 208, 132, 0.1);
             transform: translateY(-2px);
         }
 
-        .more-card .post-tag { margin-bottom: 0.75rem; }
+        .more-card .post-tag {
+            margin-bottom: 0.75rem;
+        }
 
         .more-card h4 {
             font-size: 0.9375rem;
@@ -337,126 +298,92 @@
             letter-spacing: -0.01em;
         }
 
-        
 
-        .footer-about h3 { color: var(--dark); margin-bottom: 1rem; font-size: 1.5rem; font-weight: 700; }
-        .footer-about p { color: var(--gray); line-height: 1.7; }
-        .footer-links h4 { color: var(--dark); margin-bottom: 1.25rem; font-size: 1rem; font-weight: 600; }
-        .footer-links ul { list-style: none; display: grid; gap: 0.875rem; }
-        .footer-links a { color: var(--gray); text-decoration: none; transition: opacity 0.2s ease; }
-        .footer-links a:hover { opacity: 0.6; }
-        .footer-bottom { max-width: 1400px; margin: 0 auto; padding-top: 2rem; border-top: 1px solid var(--border); text-align: center; font-size: 0.9375rem; color: var(--gray); }
+
+        .footer-about h3 {
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .footer-about p {
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        .footer-links h4 {
+            color: var(--dark);
+            margin-bottom: 1.25rem;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            display: grid;
+            gap: 0.875rem;
+        }
+
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 0.6;
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 0.9375rem;
+            color: var(--gray);
+        }
 
         @media (max-width: 1024px) {
-            .footer-content { grid-template-columns: 1fr 1fr; }
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
         @media (max-width: 768px) {
-            .nav-container { padding: 1.25rem 1.5rem; }
-            .nav-links {
-                display: none;
-                position: fixed;
-                top: 70px; left: 0; right: 0;
-                background: white;
-                flex-direction: column;
-                padding: 2rem 1.5rem;
-                border-bottom: 1px solid var(--border);
-                gap: 1.5rem;
+
+
+            .post-hero,
+            .hero-image,
+            .article-body,
+            .more-posts {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
             }
-            .nav-links.active { display: flex; }
-            .mobile-toggle { display: block; }
-            .post-hero, .hero-image, .article-body, .more-posts { padding-left: 1.5rem; padding-right: 1.5rem; }
-            .more-grid { grid-template-columns: 1fr; }
-            .post-meta { flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
-            .footer-content { grid-template-columns: 1fr; gap: 2.5rem; }
+
+            .more-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .post-meta {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                justify-content: center;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
         }
+
         /* Products Dropdown */
-        .nav-item { position: relative; }
-        .products-dropdown { position: relative; }
-
-        .dropdown-toggle {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-            cursor: pointer;
+        .nav-item {
+            position: relative;
         }
 
-        .dropdown-arrow {
-            font-size: 0.7rem;
-            transition: transform 0.2s ease;
-        }
 
-        .products-dropdown:hover .dropdown-arrow { transform: rotate(180deg); }
-
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%) translateY(-10px);
-            background: #F5F5F5;
-            border: 1px solid #E0E0E0;
-            border-radius: 20px;
-            padding: 1.5rem;
-            min-width: 480px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 100;
-            margin-top: 0.5rem;
-        }
-
-        .products-dropdown:hover .dropdown-menu,
-        .dropdown-menu.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .dropdown-menu a {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem 1.25rem;
-            color: var(--dark);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            border-radius: 16px;
-            margin-bottom: 0.5rem;
-            background: white;
-        }
-
-        .dropdown-menu a:last-child { margin-bottom: 0; }
-
-        .dropdown-menu a:hover {
-            background: #FAFAFA;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-        }
-
-        .dropdown-menu a:hover .menu-item-title { color: var(--primary); }
-
-        .menu-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .menu-icon svg { width: 28px; height: 28px; }
-
-        .menu-item-content { flex: 1; }
-
-        .menu-item-title {
-            font-weight: 600;
-            margin-bottom: 0.125rem;
-            color: var(--dark);
-            font-size: 1rem;
-        }
 
         .menu-item-description {
             font-size: 0.875rem;
@@ -464,6 +391,7 @@
             font-weight: 400;
             line-height: 1.4;
         }
+
         /* ── Footer ── */
         footer {
             background: var(--gray-light);
@@ -510,7 +438,9 @@
             transition: opacity 0.2s ease;
         }
 
-        .footer-links a:hover { opacity: 0.6; }
+        .footer-links a:hover {
+            opacity: 0.6;
+        }
 
         .footer-bottom {
             max-width: 1400px;
@@ -523,69 +453,10 @@
         }
     </style>
 </head>
+
 <body>
 
-    <nav>
-        <div class="nav-container">
-            <a href="/" class="logo">WashIQ</a>
-            <ul class="nav-links">
-                <li class="nav-item products-dropdown">
-                    <a href="#products" class="dropdown-toggle">
-                        Products
-                        <span class="dropdown-arrow">▼</span>
-                    </a>
-                    <div class="dropdown-menu">
-                        <a href="/dashboards-updated.html">
-                            <div class="menu-icon" style="background: #E8F4FF;">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="4" y="14" width="3" height="6" rx="1" fill="#0066FF"/>
-                                    <rect x="10.5" y="8" width="3" height="12" rx="1" fill="#0066FF"/>
-                                    <rect x="17" y="4" width="3" height="16" rx="1" fill="#0066FF"/>
-                                </svg>
-                            </div>
-                            <div class="menu-item-content">
-                                <div class="menu-item-title">Real-Time Dashboards</div>
-                                <div class="menu-item-description">Track every metric that matters in one place</div>
-                            </div>
-                        </a>
-                        <a href="/alerts.html">
-                            <div class="menu-icon" style="background: #FFF4ED;">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="12" cy="12" r="8" stroke="#FF6B35" stroke-width="2"/>
-                                    <circle cx="12" cy="12" r="5" stroke="#FF6B35" stroke-width="2"/>
-                                    <circle cx="12" cy="12" r="2" fill="#FF6B35"/>
-                                </svg>
-                            </div>
-                            <div class="menu-item-content">
-                                <div class="menu-item-title">Proactive Alerts</div>
-                                <div class="menu-item-description">Catch issues in real-time and take immediate action</div>
-                            </div>
-                        </a>
-                        <a href="/intelligence.html">
-                            <div class="menu-icon" style="background: #EEF2FF;">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="12" cy="12" r="8" stroke="#A5B4FC" stroke-width="2"/>
-                                    <line x1="12" y1="4" x2="12" y2="8" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="12" y1="16" x2="12" y2="20" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="4" y1="12" x2="8" y2="12" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="16" y1="12" x2="20" y2="12" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
-                                </svg>
-                            </div>
-                            <div class="menu-item-content">
-                                <div class="menu-item-title">AI-Powered Intelligence</div>
-                                <div class="menu-item-description">Turn complex data into clear actions that drive growth</div>
-                            </div>
-                        </a>
-                    </div>
-                </li>
-                <li><a href="/#case-studies">Case Studies</a></li>
-                <li><a href="/blog.html" style="color: var(--green);">Blog</a></li>
-                <li><a href="/login.html" class="nav-login">Login</a></li>
-                <li><a href="/early-access.html" class="nav-cta">Request Early Access</a></li>
-            </ul>
-            <button class="mobile-toggle" id="mobileToggle">☰</button>
-        </div>
-    </nav>
+    <nav></nav>
 
     <div class="post-hero">
         <a href="/blog.html" class="back-link">← Back to Blog</a>
@@ -593,7 +464,8 @@
             <span class="post-tag tag-ai">AI & Data</span>
         </div>
         <h1>What anomaly detection actually looks like in a car wash context</h1>
-        <p class="post-intro">Not buzzwords — a real example of how an alert fired, what it said, and what the operator did about it.</p>
+        <p class="post-intro">Not buzzwords — a real example of how an alert fired, what it said, and what the operator
+            did about it.</p>
         <div class="post-meta">
             <div class="post-author">
                 <div class="author-avatar avatar-sc">SC</div>
@@ -611,26 +483,46 @@
     </div>
 
     <div class="article-body">
-                <h2>What anomaly detection actually is</h2>
-        <p>"Anomaly detection" is one of those phrases that sounds impressive and means almost nothing without context. So let's get concrete about what it means in the car wash world.</p>
-        <p>At its core, anomaly detection is the ability to identify when something is behaving differently than it should — given what you know about normal behavior for that time, that location, and those conditions. It's not just "revenue is down today." It's "revenue is down 23% compared to what we'd expect on a Thursday afternoon in January with clear weather and no local events — and the drop started at 2:14pm."</p>
+        <h2>What anomaly detection actually is</h2>
+        <p>"Anomaly detection" is one of those phrases that sounds impressive and means almost nothing without context.
+            So let's get concrete about what it means in the car wash world.</p>
+        <p>At its core, anomaly detection is the ability to identify when something is behaving differently than it
+            should — given what you know about normal behavior for that time, that location, and those conditions. It's
+            not just "revenue is down today." It's "revenue is down 23% compared to what we'd expect on a Thursday
+            afternoon in January with clear weather and no local events — and the drop started at 2:14pm."</p>
         <p>That specificity is what makes it actionable.</p>
         <h2>A real example</h2>
-        <p>Here's what actually happened at one of our beta sites in late 2025. It was a Wednesday morning — historically a moderate-traffic day for this location. By 10:30am, the system had processed enough data to notice something: cars were entering the site at a normal rate, but exit volume was lagging by about 18%.</p>
-        <p>That's a pattern that typically indicates either a tunnel slowdown or a payment processing bottleneck at the exit. The alert that fired said: "Throughput gap detected — cars entering at normal rate but exit volume is 18% below expected. Possible tunnel or exit lane issue. Check conveyor speed and exit payment terminals."</p>
-        <p>The manager walked the tunnel at 10:37am, found a dryer section running at reduced capacity due to a tripped breaker, reset it, and had full throughput restored by 10:45am. Total down-time at full capacity: under 10 minutes.</p>
+        <p>Here's what actually happened at one of our beta sites in late 2025. It was a Wednesday morning —
+            historically a moderate-traffic day for this location. By 10:30am, the system had processed enough data to
+            notice something: cars were entering the site at a normal rate, but exit volume was lagging by about 18%.
+        </p>
+        <p>That's a pattern that typically indicates either a tunnel slowdown or a payment processing bottleneck at the
+            exit. The alert that fired said: "Throughput gap detected — cars entering at normal rate but exit volume is
+            18% below expected. Possible tunnel or exit lane issue. Check conveyor speed and exit payment terminals."
+        </p>
+        <p>The manager walked the tunnel at 10:37am, found a dryer section running at reduced capacity due to a tripped
+            breaker, reset it, and had full throughput restored by 10:45am. Total down-time at full capacity: under 10
+            minutes.</p>
 
         <div class="pull-quote">
             <p>Here's what actually happened at one of our beta sites in late 2025.</p>
         </div>
 
         <h2>Why the framing of the alert matters</h2>
-        <p>Notice what the alert didn't say: "Something is wrong." It said what was wrong, where to look, and what the likely cause was. That's the difference between a useful alert and a noisy one.</p>
-        <p>Most alerting systems in industrial contexts send you a raw signal: "Metric X is below threshold Y." That's fine for an engineer staring at a monitoring dashboard all day. It's not fine for a car wash manager who has 12 other things going on and needs to know what to actually do in the next 5 minutes.</p>
-        <p>WashIQ alerts are designed to be actionable first. The goal isn't to tell you that something happened. It's to tell you what to do about it.</p>
+        <p>Notice what the alert didn't say: "Something is wrong." It said what was wrong, where to look, and what the
+            likely cause was. That's the difference between a useful alert and a noisy one.</p>
+        <p>Most alerting systems in industrial contexts send you a raw signal: "Metric X is below threshold Y." That's
+            fine for an engineer staring at a monitoring dashboard all day. It's not fine for a car wash manager who has
+            12 other things going on and needs to know what to actually do in the next 5 minutes.</p>
+        <p>WashIQ alerts are designed to be actionable first. The goal isn't to tell you that something happened. It's
+            to tell you what to do about it.</p>
         <h2>What this means for multi-site operators</h2>
-        <p>For operators running multiple locations, anomaly detection becomes even more valuable — because you can't be everywhere at once. The whole point of a multi-site operation is leverage: one management team running several locations efficiently. But leverage only works if you have visibility.</p>
-        <p>With site-level anomaly detection running across all your locations, you move from reactive to genuinely proactive. Problems get caught at the source, not at month-end reconciliation. And your managers spend their time on things that require human judgment — not on being human smoke detectors.</p>
+        <p>For operators running multiple locations, anomaly detection becomes even more valuable — because you can't be
+            everywhere at once. The whole point of a multi-site operation is leverage: one management team running
+            several locations efficiently. But leverage only works if you have visibility.</p>
+        <p>With site-level anomaly detection running across all your locations, you move from reactive to genuinely
+            proactive. Problems get caught at the source, not at month-end reconciliation. And your managers spend their
+            time on things that require human judgment — not on being human smoke detectors.</p>
 
         <div class="post-cta">
             <h3>See this in action at your wash</h3>
@@ -642,7 +534,7 @@
     <div class="more-posts">
         <h3>More from the blog</h3>
         <div class="more-grid">
-                        <a href="/blog-post-1.html" class="more-card">
+            <a href="/blog-post-1.html" class="more-card">
                 <span class="post-tag tag-operations">Operations</span>
                 <h4>Why real-time data changes everything at the site level</h4>
             </a>
@@ -658,12 +550,13 @@
         <div class="footer-content">
             <div class="footer-about">
                 <h3>WashIQ</h3>
-                <p>Data-driven intelligence platform designed specifically for modern car wash businesses. Make smarter decisions, optimize operations, and drive growth.</p>
+                <p>Data-driven intelligence platform designed specifically for modern car wash businesses. Make smarter
+                    decisions, optimize operations, and drive growth.</p>
             </div>
             <div class="footer-links">
                 <h4>Product</h4>
                 <ul>
-                    <li><a href="/dashboards-updated.html">Dashboards</a></li>
+                    <li><a href="/dashboards.html">Dashboards</a></li>
                     <li><a href="/intelligence.html">AI Intelligence</a></li>
                     <li><a href="/alerts.html">Alerts</a></li>
                     <li><a href="/early-access.html">Early Access</a></li>
@@ -688,16 +581,7 @@
         <div class="footer-bottom">© 2026 WashIQ. All rights reserved.</div>
     </footer>
 
-    <script>
-                const mobileToggle = document.getElementById('mobileToggle');
-        const navLinksList = document.querySelector('.nav-links');
-        if (mobileToggle) {
-            mobileToggle.addEventListener('click', () => {
-                navLinksList.classList.toggle('active');
-                mobileToggle.textContent = navLinksList.classList.contains('active') ? '✕' : '☰';
-            });
-        }
-
-    </script>
+    <script src="/assets/js/navbar.js"></script>
 </body>
+
 </html>
