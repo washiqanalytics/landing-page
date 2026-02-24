@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - WashIQ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --green: #00D084;
+            --dark: #1a1a1a;
+            --gray: #666666;
+            --border: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.25rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            text-decoration: none;
+        }
+
+        .nav-back {
+            color: var(--gray);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-back:hover {
+            color: var(--dark);
+        }
+
+        .error-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 70px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Floating bubbles animation */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(0, 208, 132, 0.1) 0%, rgba(165, 180, 252, 0.1) 100%);
+            animation: float 6s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        .bubble:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .bubble:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .bubble:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            left: 20%;
+            bottom: 20%;
+            animation-delay: 4s;
+        }
+
+        .bubble:nth-child(4) {
+            width: 100px;
+            height: 100px;
+            right: 25%;
+            bottom: 30%;
+            animation-delay: 1s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translateY(-30px) rotate(180deg);
+                opacity: 0.6;
+            }
+        }
+
+        .error-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .error-code {
+            font-size: 10rem;
+            font-weight: 800;
+            line-height: 1;
+            background: linear-gradient(135deg, var(--green) 0%, #A5B4FC 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .error-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            letter-spacing: -0.02em;
+        }
+
+        .error-emoji {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: wiggle 1s ease-in-out infinite;
+        }
+
+        @keyframes wiggle {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+            25% {
+                transform: rotate(-10deg);
+            }
+            75% {
+                transform: rotate(10deg);
+            }
+        }
+
+        .error-message {
+            font-size: 1.25rem;
+            color: var(--gray);
+            max-width: 500px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.6;
+        }
+
+        .fun-fact {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem auto;
+            max-width: 500px;
+            border-left: 4px solid var(--green);
+        }
+
+        .fun-fact-title {
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .fun-fact-text {
+            color: var(--gray);
+            font-size: 0.9375rem;
+            line-height: 1.6;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--green);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.125rem;
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            background: #00B872;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--dark);
+            padding: 1rem 2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.125rem;
+            transition: all 0.2s ease;
+            display: inline-block;
+            border: 2px solid var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background: var(--dark);
+            color: white;
+        }
+
+        .helpful-links {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .helpful-links h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--gray);
+        }
+
+        .link-list {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .link-list a {
+            color: var(--gray);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .link-list a:hover {
+            color: var(--green);
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 1.25rem 1.5rem;
+            }
+
+            .bubble {
+                display: none;
+            }
+
+            .error-emoji {
+                font-size: 3rem;
+            }
+
+            .error-code {
+                font-size: 6rem;
+            }
+
+            .error-title {
+                font-size: 2rem;
+            }
+
+            .error-message {
+                font-size: 1.125rem;
+            }
+
+            .error-actions {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+            }
+
+            .link-list {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .fun-fact {
+                margin: 1.5rem auto;
+                padding: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="logo">WashIQ</a>
+            <a href="/" class="nav-back">← Back to Home</a>
+        </div>
+    </nav>
+
+    <div class="error-container">
+        <!-- Floating bubbles -->
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+
+        <div class="error-content">
+            <div class="error-emoji">🧼</div>
+            <div class="error-code">404</div>
+            <h1 class="error-title">Oops! This page got washed away</h1>
+            <p class="error-message">
+                Looks like this page went through the express wash and never came back. Don't worry—your data is safe, we just can't find this URL!
+            </p>
+
+            <div class="fun-fact">
+                <div class="fun-fact-title">💡 Fun Fact</div>
+                <div class="fun-fact-text">The average car wash uses 15-30 gallons of water per car. Our dashboards can tell you exactly how much yours uses!</div>
+            </div>
+
+            <div class="error-actions">
+                <a href="/" class="btn-primary">Go to Homepage</a>
+                <a href="javascript:history.back()" class="btn-secondary">Go Back</a>
+            </div>
+
+            <div class="helpful-links">
+                <h3>Popular Pages</h3>
+                <div class="link-list">
+                    <a href="/dashboards-updated.html">📊 Dashboards</a>
+                    <a href="/alerts.html">🔔 Alerts</a>
+                    <a href="/intelligence.html">🤖 AI Intelligence</a>
+                    <a href="/early-access.html">🎟️ Request Early Access</a>
+                    <a href="/login.html">🔐 Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

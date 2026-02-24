@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WashIQ Evaluation — 4 Personas × 3 Pages</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--green:#00D084;--orange:#FF6B35;--red:#EF4444;--dark:#1a1a1a;--gray:#666;--border:#e0e0e0;--blue:#0066FF}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,sans-serif;line-height:1.7;color:var(--dark);background:#fff;-webkit-font-smoothing:antialiased;max-width:1100px;margin:0 auto;padding:2rem}
+h1{font-size:2rem;font-weight:900;letter-spacing:-.03em;margin-bottom:.25rem}
+h2{font-size:1.375rem;font-weight:800;letter-spacing:-.02em;margin:2.5rem 0 1rem;padding-bottom:.5rem;border-bottom:2px solid var(--dark)}
+h3{font-size:1.125rem;font-weight:700;margin:1.5rem 0 .75rem;color:var(--dark)}
+h4{font-size:.9375rem;font-weight:700;margin:1rem 0 .5rem}
+.subtitle{font-size:1rem;color:var(--gray);margin-bottom:2rem}
+p{margin-bottom:.75rem}
+
+/* Framework box */
+.framework{background:#f9f9f7;border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin:1.5rem 0}
+.framework h3{margin-top:0}
+
+/* Score table */
+.scores{width:100%;border-collapse:collapse;font-size:.875rem;margin:1rem 0 1.5rem}
+.scores th{text-align:left;padding:.5rem .75rem;font-weight:700;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;color:var(--gray);border-bottom:2px solid var(--border);white-space:nowrap}
+.scores td{padding:.5rem .75rem;border-bottom:1px solid #f0f0f0}
+.scores tr:last-child td{border-bottom:none}
+.scores .dim{font-weight:600}
+.s-high{color:var(--green);font-weight:700}
+.s-mid{color:var(--orange);font-weight:700}
+.s-low{color:var(--red);font-weight:700}
+.scores .avg-row td{border-top:2px solid var(--border);font-weight:800;font-size:.9375rem}
+
+/* Persona header */
+.persona{display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;border-radius:8px;margin:1.5rem 0 1rem}
+.persona-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;color:#fff;flex-shrink:0}
+.persona-info{flex:1}
+.persona-name{font-weight:700;font-size:.9375rem}
+.persona-role{font-size:.8125rem;opacity:.7}
+.p-owner{background:#f5f5f5}.p-owner .persona-avatar{background:var(--dark)}
+.p-area{background:#FFF3E0}.p-area .persona-avatar{background:var(--orange)}
+.p-site{background:#E8F8F0}.p-site .persona-avatar{background:var(--green)}
+.p-ux{background:#EFF5FF}.p-ux .persona-avatar{background:var(--blue)}
+
+/* Finding */
+.finding{padding:.75rem 1rem;border-left:3px solid var(--border);margin:.75rem 0;font-size:.875rem;background:#fafafa;border-radius:0 6px 6px 0}
+.finding.good{border-left-color:var(--green);background:#F0FDF6}
+.finding.issue{border-left-color:var(--orange);background:#FFF8F0}
+.finding.critical{border-left-color:var(--red);background:#FEF2F2}
+.finding-label{font-weight:700;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.25rem}
+.finding.good .finding-label{color:var(--green)}
+.finding.issue .finding-label{color:var(--orange)}
+.finding.critical .finding-label{color:var(--red)}
+
+/* Priority list */
+.priority{counter-reset:pri}
+.priority li{list-style:none;padding:.625rem 0;border-bottom:1px solid #f0f0f0;font-size:.9375rem;display:flex;gap:.75rem;align-items:flex-start}
+.priority li::before{counter-increment:pri;content:counter(pri);background:var(--dark);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;flex-shrink:0;margin-top:.125rem}
+.priority li:last-child{border-bottom:none}
+.pri-tag{font-size:.6875rem;font-weight:700;padding:.125rem .375rem;border-radius:3px;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap}
+.pri-high{background:#FEE2E2;color:var(--red)}
+.pri-med{background:#FFF3E0;color:var(--orange)}
+.pri-low{background:#E8F8F0;color:var(--green)}
+
+/* Summary grid */
+.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.5rem 0}
+.summary-cell{padding:1rem;border:1px solid var(--border);border-radius:10px;text-align:center}
+.summary-cell .page-name{font-weight:700;font-size:.875rem;margin-bottom:.5rem}
+.summary-cell .avg-score{font-size:2rem;font-weight:900}
+.summary-cell .grade{font-size:.875rem;font-weight:600;margin-top:.25rem}
+
+@media(max-width:768px){
+body{padding:1rem}
+h1{font-size:1.5rem}
+.scores{font-size:.8125rem}
+.scores th,.scores td{padding:.375rem .5rem}
+.summary-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<h1>WashIQ Evaluation</h1>
+<p class="subtitle">4 Personas × 3 Pages × 8 Dimensions — Alert Feed, Configuration, History</p>
+
+<!-- ════════════════════════════════════ -->
+<!-- FRAMEWORK                           -->
+<!-- ════════════════════════════════════ -->
+
+<div class="framework">
+<h3>Evaluation Framework</h3>
+
+<h4>Evaluators</h4>
+<p><strong>Jake Dawson (Owner)</strong> — Manages 5 locations. Needs system-wide visibility, fast triage, and confidence that his team is performing. Opens the app 3–5x/day, mostly on mobile. Cares about revenue, response quality, and whether thresholds are right.</p>
+<p><strong>Sarah Chen (Area Manager)</strong> — Oversees 3 locations in Region North. Needs to monitor her sites without noise from others. Intermediate user — comfortable with config but doesn't want to break things. Mobile-first during the day.</p>
+<p><strong>Mike Torres (Site Manager)</strong> — Manages Downtown. Needs to respond to alerts fast, see his performance, and not feel surveilled. Wants the system to help him, not grade him. Almost exclusively mobile.</p>
+<p><strong>UX Guru</strong> — Evaluates information architecture, visual hierarchy, interaction patterns, mobile usability, cognitive load, consistency, and whether AI features are integrated or bolted on. No domain bias — purely evaluating the craft.</p>
+
+<h4>Dimensions (1–10 scale)</h4>
+<p><strong>1. Task Completion</strong> — Can the persona accomplish their primary tasks without friction?</p>
+<p><strong>2. Information Hierarchy</strong> — Does the most important information have the most visual weight?</p>
+<p><strong>3. Role Fit</strong> — Is the view appropriate for this person's authority and responsibilities?</p>
+<p><strong>4. Cognitive Load</strong> — Can they scan and decide without overthinking?</p>
+<p><strong>5. AI Integration</strong> — Are AI features useful, well-placed, and non-intrusive?</p>
+<p><strong>6. Mobile Usability</strong> — Does it work on a phone in a parking lot?</p>
+<p><strong>7. Actionability</strong> — Do insights lead to clear next steps?</p>
+<p><strong>8. Trust & Clarity</strong> — Does the person trust what they're seeing? Are statuses unambiguous?</p>
+
+<h4>Scoring</h4>
+<p><span class="s-high">8–10:</span> Strong, minimal issues. <span class="s-mid">5–7:</span> Functional but needs work. <span class="s-low">1–4:</span> Fails the persona's needs.</p>
+</div>
+
+<!-- ════════════════════════════════════ -->
+<!-- PAGE 1: ALERT FEED                  -->
+<!-- ════════════════════════════════════ -->
+
+<h2>Page 1: Alert Feed</h2>
+
+<!-- OWNER -->
+<div class="persona p-owner"><div class="persona-avatar">JD</div><div class="persona-info"><div class="persona-name">Jake Dawson — Owner</div><div class="persona-role">Evaluating Alert Feed</div></div></div>
+
+<table class="scores">
+<thead><tr><th>Dimension</th><th>Score</th><th>Rationale</th></tr></thead>
+<tbody>
+<tr><td class="dim">Task Completion</td><td class="s-high">9</td><td>Can triage all active alerts, snooze, assign, filter by location/type. Two-row action pattern (context + system) is efficient. Only gap: no bulk actions for clearing multiple resolved alerts.</td></tr>
+<tr><td class="dim">Information Hierarchy</td><td class="s-high">8</td><td>Critical banner at top is effective. Severity badges, escalation chains, and time stamps are clear. AI trend cards visually distinct. Reports tab well-organized with time grouping.</td></tr>
+<tr><td class="dim">Role Fit</td><td class="s-high">9</td><td>Sees all locations, all severity levels. Financial data visible only to him. Can't acknowledge (correct — owner assigns, doesn't operate). System actions appropriate.</td></tr>
+<tr><td class="dim">Cognitive Load</td><td class="s-mid">7</td><td>7 alerts + 2 AI cards + reports = a lot of content. The type/location filters help, but initial load on a busy day could be 15+ items. No "priority" view that auto-filters to just what needs action RIGHT NOW.</td></tr>
+<tr><td class="dim">AI Integration</td><td class="s-high">8</td><td>Trend cards surface patterns he'd never spot scanning individual alerts. Smart snooze works well — he mostly assigns or snoozes, and both have AI. Weekly digest is excellent for his Monday review. Icon is clear and consistent.</td></tr>
+<tr><td class="dim">Mobile Usability</td><td class="s-mid">7</td><td>Hamburger menu works. Cards are readable. Dropdown clipping was fixed. But the feed is long on mobile — scrolling past 8 cards to reach AI trend cards or reports requires intentional effort. No quick-jump.</td></tr>
+<tr><td class="dim">Actionability</td><td class="s-high">9</td><td>Every alert has context-appropriate actions. Escalation chain shows exactly what's happening. Assign dropdown with AI recommendation reduces decision time. Trend cards suggest what to investigate.</td></tr>
+<tr><td class="dim">Trust & Clarity</td><td class="s-high">8</td><td>Severity levels, timestamps, thresholds all visible. Escalation state is unambiguous. The only ambiguity: "Pattern Detected" cards don't say when the pattern was identified — is this from today or has it been sitting here for a week?</td></tr>
+<tr class="avg-row"><td>Average</td><td class="s-high">8.1</td><td></td></tr>
+</tbody>
+</table>
+
+<div class="finding good"><div class="finding-label">Strength</div>The two-row action pattern (context actions on top, system actions below) is excellent. It separates "what should I do about this situation" from "what should I do about this alert." This is a non-obvious but important distinction.</div>
+<div class="finding issue"><div class="finding-label">Gap</div>No "Needs Action" quick-filter. Jake's primary workflow is "show me only things that need my decision right now" — currently he has to scan past info alerts, milestones, and resolved items to find them. The type filter is too broad (Critical/Warning both need action, but so might some Info alerts).</div>
+
+<!-- AREA MANAGER -->
+<div class="persona p-area"><div class="persona-avatar">SC</div><div class="persona-info"><div class="persona-name">Sarah Chen — Area Manager</div><div class="persona-role">Evaluating Alert Feed</div></div></div>
+
+<table class="scores">
+<thead><tr><th>Dimension</th><th>Score</th><th>Rationale</th></tr></thead>
+<tbody>
+<tr><td class="dim">Task Completion</td><td class="s-high">9</td><td>Can acknowledge, snooze, assign within her region. Location filter pre-scopes to her sites. Can't create critical custom alerts (correct). Has all system actions she needs.</td></tr>
+<tr><td class="dim">Information Hierarchy</td><td class="s-high">8</td><td>Same strong structure as owner view. Revenue columns correctly hidden. Her alerts are the ones she can act on. AI trend cards give her cross-site visibility within her region.</td></tr>
+<tr><td class="dim">Role Fit</td><td class="s-high">9</td><td>Sees only her 3 locations by default. Financial data properly gated. Can acknowledge alerts (unlike owner). Can assign to her site managers. Custom alert builder limits severity appropriately.</td></tr>
+<tr><td class="dim">Cognitive Load</td><td class="s-high">8</td><td>Fewer locations = fewer alerts = more manageable feed. Her 3 sites produce ~3-5 active alerts typically. AI cards add value without overwhelming.</td></tr>
+<tr><td class="dim">AI Integration</td><td class="s-high">8</td><td>Smart snooze is most valuable to her — she's the one snooping dozens of alerts daily. The "Northgate Tuesdays recover by 4 PM" suggestion saves her from memorizing every location's patterns. Assign recommendation helps when she manages 3 teams.</td></tr>
+<tr><td class="dim">Mobile Usability</td><td class="s-high">8</td><td>Her reduced alert count makes the feed very usable on mobile. 3-5 cards is perfect scrolling distance. Dropdowns work.</td></tr>
+<tr><td class="dim">Actionability</td><td class="s-high">9</td><td>Every alert she sees, she can act on. No dead-end states. Acknowledge + Snooze + Assign covers 95% of her workflow.</td></tr>
+<tr><td class="dim">Trust & Clarity</td><td class="s-high">8</td><td>Escalation chain shows her where things stand. She can see if her site managers have acknowledged. Clear timestamps. The only concern: she can't see other regions at all — if asked to cover for another area manager, she's blind.</td></tr>
+<tr class="avg-row"><td>Average</td><td class="s-high">8.4</td><td></td></tr>
+</tbody>
+</table>
+
+<div class="finding good"><div class="finding-label">Strength</div>The alert feed is optimally scoped for an area manager. She sees enough to manage her region without drowning in company-wide noise. The permission model feels natural, not restrictive.</div>
+<div class="finding issue"><div class="finding-label">Gap</div>No cross-region visibility when covering for a colleague. If the other area manager is on vacation, Sarah would need the owner to change her permissions — there's no "temporary access" or "view-only other regions" toggle.</div>
+
+<!-- SITE MANAGER -->
+<div class="persona p-site"><div class="persona-avatar">MT</div><div class="persona-info"><div class="persona-name">Mike Torres — Site Manager</div><div class="persona-role">Evaluating Alert Feed</div></div></div>
+
+<table class="scores">
+<thead><tr><th>Dimension</th><th>Score</th><th>Rationale</th></tr></thead>
+<tbody>
+<tr><td class="dim">Task Completion</td><td class="s-high">8</td><td>Can acknowledge alerts, snooze warnings, take contextual actions (message employees, approve overtime). Can't assign (correct). Primary workflow — see alert, acknowledge, act — is fast.</td></tr>
+<tr><td class="dim">Information Hierarchy</td><td class="s-mid">7</td><td>Good for active alerts. But the reports tab shows all-location data even though he manages one site — site leaderboard ranks locations he has no control over. His performance data is buried in a table of 5 locations.</td></tr>
+<tr><td class="dim">Role Fit</td><td class="s-high">8</td><td>Alert actions are appropriate. No assign button (correct). Acknowledging alerts is his primary job and it's front-and-center. Financial data hidden (correct).</td></tr>
+<tr><td class="dim">Cognitive Load</td><td class="s-high">8</td><td>Sees only Downtown alerts — typically 2-3 active. Very manageable. AI cards might show trends at other locations though, which adds noise for him.</td></tr>
+<tr><td class="dim">AI Integration</td><td class="s-mid">7</td><td>Smart snooze helps him (he's the one who knows his employees clock in early every day). But the trend detection cards about Westside or company-wide patterns aren't actionable for him. He can't do anything about Westside's conversion rate. The weekly digest mentions locations he doesn't manage.</td></tr>
+<tr><td class="dim">Mobile Usability</td><td class="s-high">8</td><td>2-3 cards on his phone is perfect. Quick acknowledge tap. He's in and out in under 30 seconds most of the time.</td></tr>
+<tr><td class="dim">Actionability</td><td class="s-high">8</td><td>"Message Employees" and "Approve Overtime" are the right contextual actions. He doesn't need to think about what to do — the buttons tell him.</td></tr>
+<tr><td class="dim">Trust & Clarity</td><td class="s-high">8</td><td>He can see the escalation timer — "escalates to area manager in 13 min" — which motivates fast response without feeling punitive. Timestamps are clear.</td></tr>
+<tr class="avg-row"><td>Average</td><td class="s-mid">7.8</td><td></td></tr>
+</tbody>
+</table>
+
+<div class="finding good"><div class="finding-label">Strength</div>The acknowledge-and-move-on workflow is perfect for a site manager. He's not drowning in options or data. The escalation timer creates healthy urgency without surveillance anxiety.</div>
+<div class="finding issue"><div class="finding-label">Gap</div>AI trend cards and weekly digest aren't filtered to his scope. He sees insights about locations he can't affect. The AI should only show him patterns at Downtown, or show him his own performance trends (e.g., "Your response time improved 15% this month").</div>
+
+<!-- UX GURU -->
+<div class="persona p-ux"><div class="persona-avatar">UX</div><div class="persona-info"><div class="persona-name">UX Guru</div><div class="persona-role">Evaluating Alert Feed</div></div></div>
+
+<table class="scores">
+<thead><tr><th>Dimension</th><th>Score</th><th>Rationale</th></tr></thead>
+<tbody>
+<tr><td class="dim">Task Completion</td><td class="s-high">8</td><td>Core flows work. Acknowledge, snooze, assign all reachable in 1-2 taps. Filtering works. Tab switching is clean. Missing: undo for snooze/dismiss (once an alert is hidden, it's gone from the session).</td></tr>
+<tr><td class="dim">Information Hierarchy</td><td class="s-mid">7</td><td>Severity badges are clear. But alert cards have inconsistent information density — critical alerts have escalation chains (4 lines), info alerts have 2 lines, AI cards have 6+ lines. The visual weight doesn't always correspond to urgency. An info-level rain alert shouldn't take up more screen real estate than a critical equipment outage.</td></tr>
+<tr><td class="dim">Role Fit</td><td class="s-high">8</td><td>Permission model is well-executed. Financial gating is invisible when off. The persona switcher is useful for demo/testing but in production should be removed — it's a dev tool in the UI.</td></tr>
+<tr><td class="dim">Cognitive Load</td><td class="s-mid">7</td><td>The mixed feed (alerts + milestones + AI cards + resolved) creates a heterogeneous scroll. Each card type has a different layout, which means the user's eyes have to "recalibrate" for each card. Consider grouping by type or status to create visual rhythm. The tab count badges (orange circles) compete visually with alert severity badges.</td></tr>
+<tr><td class="dim">AI Integration</td><td class="s-high">8</td><td>The D-style icon (dark box + green sparkles) is distinctive and clear. AI cards have their own visual language (green gradient, different shape). Smart snooze as the first clickable option is the right pattern — it's a smart default, not a mandate. The assign hero pattern is good UX — recommended person is the path of least resistance. One issue: the AI icon at 18px in snooze/assign dropdowns is hard to read on mobile — the "AI" text inside the box becomes illegible below 20px.</td></tr>
+<tr><td class="dim">Mobile Usability</td><td class="s-mid">7</td><td>Hamburger + slide-out sidebar is standard. Cards are touch-friendly. But: no pull-to-refresh, no haptic feedback on acknowledge, and the snooze dropdown options are small tap targets on mobile. The location filter dropdown can extend past the viewport on phones with many locations.</td></tr>
+<tr><td class="dim">Actionability</td><td class="s-high">8</td><td>The two-row action pattern is well-designed. Context actions answer "what should I do about the situation" and system actions answer "what should I do about the alert." This is a meaningful distinction most alert systems don't make. One improvement: toast messages disappear after 2.5 seconds with no undo capability — snoozing the wrong alert is unrecoverable.</td></tr>
+<tr><td class="dim">Trust & Clarity</td><td class="s-mid">7</td><td>Status labels are clear but the color coding has redundancy issues — emoji circles (🔴🟡🔵🟢) duplicate the severity text. Pick one visual indicator. The escalation "Awaiting response" state is well-designed. AI explanations build trust by showing reasoning, not just conclusions.</td></tr>
+<tr class="avg-row"><td>Average</td><td class="s-mid">7.5</td><td></td></tr>
+</tbody>
+</table>
+
+<div class="finding good"><div class="finding-label">Strength</div>The two-row action pattern (context + system) is a genuinely novel interaction design that separates operational decision-making from alert management. Most alert UIs conflate these. This is production-quality thinking.</div>
+<div class="finding issue"><div class="finding-label">Gap</div>No undo/recover for destructive actions. Snoozing, dismissing, and clearing alerts are instant and irreversible within the session. A brief "Undo" option in the toast (3-second window) would prevent mistakes without adding friction to the happy path.</div>
+<div class="finding critical"><div class="finding-label">Critical</div>The AI icon ("AI" text inside a dark box) becomes illegible below ~20px. At 18px in dropdowns, it's a dark smudge with green dots. This is the icon that's supposed to build recognition for the AI brand — if it's unreadable in the most common context (inline in dropdowns), it's failing. Either increase the minimum size to 22px everywhere, or create a simplified version (just the sparkles) for inline/small contexts.</div>
+
+<!-- ════════════════════════════════════ -->
+<!-- PAGE 2: CONFIGURATION               -->
+<!-- ════════════════════════════════════ -->
+
+<h2>Page 2: Configuration</h2>
+
+<!-- OWNER -->
+<div class="persona p-owner"><div class="persona-avatar">JD</div><div class="persona-info"><div class="persona-name">Jake Dawson — Owner</div><div class="persona-role">Evaluating Configuration</div></div></div>
+
+<table class="scores">
+<thead><tr><th>Dimension</th><th>Score</th><th>Rationale</th></tr></thead>
+<tbody>
+<tr><td class="dim">Task Completion</td><td class="s-high">9</td><td>Can edit all thresholds, lock settings, manage per-location overrides, create custom alerts, configure escalation chains, control financial visibility. Audit log tracks who changed what. Comprehensive.</td></tr>
+<tr><td class="dim">Information Hierarchy</td><td class="s-high">8</td><td>Three-tab structure (Alerts, Escalation, Regions) separates concerns well. Collapsed cards show lock status at a glance. Impact numbers ("Fired 18 times in 7 days") contextualize each setting. AI threshold suggestions in the override table are well-placed.</td></tr>
+<tr><td class="dim">Role Fit</td><td class="s-high">10</td><td>Full control over everything. Can lock/unlock for area managers. Financial visibility toggle gives him control over what others see. Audit log shows accountability. This is exactly what an owner needs from a config page.</td></tr>
+<tr><td class="dim">Cognitive Load</td><td class="s-mid">7</td><td>7 standard alerts + 3 custom + escalation chains + regions = a lot of settings. The accordion pattern helps, but if he's doing a major config review, he's opening and closing 10+ cards. No way to see all settings at once or export a "current config" summary.</td></tr>
+<tr><td class="dim">AI Integration</td><td class="s-high">8</td><td>Threshold suggestions in the override table are the highest-value AI feature in the entire product. "12 — avg gap 3 min, issues at 10+" is exactly the information needed at the point of decision. Impact counts ("Fired 18 times") complement the AI suggestion. Missing: no "Apply suggestion" one-click — he has to manually type the suggested number.</td></tr>
+<tr><td class="dim">Mobile Usability</td><td class="s-mid">6</td><td>Config pages are inherently desktop-oriented. The override table with 3-4 columns is cramped on mobile. Number inputs are small. This is acceptable — config changes are typically planned, not done from a parking lot. But the financial visibility toggles should work well on mobile since they're simple on/off.</td></tr>
+<tr><td class="dim">Actionability</td><td class="s-high">8</td><td>Every setting is immediately editable. Save toasts confirm changes. Validation prevents bad values. Lock/unlock is one click. The only gap: no "preview" — he can't simulate what would happen if he changes a threshold before committing.</td></tr>
+<tr><td class="dim">Trust & Clarity</td><td class="s-high">8</td><td>Audit log provides accountability. Validation ranges prevent mistakes. Lock indicators are visible. The "Default vs Custom" status on overrides is clear. AI suggestions are labeled as suggestions, not directives.</td></tr>
+<tr class="avg-row"><td>Average</td><td class="s-high">8.0</td><td></td></tr>
+</tbody>
+</table>
+
+<div class="finding good"><div class="finding-label">Strength</div>The financial visibility toggle is a simple but powerful feature. Making data gating configurable (rather than hardcoded) gives the owner genuine control over organizational transparency. Most SaaS products don't offer this granularity.</div>
+<div class="finding issue"><div class="finding-label">Gap</div>AI threshold suggestions are display-only — no "Apply" button to auto-fill the suggested value. The user reads "12 — avg gap 3 min" then has to manually select the input, delete the current value, and type 12. A one-tap "Apply" that fills the input would complete the interaction.</div>
+
+<!-- AREA MANAGER -->
+<div class="persona p-area"><div class="persona-avatar">SC</div><div class="persona-info"><div class="persona-name">Sarah Chen — Area Manager</div><div class="persona-role">Evaluating Configuration</div></div></div>
+
+<table class="scores">
+<thead><tr><th>Dimension</th><th>Score</th><th>Rationale</th></tr></thead>
+<tbody>
+<tr><td class="dim">Task Completion</td><td class="s-high">8</td><td>Can edit unlocked thresholds for her region's sites. Can create non-critical custom alerts. Can see (but not edit) locked settings. Can view escalation chains. Can't change anything outside her scope.</td></tr>
+<tr><td class="dim">Information Hierarchy</td><td class="s-high">8</td><td>Lock indicators on collapsed cards save her from opening every card to discover what she can/can't edit. The override table only shows her sites. Clear "Default vs Custom" labels.</td></tr>
+<tr><td class="dim">Role Fit</td><td class="s-high">9</td><td>Permission boundaries are well-drawn. She can tune thresholds for her locations without worrying about breaking anything system-wide. Locked settings are clearly communicated, not silently disabled. She understands why she can't edit certain things.</td></tr>
+<tr><td class="dim">Cognitive Load</td><td class="s-high">8</td><td>Seeing only her 3 locations in the override table reduces the data significantly. Lock indicators mean she can skip entire cards. Less to process than the owner.</td></tr>
+<tr><td class="dim">AI Integration</td><td class="s-mid">7</td><td>AI threshold suggestions are valuable when she's adjusting overrides. But suggestions only exist for 2 of 7 alerts (No Cars and Low Productivity). She'd benefit from suggestions on Clock-Out Reminder intervals and Conversion Flag thresholds too. The suggestions don't account for her specific sites — they show all locations, not just hers.</td></tr>
+<tr><td class="dim">Mobile Usability</td><td class="s-mid">6</td><td>Same mobile limitations as owner — override tables are cramped. But she has fewer sites so slightly less scrolling.</td></tr>
+<tr><td class="dim">Actionability</td><td class="s-high">8</td><td>Can edit what she needs to edit. Validation prevents mistakes. Toast confirms saves. The custom alert builder is functional for her use case (non-critical alerts).</td></tr>
+<tr><td class="dim">Trust & Clarity</td><td class="s-high">8</td><td>Lock vs unlocked is immediately clear. She can see her own changes in the audit log. She knows who locked a setting and can infer why. Personalized escalation view on Escalation tab shows her where she fits in the chain.</td></tr>
+<tr class="avg-row"><td>Average</td><td class="s-mid">7.8</td><td></td></tr>
+</tbody>
+</table>
+
+<div class="finding good"><div class="finding-label">Strength</div>The lock indicator on collapsed card headers is a small but high-impact feature. Before this fix, Sarah had to open every card to discover she couldn't edit it. Now she can scan the page in 5 seconds and know exactly where her control ends.</div>
+<div class="finding issue"><div class="finding-label">Gap</div>AI threshold suggestions exist for only 2 of 7 alert types. The two that have them (No Cars, Low Productivity) happen to be the ones with the most data-driven optimal values. But she'd benefit from suggestions on Late Clock-Out Reminder interval and Conversion Flag too — these are also data-derivable.</div>
+
+<!-- SITE MANAGER -->
+<div class="persona p-site"><div class="persona-avatar">MT</div><div class="persona-info"><div class="persona-name">Mike Torres — Site Manager</div><div class="persona-role">Evaluating Configuration</div></div></div>
+
+<table class="scores">
+<thead><tr><th>Dimension</th><th>Score</th><th>Rationale</th></tr></thead>
+<tbody>
+<tr><td class="dim">Task Completion</td><td class="s-high">8</td><td>Can view all thresholds affecting his location. Can see escalation chain showing exactly how alerts flow for him. "Suggest Custom Alert" button exists (though it's a dead end). Summary card view is clean and non-demotivating.</td></tr>
+<tr><td class="dim">Information Hierarchy</td><td class="s-high">8</td><td>Summary cards put values front and center. "Default" vs "Custom" tags explain why thresholds differ. The personalized escalation view ("You have 10 minutes to acknowledge before it escalates to Sarah Chen") is the most useful thing on this page for him.</td></tr>
+<tr><td class="dim">Role Fit</td><td class="s-high">9</td><td>The V6 reframe from disabled forms to summary cards was the right call. He's not staring at inputs he can't touch — he's reading a clean summary of how his location is configured. This respects his role without infantilizing him.</td></tr>
+<tr><td class="dim">Cognitive Load</td><td class="s-high">9</td><td>Summary cards are extremely low cognitive load. No decisions to make, no forms to fill. Just "here's what applies to you." Perfect for a view-only user.</td></tr>
+<tr><td class="dim">AI Integration</td><td class="s-mid">5</td><td>Almost no AI value for the site manager in config. He can't change thresholds, so suggestions aren't useful to him. The only value would be explanatory: "This threshold is set to 15 min because your location averages 3-min gaps" — but that doesn't exist. The AI is invisible in his config view.</td></tr>
+<tr><td class="dim">Mobile Usability</td><td class="s-high">8</td><td>Summary cards work great on mobile. No complex tables or inputs. Just readable cards.</td></tr>
+<tr><td class="dim">Actionability</td><td class="s-mid">5</td><td>The "Suggest Custom Alert" button has no tracking, no status updates, no feedback loop. He clicks it and... nothing visible happens. This is a dead-end interaction that erodes trust. Either make it functional (show pending suggestions with status) or remove it.</td></tr>
+<tr><td class="dim">Trust & Clarity</td><td class="s-mid">7</td><td>Good: he can see exactly how his location is configured. Bad: he has no visibility into why thresholds were set the way they are, or when they last changed. Adding "Set by Jake on Feb 18" or "Company default" would build trust.</td></tr>
+<tr class="avg-row"><td>Average</td><td class="s-mid">7.4</td><td></td></tr>
+</tbody>
+</table>
+
+<div class="finding good"><div class="finding-label">Strength</div>The reframe from disabled forms to summary cards is the single best design decision on the config page. It transforms a frustrating experience (wall of grayed-out inputs) into an informative one (clean read of what applies to you).</div>
+<div class="finding critical"><div class="finding-label">Critical</div>"Suggest Custom Alert" is a dead-end interaction. There's no confirmation, no tracking, no way to see if his suggestion was received, reviewed, or rejected. This is worse than not having the button at all — it promises a capability that doesn't exist. Either build the full suggestion flow (submit → pending → reviewed → approved/rejected) or remove the button.</div>
+
+<!-- UX GURU -->
+<div class="persona p-ux"><div class="persona-avatar">UX</div><div class="persona-info"><div class="persona-name">UX Guru</div><div class="persona-role">Evaluating Configuration</div></div></div>
+
+<table class="scores">
+<thead><tr><th>Dimension</th><th>Score</th><th>Rationale</th></tr></thead>
+<tbody>
+<tr><td class="dim">Task Completion</td><td class="s-high">8</td><td>All CRUD operations work. Accordion pattern is appropriate for this density. Validation catches errors. Toast confirms saves. Missing: no save/cancel pattern — changes auto-save on blur, which is risky for numerical thresholds where you might tab through fields while thinking.</td></tr>
+<tr><td class="dim">Information Hierarchy</td><td class="s-high">8</td><td>Three tabs separate distinct concerns well. Within Alerts tab, grouping by Operational/Time Tracking/Sales is logical. Override tables are well-structured. The lock icon + impact count on collapsed headers provide good scan-level information.</td></tr>
+<tr><td class="dim">Role Fit</td><td class="s-high">9</td><td>Three entirely different views for three roles — summary cards for site manager, filtered editable for area manager, full control for owner. This is sophisticated permission UI that doesn't rely on hiding/disabling. Each role gets a view designed for their actual workflow.</td></tr>
+<tr><td class="dim">Cognitive Load</td><td class="s-mid">7</td><td>The Regions & Locations tab tries to do too much — it's org structure, site management, and location settings in one tab. For 5 locations it's manageable, but this would collapse at 20+ locations. Needs a dedicated search or hierarchical tree at scale.</td></tr>
+<tr><td class="dim">AI Integration</td><td class="s-mid">7</td><td>Threshold suggestions are the right feature in the right place. But the execution is incomplete: display-only (no Apply button), only 2 of 7 alerts have them, and they're in a table column that's easy to miss if you're focused on the input field. They should be contextually triggered — appear when you focus the input, not as a static column you might never notice.</td></tr>
+<tr><td class="dim">Mobile Usability</td><td class="s-mid">5</td><td>Config pages on mobile are inherently challenging, but specific issues: the override table requires horizontal scrolling on small screens, the tab bar doesn't indicate scroll overflow, and the custom alert builder modal/form isn't optimized for touch. This page should gracefully degrade to a "view settings" experience on mobile with an explicit "Edit on desktop" prompt for complex changes.</td></tr>
+<tr><td class="dim">Actionability</td><td class="s-mid">7</td><td>Settings are editable and save works. But there's no preview/simulation — "if I change this threshold, how many alerts would have fired last month?" The AI impact count gives historical data but not forward-looking simulation. No batch operations for applying the same override to multiple locations.</td></tr>
+<tr><td class="dim">Trust & Clarity</td><td class="s-high">8</td><td>Audit log, validation messages, lock indicators, impact counts — all trust-building features. The one gap: no confirmation dialog for high-impact changes. Changing a locked threshold that affects all 5 locations should prompt "This will affect all locations. Continue?"</td></tr>
+<tr class="avg-row"><td>Average</td><td class="s-mid">7.4</td><td></td></tr>
+</tbody>
+</table>
+
+<div class="finding good"><div class="finding-label">Strength</div>The role-differentiated views (summary cards vs filtered editable vs full control) are exceptional. Most multi-tenant config UIs just disable fields — this product redesigns the entire page structure per role. This is rare and demonstrates deep persona thinking.</div>
+<div class="finding issue"><div class="finding-label">Gap</div>Auto-save on numerical inputs is risky. If Jake is adjusting the "No Cars" threshold from 15 to 12, he might type "1" (saved as 1), then "2" (saved as 12). During that brief moment, the threshold is 1 minute — which would fire alerts immediately. Add a debounce delay (2 seconds after last keystroke) or switch to an explicit Save button for numerical fields.</div>
+<div class="finding critical"><div class="finding-label">Critical</div>Mobile config experience needs a strategy. Currently it's just the desktop page squeezed onto a small screen. The override table and custom alert builder are barely usable on a phone. Decision: either optimize these specific components for touch (larger inputs, stacked layout, native pickers) or explicitly mark config as a desktop-first feature with a "simplified view" on mobile.</div>
+
+<!-- ════════════════════════════════════ -->
+<!-- PAGE 3: HISTORY                     -->
+<!-- ════════════════════════════════════ -->
+
+<h2>Page 3: History</h2>
+
+<!-- OWNER -->
+<div class="persona p-owner"><div class="persona-avatar">JD</div><div class="persona-info"><div class="persona-name">Jake Dawson — Owner</div><div class="persona-role">Evaluating History</div></div></div>
+
+<table class="scores">
+<thead><tr><th>Dimension</th><th>Score</th><th>Rationale</th></tr></thead>
+<tbody>
+<tr><td class="dim">Task Completion</td><td class="s-high">8</td><td>Can see team response data, alert timeline, snooze patterns, config change impact. Covers 90% of "how did we do this month" questions. Missing: date range picker doesn't actually filter the demo data, and no export/PDF for sharing in meetings.</td></tr>
+<tr><td class="dim">Information Hierarchy</td><td class="s-high">8</td><td>Metrics dashboard at top gives the 4 most important numbers immediately. AI analysis card right below tells him what to focus on. Team table lets him drill into who. Timeline provides the detail. This is a good information funnel: summary → insight → data → detail.</td></tr>
+<tr><td class="dim">Role Fit</td><td class="s-high">9</td><td>Sees all locations, all team members, all config changes. Team response table lets him compare managers directly. Snooze patterns tell him which alerts are wasting everyone's time. Config impact analysis closes the loop on his own decisions. This is an owner's review tool.</td></tr>
+<tr><td class="dim">Cognitive Load</td><td class="s-mid">7</td><td>The page is long. Metrics → AI card → filters → team table → AI coaching → snooze patterns → AI threshold rec → timeline → AI config impact = a lot of scrolling. The AI cards are spaced throughout, which is good for context but bad for scannability. A "jump to section" nav would help.</td></tr>
+<tr><td class="dim">AI Integration</td><td class="s-high">9</td><td>This is where AI shines brightest. Five distinct AI features, each answering a different question: (1) What patterns need attention? (2) Who needs coaching? (3) Which thresholds are wrong? (4) What happened here? (timeline flags) (5) Did my config changes work? Every AI card is actionable, not just informational. The coaching suggestion about David Park is the kind of insight that would take hours of manual log review to surface.</td></tr>
+<tr><td class="dim">Mobile Usability</td><td class="s-mid">6</td><td>The metrics grid (4 cards) works on mobile (2×2). But the team response table needs horizontal scroll. Timeline is fine. The main issue is page length — on mobile, this page is 15+ scroll-heights long.</td></tr>
+<tr><td class="dim">Actionability</td><td class="s-high">8</td><td>AI coaching suggestion gives him a conversation to have with David Park. Threshold recommendations give him specific numbers to change. Config impact analysis validates past decisions. The only missing action: direct links to make the suggested changes (e.g., "Adjust threshold" button that opens the config page to that specific setting).</td></tr>
+<tr><td class="dim">Trust & Clarity</td><td class="s-high">8</td><td>Response metrics are precise (4.2 min, 89%, 11%). Trends show direction with comparison to last month. AI explanations cite specific events and dates. Timeline shows full lifecycle. The one trust gap: AI recommendations don't show confidence levels — is the threshold suggestion based on 90 days of data or 7 days?</td></tr>
+<tr class="avg-row"><td>Average</td><td class="s-mid">7.9</td><td></td></tr>
+</tbody>
+</table>
+
+<div class="finding good"><div class="finding-label">Strength</div>The Config Impact Analysis is the standout AI feature across all three pages. It closes a loop that almost no operations software closes: "I changed a setting → what happened?" Jake changed a threshold last Tuesday; the AI tells him it eliminated 4 false positives with zero misses. This transforms configuration from guesswork to a feedback loop.</div>
+<div class="finding issue"><div class="finding-label">Gap</div>No direct navigation from AI recommendations to action. "Consider raising threshold from 5 to 7" should have a button that opens the config page to that exact setting. Currently the user reads the recommendation, mentally notes it, navigates to config, finds the alert, opens the card, locates the input, and types the number. That's 6 steps for what should be 1.</div>
+
+<!-- AREA MANAGER -->
+<div class="persona p-area"><div class="persona-avatar">SC</div><div class="persona-info"><div class="persona-name">Sarah Chen — Area Manager</div><div class="persona-role">Evaluating History</div></div></div>
+
+<table class="scores">
+<thead><tr><th>Dimension</th><th>Score</th><th>Rationale</th></tr></thead>
+<tbody>
+<tr><td class="dim">Task Completion</td><td class="s-high">8</td><td>Sees her region's metrics, her team's response data, and a filtered timeline. Can compare her 3 site managers' performance. Config changes she made are visible in timeline.</td></tr>
+<tr><td class="dim">Information Hierarchy</td><td class="s-high">8</td><td>Same funnel structure works well for her. Metrics scoped to her region. Team table shows only her reports. AI analysis compares her region to company average — valuable context she can't get elsewhere.</td></tr>
+<tr><td class="dim">Role Fit</td><td class="s-high">9</td><td>Scoped to Region North. Can't see other regions' team data. Snooze patterns show her team's behavior. Timeline filtered to her locations. The AI comparison to company average gives her context without exposing other regions' details.</td></tr>
+<tr><td class="dim">Cognitive Load</td><td class="s-high">8</td><td>Reduced data set (3 locations, 3 team members) keeps the page manageable. Less scrolling than owner view.</td></tr>
+<tr><td class="dim">AI Integration</td><td class="s-high">8</td><td>The "Your region is outperforming company average" framing is motivating and informative. The specific callout about Carlos's snooze rate is actionable — she can talk to him about it. The Northgate threshold change validation builds her confidence in making future config decisions.</td></tr>
+<tr><td class="dim">Mobile Usability</td><td class="s-mid">7</td><td>Reduced data makes mobile more feasible than owner view. Team table with 3 rows is fine. Timeline with ~5 entries is scrollable.</td></tr>
+<tr><td class="dim">Actionability</td><td class="s-high">8</td><td>Can identify coaching opportunities (Carlos), validate her config decisions (Northgate threshold), and see where her region stands vs company. Each insight suggests a clear next step.</td></tr>
+<tr><td class="dim">Trust & Clarity</td><td class="s-high">8</td><td>Her own config changes appear in the timeline — she can see the system recorded her actions accurately. AI analysis cites specific data points she can verify.</td></tr>
+<tr class="avg-row"><td>Average</td><td class="s-high">8.0</td><td></td></tr>
+</tbody>
+</table>
+
+<div class="finding good"><div class="finding-label">Strength</div>The AI framing for the area manager is excellent — "Your region is outperforming" provides context and motivation. Telling her the Northgate threshold change "eliminated 4 false positives with zero misses" validates her judgment and makes her more confident in future changes. This is AI that builds competence, not dependency.</div>
+
+<!-- SITE MANAGER -->
+<div class="persona p-site"><div class="persona-avatar">MT</div><div class="persona-info"><div class="persona-name">Mike Torres — Site Manager</div><div class="persona-role">Evaluating History</div></div></div>
+
+<table class="scores">
+<thead><tr><th>Dimension</th><th>Score</th><th>Rationale</th></tr></thead>
+<tbody>
+<tr><td class="dim">Task Completion</td><td class="s-high">8</td><td>Can see his own metrics, compare to team average, view his alert timeline. The "Your Response Record" table frames his data as performance proof, not surveillance. Useful for self-improvement and reviews.</td></tr>
+<tr><td class="dim">Information Hierarchy</td><td class="s-high">8</td><td>Personal metrics at top. Comparison table clearly shows him vs team average. AI analysis leads with his strength ("fastest responder"). Timeline is filtered to just his location and mentions of his name.</td></tr>
+<tr><td class="dim">Role Fit</td><td class="s-high">9</td><td>This is the best role fit of any page for the site manager. He's not seeing disabled forms or other people's data. He's seeing HIS performance, framed positively, with comparison context. This is empowering, not controlling.</td></tr>
+<tr><td class="dim">Cognitive Load</td><td class="s-high">9</td><td>Very light page for him. 4 metrics, 1 AI card, 1 comparison table, ~3-4 timeline entries. Takes 30 seconds to scan entirely.</td></tr>
+<tr><td class="dim">AI Integration</td><td class="s-high">9</td><td>The AI framing here is perfect. "You're the fastest responder on the team" with specific numbers is exactly what a site manager wants to hear. The explanation that his only escalation was during an off-site rain event removes any anxiety about that data point. The snooze pattern explanation ("Late Clock-Out Reminders account for most of your snoozes — this is expected behavior") normalizes his usage. This is AI that understands the emotional context of performance data.</td></tr>
+<tr><td class="dim">Mobile Usability</td><td class="s-high">8</td><td>Light page works great on mobile. Metrics in 2×2 grid. Table is simple 3-column. Timeline entries are short.</td></tr>
+<tr><td class="dim">Actionability</td><td class="s-mid">7</td><td>The data is informational — he can see his performance but there's nothing to do about it on this page. No "set personal goal" or "view improvement tips." The page is a report card, not a coaching tool. For most site managers this is fine — the value is in having a record to point to.</td></tr>
+<tr><td class="dim">Trust & Clarity</td><td class="s-high">9</td><td>Every metric shows him vs team average, which is fair and transparent. He can verify the numbers against his own memory of events. The AI explains anomalies proactively (the escalation, the snooze pattern) so he doesn't have to wonder if he's being judged.</td></tr>
+<tr class="avg-row"><td>Average</td><td class="s-high">8.4</td><td></td></tr>
+</tbody>
+</table>
+
+<div class="finding good"><div class="finding-label">Strength</div>The AI's emotional intelligence in the site manager view is exceptional. Framing data as "you're the fastest responder" rather than "31 alerts, 30 acknowledged" transforms a metric table into a morale boost. Proactively explaining the single escalation ("you were off-site during rain") prevents anxiety that would otherwise undermine trust in the system. This is the most sophisticated AI application across all three pages.</div>
+
+<!-- UX GURU -->
+<div class="persona p-ux"><div class="persona-avatar">UX</div><div class="persona-info"><div class="persona-name">UX Guru</div><div class="persona-role">Evaluating History</div></div></div>
+
+<table class="scores">
+<thead><tr><th>Dimension</th><th>Score</th><th>Rationale</th></tr></thead>
+<tbody>
+<tr><td class="dim">Task Completion</td><td class="s-high">8</td><td>Comprehensive review tool. Covers response metrics, team comparison, pattern analysis, timeline, and config impact. Filters are present but non-functional in the demo. Missing: export capability for meetings and reviews.</td></tr>
+<tr><td class="dim">Information Hierarchy</td><td class="s-high">8</td><td>The information funnel (metrics → AI insight → team data → patterns → timeline → config impact) is well-designed. AI cards are interspersed at the right moments — after the data they analyze, before the user would need to act. This is contextual placement done well.</td></tr>
+<tr><td class="dim">Role Fit</td><td class="s-high">9</td><td>Three dramatically different views from the same page. Owner gets a management dashboard. Area manager gets a regional report card. Site manager gets a personal performance summary. The emotional tone shifts appropriately — owner is analytical, area is comparative, site is encouraging. This is role-aware content design, not just data filtering.</td></tr>
+<tr><td class="dim">Cognitive Load</td><td class="s-mid">7</td><td>Owner view is dense. Five AI cards interspersed among data sections means the user alternates between "reading data" and "reading AI analysis" modes — which are cognitively different tasks. Consider consolidating AI insights into a single "AI Analysis" section, or providing a toggle to show/hide AI cards for users who want to review data independently first.</td></tr>
+<tr><td class="dim">AI Integration</td><td class="s-high">9</td><td>History is where the AI concept delivers on its promise. The 5 distinct AI features each answer a genuinely different question and none of them could be replaced by a filter or sort. The coaching suggestion connects data to human insight. The config impact analysis closes a feedback loop. The timeline flags surface anomalies in context. The threshold recommendations are data-backed. And the site manager framing demonstrates emotional intelligence. This is the strongest AI implementation across all three pages.</td></tr>
+<tr><td class="dim">Mobile Usability</td><td class="s-mid">6</td><td>Page length is the primary issue. Owner view requires 15+ scroll-heights on mobile. No section navigation, no collapse/expand. The team response table needs horizontal scroll. Consider: a mobile-specific "summary" mode that shows just the 4 metrics + the top AI insight, with "View full report" to expand.</td></tr>
+<tr><td class="dim">Actionability</td><td class="s-mid">7</td><td>AI insights are actionable in principle but lack direct links to action. "Consider raising threshold from 5 to 7" should open config. "David Park may need support" should open a messaging flow. The page generates insights but doesn't provide the mechanism to act on them — the user must remember the recommendation and navigate elsewhere.</td></tr>
+<tr><td class="dim">Trust & Clarity</td><td class="s-high">8</td><td>Timeline lifecycle steps are clear and well-colored. Metrics cite precise numbers with trend direction. AI insights cite specific events and dates. The one trust concern: there's no way to drill into a metric to see the underlying data. "89% response rate" — which 11% were missed? The user has to scan the timeline manually to find them.</td></tr>
+<tr class="avg-row"><td>Average</td><td class="s-mid">7.8</td><td></td></tr>
+</tbody>
+</table>
+
+<div class="finding good"><div class="finding-label">Strength</div>The role-aware emotional tone in AI cards is a design achievement. Owner gets analytical language ("Two patterns need attention"). Area manager gets comparative context ("Your region is outperforming"). Site manager gets encouragement ("You're the fastest responder"). Same data, three emotional frameworks. This is unusually sophisticated for an operations tool — most products show the same cold metrics to everyone.</div>
+<div class="finding issue"><div class="finding-label">Gap</div>AI cards are interspersed throughout the page, which provides good context but prevents the user from reviewing data independently. Some users want to form their own conclusions before reading AI analysis. Consider: render AI cards collapsed by default with a "Show AI analysis" toggle, or group them into a dedicated section that can be opened when ready.</div>
+<div class="finding critical"><div class="finding-label">Critical</div>No action pathways from insights to execution. Every AI recommendation generates a "now what?" moment. The user reads "Raise threshold from 5 to 7" and then has to navigate to Config → find the alert → open the card → locate the input → type the number. This is 6 steps for what should be a button press. Adding "Apply" or "Go to setting" links to AI recommendations would close the loop and dramatically increase the likelihood that insights lead to actual changes.</div>
+
+<!-- ════════════════════════════════════ -->
+<!-- SUMMARY                             -->
+<!-- ════════════════════════════════════ -->
+
+<h2>Cross-Page Summary</h2>
+
+<div class="summary-grid">
+<div class="summary-cell">
+<div class="page-name">Alert Feed</div>
+<div class="avg-score" style="color:var(--green)">7.9</div>
+<div class="grade">Strong — ready for user testing</div>
+</div>
+<div class="summary-cell">
+<div class="page-name">Configuration</div>
+<div class="avg-score" style="color:var(--orange)">7.7</div>
+<div class="grade">Good — needs mobile + AI depth</div>
+</div>
+<div class="summary-cell">
+<div class="page-name">History</div>
+<div class="avg-score" style="color:var(--green)">8.0</div>
+<div class="grade">Strongest — best AI integration</div>
+</div>
+</div>
+
+<h3>Top 10 Priority Fixes</h3>
+<ol class="priority">
+<li><span><strong>Add action pathways from AI recommendations to execution</strong> — "Apply threshold," "Open config," "Message person" buttons on all AI insight cards. Without these, insights die in the gap between reading and doing. <span class="pri-tag pri-high">HIGH — all 3 pages</span></span></li>
+<li><span><strong>Fix AI icon legibility at small sizes</strong> — The "AI" text inside the dark box becomes illegible below 20px. Create a simplified version (just the sparkles) for inline/dropdown contexts, keep the full icon for card headers. <span class="pri-tag pri-high">HIGH — alert feed</span></span></li>
+<li><span><strong>Add undo to destructive actions</strong> — Snooze, dismiss, and clear are instant and irreversible. Add a 3-second "Undo" button in the toast notification. <span class="pri-tag pri-high">HIGH — alert feed</span></span></li>
+<li><span><strong>Fix or remove "Suggest Custom Alert" dead end</strong> — Either build the full suggestion flow (submit → pending → reviewed → approved/rejected with status tracking) or remove the button entirely. <span class="pri-tag pri-high">HIGH — config</span></span></li>
+<li><span><strong>Add "Needs Action" quick-filter to alert feed</strong> — Owner's primary workflow is "show me only things that need my decision." A single toggle that shows unacknowledged critical + warning alerts would save significant scanning time. <span class="pri-tag pri-med">MED — alert feed</span></span></li>
+<li><span><strong>Filter AI trend cards and digest by role scope</strong> — Site manager shouldn't see Westside conversion trends or company-wide digest items. AI should only surface patterns relevant to the user's location(s). <span class="pri-tag pri-med">MED — alert feed</span></span></li>
+<li><span><strong>Add "Apply" button to AI threshold suggestions in config</strong> — One-click auto-fill from the suggested value. Current flow requires reading, mentally noting, selecting input, deleting, and typing. <span class="pri-tag pri-med">MED — config</span></span></li>
+<li><span><strong>Add debounce or explicit save for numerical config inputs</strong> — Auto-save on blur risks saving intermediate values (typing "1" then "2" saves "1" momentarily). Either debounce 2 seconds or add a Save button for number fields. <span class="pri-tag pri-med">MED — config</span></span></li>
+<li><span><strong>Add section navigation for long pages on mobile</strong> — History (owner) and alert feed (busy day) can be 15+ scroll-heights on mobile. A sticky section nav or jump-to menu would help. <span class="pri-tag pri-low">LOW — history, alert feed</span></span></li>
+<li><span><strong>Add export/PDF for History page</strong> — Owner uses this data in weekly meetings. Currently must screenshot. A "Download Report" button generating a formatted PDF would complete the review workflow. <span class="pri-tag pri-low">LOW — history</span></span></li>
+</ol>
+
+<h3>AI Maturity Assessment</h3>
+<p>The AI implementation follows a clear maturity curve across the three pages:</p>
+<p><strong>Alert Feed</strong> — AI provides <em>smart defaults</em> (snooze duration, assign recommendation) and <em>pattern detection</em> (trend cards). These are "point-of-action" features that reduce decision fatigue in the moment. Maturity: solid.</p>
+<p><strong>Configuration</strong> — AI provides <em>data-backed recommendations</em> (threshold suggestions). This is "point-of-decision" AI that prevents bad configuration. Maturity: incomplete — only 2 of 7 alerts have suggestions, and there's no "Apply" button to close the loop.</p>
+<p><strong>History</strong> — AI provides <em>synthesis and coaching</em> (operational analysis, coaching suggestions, cause-effect analysis, anomaly detection). This is "point-of-reflection" AI that transforms raw data into organizational intelligence. Maturity: strongest, but lacks action pathways.</p>
+<p>The overall AI strategy is sound: help in the moment (feed) → help configure correctly (config) → help learn from outcomes (history). The gap is in the connective tissue between insight and action.</p>
+
+</body>
+</html>

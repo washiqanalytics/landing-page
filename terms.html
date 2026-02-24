@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - WashIQ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #0066FF;
+            --green: #00D084;
+            --orange: #FF6B35;
+            --purple: #8B5CF6;
+            --dark: #1a1a1a;
+            --gray: #666666;
+            --gray-light: #f5f5f5;
+            --border: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: #ffffff;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Nav ── */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.25rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: opacity 0.2s ease;
+        }
+
+        .nav-links a:hover { opacity: 0.6; }
+
+        .nav-cta {
+            background: var(--green);
+            color: white !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .nav-cta:hover { opacity: 0.85 !important; transform: translateY(-1px); }
+
+        .nav-login {
+            background: transparent;
+            color: var(--dark) !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            border: 2px solid var(--dark);
+            transition: all 0.2s ease;
+        }
+
+        .nav-login:hover { background: var(--dark); color: white !important; transform: translateY(-1px); }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark);
+        }
+
+        /* ── Page Header ── */
+        .page-header {
+            background: var(--gray-light);
+            border-bottom: 1px solid var(--border);
+            padding: 8rem 3rem 4rem;
+        }
+
+        .page-header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 208, 132, 0.08);
+            border: 1px solid rgba(0, 208, 132, 0.25);
+            color: #008F5A;
+            padding: 0.375rem 0.875rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            letter-spacing: 0.02em;
+        }
+
+        .page-header-inner h1 {
+            font-size: clamp(2.5rem, 4vw, 3.5rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1.05;
+            margin-bottom: 1rem;
+        }
+
+        .page-header-inner .subtitle {
+            font-size: 1.0625rem;
+            color: var(--gray);
+            max-width: 560px;
+            line-height: 1.7;
+        }
+
+        .last-updated {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            margin-top: 1.5rem;
+            font-size: 0.875rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        /* ── Layout ── */
+        .content-layout {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 3rem 6rem;
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 5rem;
+            align-items: start;
+        }
+
+        /* ── Sidebar TOC ── */
+        .toc {
+            position: sticky;
+            top: 100px;
+        }
+
+        .toc-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .toc-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.125rem;
+        }
+
+        .toc-list a {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--gray);
+            text-decoration: none;
+            border-radius: 6px;
+            border-left: 2px solid transparent;
+            transition: all 0.15s ease;
+            line-height: 1.4;
+        }
+
+        .toc-list a:hover {
+            color: var(--dark);
+            background: var(--gray-light);
+            border-left-color: var(--green);
+        }
+
+        .toc-list a.active {
+            color: var(--dark);
+            font-weight: 600;
+            border-left-color: var(--green);
+            background: rgba(0,208,132,0.06);
+        }
+
+        /* ── Article ── */
+        .policy-body section {
+            padding-bottom: 3rem;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .policy-body section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .policy-body h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.25rem;
+            color: var(--dark);
+            scroll-margin-top: 100px;
+        }
+
+        .policy-body h3 {
+            font-size: 1.0625rem;
+            font-weight: 700;
+            margin: 1.75rem 0 0.75rem;
+            color: var(--dark);
+        }
+
+        .policy-body p {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 1rem;
+        }
+
+        .policy-body ul {
+            margin: 0.75rem 0 1rem 0;
+            padding-left: 0;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.625rem;
+        }
+
+        .policy-body ul li {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #444;
+            padding-left: 1.375rem;
+            position: relative;
+        }
+
+        .policy-body ul li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.625rem;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--green);
+        }
+
+        .policy-body ul li strong {
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .policy-body a {
+            color: var(--green);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .policy-body a:hover { text-decoration: underline; }
+
+        .highlight-box {
+            background: rgba(0,208,132,0.06);
+            border: 1px solid rgba(0,208,132,0.2);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box p { margin: 0; color: var(--dark); font-weight: 500; }
+
+        .warning-box {
+            background: rgba(255,107,53,0.05);
+            border: 1px solid rgba(255,107,53,0.2);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            margin: 1.25rem 0;
+        }
+
+        .warning-box p { margin: 0; color: #444; font-size: 0.9375rem; line-height: 1.7; }
+        .warning-box strong { color: var(--dark); }
+
+        .contact-box {
+            background: var(--dark);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .contact-box h4 { font-size: 1rem; font-weight: 700; color: white; margin-bottom: 0.875rem; }
+        .contact-box p { color: rgba(255,255,255,0.65); font-size: 0.9375rem; margin-bottom: 0.5rem; }
+        .contact-box a { color: var(--green) !important; font-weight: 600; }
+
+        
+
+        .footer-about h3 { color: var(--dark); margin-bottom: 1rem; font-size: 1.5rem; font-weight: 700; }
+        .footer-about p { color: var(--gray); line-height: 1.7; }
+        .footer-links h4 { color: var(--dark); margin-bottom: 1.25rem; font-size: 1rem; font-weight: 600; }
+        .footer-links ul { list-style: none; display: grid; gap: 0.875rem; }
+        .footer-links a { color: var(--gray); text-decoration: none; transition: opacity 0.2s ease; }
+        .footer-links a:hover { opacity: 0.6; }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 0.9375rem;
+            color: var(--gray);
+        }
+
+        /* ── Mobile ── */
+        @media (max-width: 1024px) {
+            .content-layout { grid-template-columns: 1fr; gap: 3rem; }
+            .toc { display: none; }
+            .footer-content { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container { padding: 1.25rem 1.5rem; }
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 70px; left: 0; right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 2rem 1.5rem;
+                border-bottom: 1px solid var(--border);
+                gap: 1.5rem;
+            }
+            .nav-links.active { display: flex; }
+            .mobile-toggle { display: block; }
+            .page-header { padding: 7rem 1.5rem 3rem; }
+            .content-layout { padding: 3rem 1.5rem 5rem; }
+            .footer-content { grid-template-columns: 1fr; gap: 2.5rem; }
+        }
+        /* Products Dropdown */
+        .nav-item { position: relative; }
+        .products-dropdown { position: relative; }
+
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            cursor: pointer;
+        }
+
+        .dropdown-arrow {
+            font-size: 0.7rem;
+            transition: transform 0.2s ease;
+        }
+
+        .products-dropdown:hover .dropdown-arrow { transform: rotate(180deg); }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-10px);
+            background: #F5F5F5;
+            border: 1px solid #E0E0E0;
+            border-radius: 20px;
+            padding: 1.5rem;
+            min-width: 480px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+            margin-top: 0.5rem;
+        }
+
+        .products-dropdown:hover .dropdown-menu,
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-radius: 16px;
+            margin-bottom: 0.5rem;
+            background: white;
+        }
+
+        .dropdown-menu a:last-child { margin-bottom: 0; }
+
+        .dropdown-menu a:hover {
+            background: #FAFAFA;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .dropdown-menu a:hover .menu-item-title { color: var(--primary); }
+
+        .menu-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .menu-icon svg { width: 28px; height: 28px; }
+
+        .menu-item-content { flex: 1; }
+
+        .menu-item-title {
+            font-weight: 600;
+            margin-bottom: 0.125rem;
+            color: var(--dark);
+            font-size: 1rem;
+        }
+
+        .menu-item-description {
+            font-size: 0.875rem;
+            color: #666;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+        /* ── Footer ── */
+        footer {
+            background: var(--gray-light);
+            padding: 4rem 3rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-about h3 {
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .footer-about p {
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        .footer-links h4 {
+            color: var(--dark);
+            margin-bottom: 1.25rem;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            display: grid;
+            gap: 0.875rem;
+        }
+
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .footer-links a:hover { opacity: 0.6; }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 0.9375rem;
+            color: var(--gray);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="logo">WashIQ</a>
+            <ul class="nav-links">
+                <li class="nav-item products-dropdown">
+                    <a href="/#products" class="dropdown-toggle">
+                        Products
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="/dashboards-updated.html">
+                            <div class="menu-icon" style="background: #E8F4FF;">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="4" y="14" width="3" height="6" rx="1" fill="#0066FF"/>
+                                    <rect x="10.5" y="8" width="3" height="12" rx="1" fill="#0066FF"/>
+                                    <rect x="17" y="4" width="3" height="16" rx="1" fill="#0066FF"/>
+                                </svg>
+                            </div>
+                            <div class="menu-item-content">
+                                <div class="menu-item-title">Real-Time Dashboards</div>
+                                <div class="menu-item-description">Track every metric that matters in one place</div>
+                            </div>
+                        </a>
+                        <a href="/alerts.html">
+                            <div class="menu-icon" style="background: #FFF4ED;">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12" cy="12" r="8" stroke="#FF6B35" stroke-width="2"/>
+                                    <circle cx="12" cy="12" r="5" stroke="#FF6B35" stroke-width="2"/>
+                                    <circle cx="12" cy="12" r="2" fill="#FF6B35"/>
+                                </svg>
+                            </div>
+                            <div class="menu-item-content">
+                                <div class="menu-item-title">Proactive Alerts</div>
+                                <div class="menu-item-description">Catch issues in real-time and take immediate action</div>
+                            </div>
+                        </a>
+                        <a href="/intelligence.html">
+                            <div class="menu-icon" style="background: #F0F0FF;">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12" cy="12" r="8" stroke="#6366F1" stroke-width="2"/>
+                                    <line x1="12" y1="4" x2="12" y2="8" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="12" y1="16" x2="12" y2="20" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="4" y1="12" x2="8" y2="12" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="16" y1="12" x2="20" y2="12" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="6.34" y1="6.34" x2="8.46" y2="8.46" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="15.54" y1="15.54" x2="17.66" y2="17.66" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="17.66" y1="6.34" x2="15.54" y2="8.46" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="8.46" y1="15.54" x2="6.34" y2="17.66" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <div class="menu-item-content">
+                                <div class="menu-item-title">AI-Powered Intelligence</div>
+                                <div class="menu-item-description">Turn complex data into clear actions that drive growth</div>
+                            </div>
+                        </a>
+                    </div>
+                </li>
+                <li><a href="/about.html">About</a></li>
+                <li><a href="/blog.html">Blog</a></li>
+                <li><a href="/careers.html">Careers</a></li>
+                <li><a href="/login.html" class="nav-login">Login</a></li>
+                <li><a href="/early-access.html" class="nav-cta">Request Early Access</a></li>
+            </ul>
+            <button class="mobile-toggle" id="mobileToggle">☰</button>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="page-header-inner">
+            <div class="eyebrow">📄 Legal</div>
+            <h1>Terms of Service</h1>
+            <p class="subtitle">Plain language where we can. Legal language where we have to. These terms govern your use of WashIQ's platform and services.</p>
+            <div class="last-updated">Last updated: February 20, 2026</div>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content-layout">
+
+        <!-- TOC Sidebar -->
+        <aside class="toc">
+            <div class="toc-label">On this page</div>
+            <ul class="toc-list">
+                <li><a href="#acceptance">1. Acceptance of Terms</a></li>
+                <li><a href="#eligibility">2. Eligibility</a></li>
+                <li><a href="#account">3. Account Registration</a></li>
+                <li><a href="#use-of-services">4. Use of Services</a></li>
+                <li><a href="#data-privacy">5. Data and Privacy</a></li>
+                <li><a href="#fees">6. Fees and Payment</a></li>
+                <li><a href="#intellectual-property">7. Intellectual Property</a></li>
+                <li><a href="#third-party">8. Third-Party Services</a></li>
+                <li><a href="#availability">9. Service Availability</a></li>
+                <li><a href="#warranties">10. Warranties and Disclaimers</a></li>
+                <li><a href="#liability">11. Limitation of Liability</a></li>
+                <li><a href="#indemnification">12. Indemnification</a></li>
+                <li><a href="#termination">13. Termination</a></li>
+                <li><a href="#changes">14. Changes to Terms</a></li>
+                <li><a href="#governing-law">15. Governing Law</a></li>
+                <li><a href="#disputes">16. Dispute Resolution</a></li>
+                <li><a href="#general">17. General Provisions</a></li>
+                <li><a href="#contact">18. Contact Us</a></li>
+            </ul>
+        </aside>
+
+        <!-- Policy Body -->
+        <div class="policy-body">
+
+            <div class="highlight-box">
+                <p>By creating an account or using WashIQ, you agree to these Terms. If you're using WashIQ on behalf of a business, you represent that you have authority to bind that business to these Terms.</p>
+            </div>
+
+            <section id="acceptance">
+                <h2>1. Acceptance of Terms</h2>
+                <p>These Terms of Service ("Terms") govern your access to and use of WashIQ's platform and services (collectively, the "Services"). By accessing or using our Services, you agree to be bound by these Terms and our <a href="/privacy.html">Privacy Policy</a>. If you do not agree, do not use our Services.</p>
+            </section>
+
+            <section id="eligibility">
+                <h2>2. Eligibility</h2>
+                <p>You must be at least 18 years old and have the legal authority to enter into these Terms on behalf of yourself or your business. By using our Services, you represent and warrant that you meet these requirements.</p>
+            </section>
+
+            <section id="account">
+                <h2>3. Account Registration</h2>
+                <p>To use our Services, you must create an account and agree to:</p>
+                <ul>
+                    <li>Provide accurate, complete, and current information</li>
+                    <li>Maintain the security of your account credentials</li>
+                    <li>Notify us immediately of any unauthorized access or security breach</li>
+                    <li>Accept responsibility for all activities that occur under your account</li>
+                </ul>
+            </section>
+
+            <section id="use-of-services">
+                <h2>4. Use of Services</h2>
+
+                <h3>Permitted Use</h3>
+                <p>You may use our Services for lawful business purposes to manage and optimize your car wash operations.</p>
+
+                <h3>Prohibited Activities</h3>
+                <p>You may not:</p>
+                <ul>
+                    <li>Violate any applicable laws or regulations</li>
+                    <li>Infringe on the intellectual property rights of WashIQ or any third party</li>
+                    <li>Attempt to gain unauthorized access to our systems, servers, or networks</li>
+                    <li>Interfere with or disrupt the proper functioning of our Services</li>
+                    <li>Use our Services to build a competing product or service</li>
+                    <li>Share, sell, or transfer your account credentials to third parties</li>
+                    <li>Reverse engineer, decompile, or disassemble our software</li>
+                    <li>Remove or alter any proprietary notices or labels</li>
+                    <li>Use automated tools to scrape or extract data from our platform</li>
+                </ul>
+            </section>
+
+            <section id="data-privacy">
+                <h2>5. Data and Privacy</h2>
+
+                <h3>Your Data</h3>
+                <p>You retain full ownership of all data you provide to our Services ("Customer Data"). You grant WashIQ a limited license to use Customer Data solely to provide, maintain, and improve our Services on your behalf.</p>
+
+                <h3>Data Security</h3>
+                <p>We implement reasonable and industry-standard security measures to protect your data. However, you acknowledge that no system is completely secure, and we cannot guarantee absolute security.</p>
+
+                <h3>Data Processing</h3>
+                <p>We may use aggregated, anonymized data derived from Customer Data for analytics, product improvement, and AI model training. This data will not identify you or your business individually.</p>
+
+                <p>For full details on how we handle your data, see our <a href="/privacy.html">Privacy Policy</a>.</p>
+            </section>
+
+            <section id="fees">
+                <h2>6. Fees and Payment</h2>
+
+                <h3>Early Access</h3>
+                <p>During our early access period, Services may be provided free of charge or at reduced pricing. We will provide at least 30 days' notice before transitioning to paid plans.</p>
+
+                <h3>Paid Services</h3>
+                <p>When paid plans apply:</p>
+                <ul>
+                    <li>Fees are billed in advance as specified in your subscription plan</li>
+                    <li>Payments are non-refundable except as required by law or as otherwise stated</li>
+                    <li>We may update pricing with 30 days' advance notice</li>
+                    <li>Failure to pay may result in service suspension or termination</li>
+                </ul>
+            </section>
+
+            <section id="intellectual-property">
+                <h2>7. Intellectual Property</h2>
+
+                <h3>Our Rights</h3>
+                <p>WashIQ and our Services — including all software, algorithms, designs, trademarks, and content — are owned by WashIQ and protected by applicable intellectual property laws. We grant you a limited, non-exclusive, non-transferable, revocable license to use our Services solely as permitted under these Terms.</p>
+
+                <h3>Feedback</h3>
+                <p>If you provide feedback, suggestions, or ideas about our Services, you grant us a perpetual, irrevocable, royalty-free right to use that feedback without any obligation or compensation to you.</p>
+            </section>
+
+            <section id="third-party">
+                <h2>8. Third-Party Services</h2>
+                <p>Our Services may integrate with third-party services such as point-of-sale systems. Your use of those third-party services is governed by their own terms and privacy policies. WashIQ is not responsible for the performance, availability, or data practices of any third-party service.</p>
+            </section>
+
+            <section id="availability">
+                <h2>9. Service Availability</h2>
+                <p>We work hard to provide reliable, high-uptime Services, but we do not guarantee uninterrupted access. We may:</p>
+                <ul>
+                    <li>Perform scheduled or emergency maintenance</li>
+                    <li>Modify, update, or discontinue features with reasonable notice</li>
+                    <li>Experience downtime due to technical issues outside our control</li>
+                </ul>
+                <p>We are not liable for any disruption, loss, or damages resulting from service unavailability.</p>
+            </section>
+
+            <section id="warranties">
+                <h2>10. Warranties and Disclaimers</h2>
+                <div class="warning-box">
+                    <p><strong>The Services are provided "as is" and "as available" without warranties of any kind, express or implied.</strong> WashIQ disclaims all warranties including merchantability, fitness for a particular purpose, non-infringement, and the accuracy or reliability of data or insights generated by our platform.</p>
+                </div>
+                <p>You use our Services at your own risk. We do not guarantee specific business results or outcomes from use of our platform.</p>
+            </section>
+
+            <section id="liability">
+                <h2>11. Limitation of Liability</h2>
+                <div class="warning-box">
+                    <p><strong>To the maximum extent permitted by law:</strong> WashIQ is not liable for indirect, incidental, special, consequential, or punitive damages — including lost profits, lost data, or business interruption — arising from your use of or inability to use our Services. Our total cumulative liability to you for any claims arising under these Terms is limited to the fees you paid to WashIQ in the 12 months preceding the claim.</p>
+                </div>
+            </section>
+
+            <section id="indemnification">
+                <h2>12. Indemnification</h2>
+                <p>You agree to indemnify, defend, and hold WashIQ and its officers, directors, employees, and agents harmless from any claims, damages, losses, liabilities, and expenses (including reasonable attorneys' fees) arising out of or related to:</p>
+                <ul>
+                    <li>Your use of or access to our Services</li>
+                    <li>Your violation of these Terms</li>
+                    <li>Your violation of any applicable law or the rights of any third party</li>
+                </ul>
+            </section>
+
+            <section id="termination">
+                <h2>13. Termination</h2>
+
+                <h3>By You</h3>
+                <p>You may terminate your account at any time by contacting us at <a href="/cdn-cgi/l/email-protection#ed8588818182ad9a8c9e85849cc38e8280"><span class="__cf_email__" data-cfemail="4c24292020230c3b2d3f24253d622f2321">[email&#160;protected]</span></a>.</p>
+
+                <h3>By Us</h3>
+                <p>We may suspend or terminate your access immediately if you:</p>
+                <ul>
+                    <li>Violate these Terms</li>
+                    <li>Fail to pay applicable fees</li>
+                    <li>Engage in fraudulent, abusive, or harmful activity</li>
+                </ul>
+
+                <h3>Effect of Termination</h3>
+                <p>Upon termination, your right to access the Services ceases immediately. We will retain and then delete your data in accordance with our Privacy Policy. Any outstanding fees remain due and payable.</p>
+            </section>
+
+            <section id="changes">
+                <h2>14. Changes to Terms</h2>
+                <p>We may update these Terms from time to time. We will notify you of material changes via email or a prominent notice within our platform at least 30 days before they take effect. Your continued use of our Services after the effective date constitutes your acceptance of the updated Terms.</p>
+            </section>
+
+            <section id="governing-law">
+                <h2>15. Governing Law</h2>
+                <p>These Terms are governed by the laws of the United States and the State of Texas, without regard to conflict of law principles. Any legal action arising under these Terms must be brought in the courts located in Texas.</p>
+            </section>
+
+            <section id="disputes">
+                <h2>16. Dispute Resolution</h2>
+
+                <h3>Informal Resolution</h3>
+                <p>Before filing any formal claim, you agree to contact us at <a href="/cdn-cgi/l/email-protection#deb2bbb9bfb29ea9bfadb6b7aff0bdb1b3"><span class="__cf_email__" data-cfemail="4a262f2d2b260a3d2b3922233b64292527">[email&#160;protected]</span></a> and give us 30 days to attempt to resolve the dispute informally.</p>
+
+                <h3>Arbitration</h3>
+                <p>If informal resolution fails, any dispute will be resolved through binding individual arbitration under the rules of the American Arbitration Association. You waive your right to participate in any class action lawsuit or class-wide arbitration. This arbitration clause does not apply where prohibited by law.</p>
+            </section>
+
+            <section id="general">
+                <h2>17. General Provisions</h2>
+                <ul>
+                    <li><strong>Entire Agreement:</strong> These Terms and our Privacy Policy constitute the entire agreement between you and WashIQ regarding our Services</li>
+                    <li><strong>Severability:</strong> If any provision of these Terms is found invalid or unenforceable, the remaining provisions continue in full force</li>
+                    <li><strong>No Waiver:</strong> Our failure to enforce any right or provision does not constitute a waiver of that right</li>
+                    <li><strong>Assignment:</strong> You may not assign or transfer these Terms without our written consent; we may assign them without notice</li>
+                    <li><strong>Force Majeure:</strong> We are not liable for delays or failures caused by circumstances beyond our reasonable control</li>
+                </ul>
+            </section>
+
+            <section id="contact">
+                <h2>18. Contact Us</h2>
+                <p>For questions about these Terms or our Services, reach out anytime.</p>
+                <div class="contact-box">
+                    <h4>Get in touch</h4>
+                    <p>General: <a href="/cdn-cgi/l/email-protection#b2dad7dededdf2c5d3c1dadbc39cd1dddf"><span class="__cf_email__" data-cfemail="c4aca1a8a8ab84b3a5b7acadb5eaa7aba9">[email&#160;protected]</span></a></p>
+                    <p>Legal: <a href="/cdn-cgi/l/email-protection#bbd7dedcdad7fbccdac8d3d2ca95d8d4d6"><span class="__cf_email__" data-cfemail="b1ddd4d6d0ddf1c6d0c2d9d8c09fd2dedc">[email&#160;protected]</span></a></p>
+                    <p>Or use our <a href="/contact.html">contact form →</a></p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-about">
+                <h3>WashIQ</h3>
+                <p>Data-driven intelligence platform designed specifically for modern car wash businesses. Make smarter decisions, optimize operations, and drive growth.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="/dashboards-updated.html">Real-Time Dashboards</a></li>
+                    <li><a href="/intelligence.html">AI Intelligence</a></li>
+                    <li><a href="/alerts.html">Proactive Alerts</a></li>
+                    <li><a href="/early-access.html">Early Access</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="/about.html">About</a></li>
+                    <li><a href="/blog.html">Blog</a></li>
+                    <li><a href="/careers.html">Careers</a></li>
+                    <li><a href="/contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="/privacy.html">Privacy Policy</a></li>
+                    <li><a href="/terms.html">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 Wash
