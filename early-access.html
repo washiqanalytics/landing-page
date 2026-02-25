@@ -1,682 +1,843 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Request Early Access | WashIQ</title>
+        <style>
+            :root {
+                --primary: #0066ff;
+                --dark: #1a1a1a;
+                --gray: #666;
+                --border: #e0e0e0;
+                --light-bg: #fafafa;
+            }
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Request Early Access | WashIQ</title>
-    <style>
-        :root {
-            --primary: #0066FF;
-            --dark: #1a1a1a;
-            --gray: #666;
-            --border: #e0e0e0;
-            --light-bg: #fafafa;
-        }
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-            color: var(--dark);
-            background: white;
-            padding-top: 80px;
-        }
-    </style>
-    <link rel="stylesheet" href="/assets/css/navbar.css">
-    <style>
-        /* Main Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 4rem 3rem;
-        }
-
-        .two-column {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6rem;
-            align-items: start;
-        }
-
-        /* Left Column - Value Prop */
-        .value-prop h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            color: var(--dark);
-        }
-
-        .value-prop .subhead {
-            font-size: 1.25rem;
-            color: var(--gray);
-            margin-bottom: 3rem;
-            line-height: 1.5;
-        }
-
-        .benefits {
-            list-style: none;
-            margin-bottom: 3rem;
-        }
-
-        .benefits li {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            margin-bottom: 1.25rem;
-            font-size: 1.125rem;
-            line-height: 1.6;
-        }
-
-        .benefits li::before {
-            content: "✓";
-            color: var(--primary);
-            font-weight: 700;
-            font-size: 1.25rem;
-            flex-shrink: 0;
-        }
-
-        .login-link {
-            font-size: 1.125rem;
-            color: var(--gray);
-            margin-top: 2rem;
-        }
-
-        .login-link a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .login-link a:hover {
-            text-decoration: underline;
-        }
-
-        .login-link a::after {
-            content: " →";
-            font-weight: 400;
-        }
-
-        /* Right Column - Form */
-        .form-container {
-            background: white;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--dark);
-            font-size: 0.9375rem;
-        }
-
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        select {
-            width: 100%;
-            padding: 1rem;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 1rem;
-            font-family: inherit;
-            color: var(--dark);
-            transition: border-color 0.2s ease;
-        }
-
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        input[type="tel"]:focus,
-        select:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        select {
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 1rem center;
-            padding-right: 3rem;
-        }
-
-        .optional {
-            color: var(--gray);
-            font-weight: 400;
-            font-size: 0.875rem;
-        }
-
-        .error-message {
-            display: none;
-            color: #d32f2f;
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
-            font-weight: 500;
-        }
-
-        .error-message.show {
-            display: block !important;
-        }
-
-        .form-group.error input,
-        .form-group.error select {
-            border-color: #d32f2f !important;
-            background-color: #fff5f5;
-        }
-
-        .form-group.error label {
-            color: #d32f2f !important;
-        }
-
-        .form-note {
-            font-size: 0.875rem;
-            color: var(--gray);
-            margin-top: 0.5rem;
-        }
-
-        .submit-note {
-            font-size: 0.9375rem;
-            color: var(--dark);
-            background: #E8F5E9;
-            padding: 1rem 1.25rem;
-            border-radius: 8px;
-            border-left: 3px solid #4CAF50;
-            margin-bottom: 1.25rem;
-            line-height: 1.6;
-            display: none;
-        }
-
-        .btn-submit {
-            width: 100%;
-            padding: 1rem;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 1.125rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn-submit:hover {
-            background: #0052cc;
-            transform: translateY(-1px);
-        }
-
-        .btn-submit:active {
-            transform: translateY(0);
-        }
-
-        /* Footer */
-        footer {
-            border-top: 1px solid var(--border);
-            padding: 2rem 3rem;
-            text-align: center;
-            font-size: 0.875rem;
-            color: var(--gray);
-        }
-
-        footer a {
-            color: var(--dark);
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
             body {
-                padding-top: 70px;
-            }
-
-            .nav-container {
-                padding: 1.25rem 1.5rem;
-            }
-
-            .nav-links {
-                position: fixed;
-                top: 70px;
-                left: 0;
-                right: 0;
+                font-family:
+                    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                    Oxygen, Ubuntu, Cantarell, sans-serif;
+                line-height: 1.6;
+                color: var(--dark);
                 background: white;
-                flex-direction: column;
-                padding: 2rem;
-                gap: 1.5rem;
-                border-bottom: 1px solid var(--border);
-                transform: translateY(-100%);
-                opacity: 0;
-                transition: all 0.3s ease;
-                pointer-events: none;
-                z-index: 999;
-                align-items: stretch;
+                padding-top: 80px;
             }
-
-            .nav-links.active {
-                transform: translateY(0);
-                opacity: 1;
-                pointer-events: all;
-            }
-
-            .mobile-toggle {
-                display: block;
-            }
-
-            .nav-cta {
-                width: 100%;
-                text-align: center;
-                justify-content: center;
-            }
-
-            .nav-login {
-                width: 100%;
-                text-align: center;
-                justify-content: center;
-                display: block;
-            }
-
-            .dropdown-menu {
-                position: static;
-                opacity: 1;
-                visibility: visible;
-                transform: none;
-                box-shadow: none;
-                border: none;
-                border-radius: 0;
-                border-left: 2px solid var(--border);
-                margin-left: 1rem;
-                padding: 0 0 0 1rem;
-                min-width: 0;
-                width: auto;
-                max-height: 0;
-                overflow: hidden;
-                transition: max-height 0.3s ease;
-                background: transparent;
-            }
-
-            .dropdown-menu.active {
-                max-height: 600px;
-            }
-
-            .dropdown-menu a {
-                flex-direction: row;
-                padding: 0.75rem 0.5rem;
-                margin-bottom: 0.5rem;
-                background: transparent;
-                border-radius: 8px;
-            }
-
-            .dropdown-menu a:hover {
-                background: #FAFAFA;
-            }
-
-            .menu-icon {
-                width: 40px;
-                height: 40px;
-                flex-shrink: 0;
-            }
-
-            .menu-icon svg {
-                width: 24px;
-                height: 24px;
-            }
-
-            .menu-item-content {
-                flex: 1;
-                min-width: 0;
-            }
-
-            .menu-item-title {
-                font-size: 0.9375rem;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-
-            .menu-item-description {
-                font-size: 0.8125rem;
-                line-height: 1.3;
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-            }
-
+        </style>
+        <link rel="stylesheet" href="/assets/css/navbar.css" />
+        <style>
+            /* Main Container */
             .container {
-                padding: 2rem 1.5rem;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 4rem 3rem;
             }
 
             .two-column {
-                grid-template-columns: 1fr;
-                gap: 3rem;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 6rem;
+                align-items: start;
             }
 
+            /* Left Column - Value Prop */
             .value-prop h1 {
-                font-size: 2rem;
+                font-size: 3rem;
+                font-weight: 700;
+                line-height: 1.1;
+                margin-bottom: 1.5rem;
+                color: var(--dark);
             }
 
             .value-prop .subhead {
-                font-size: 1.125rem;
+                font-size: 1.25rem;
+                color: var(--gray);
+                margin-bottom: 3rem;
+                line-height: 1.5;
+            }
+
+            .benefits {
+                list-style: none;
+                margin-bottom: 3rem;
             }
 
             .benefits li {
-                font-size: 1rem;
+                display: flex;
+                align-items: flex-start;
+                gap: 1rem;
+                margin-bottom: 1.25rem;
+                font-size: 1.125rem;
+                line-height: 1.6;
+            }
+
+            .benefits li::before {
+                content: "✓";
+                color: var(--primary);
+                font-weight: 700;
+                font-size: 1.25rem;
+                flex-shrink: 0;
+            }
+
+            .login-link {
+                font-size: 1.125rem;
+                color: var(--gray);
+                margin-top: 2rem;
+            }
+
+            .login-link a {
+                color: var(--primary);
+                text-decoration: none;
+                font-weight: 600;
+            }
+
+            .login-link a:hover {
+                text-decoration: underline;
+            }
+
+            .login-link a::after {
+                content: " →";
+                font-weight: 400;
+            }
+
+            /* Right Column - Form */
+            .form-container {
+                background: white;
+            }
+
+            .form-group {
+                margin-bottom: 1.5rem;
             }
 
             .form-row {
-                grid-template-columns: 1fr;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
             }
 
+            label {
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: 500;
+                color: var(--dark);
+                font-size: 0.9375rem;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            input[type="tel"],
+            select {
+                width: 100%;
+                padding: 1rem;
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                font-size: 1rem;
+                font-family: inherit;
+                color: var(--dark);
+                transition: border-color 0.2s ease;
+            }
+
+            input[type="text"]:focus,
+            input[type="email"]:focus,
+            input[type="tel"]:focus,
+            select:focus {
+                outline: none;
+                border-color: var(--primary);
+            }
+
+            select {
+                cursor: pointer;
+                appearance: none;
+                background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: right 1rem center;
+                padding-right: 3rem;
+            }
+
+            .optional {
+                color: var(--gray);
+                font-weight: 400;
+                font-size: 0.875rem;
+            }
+
+            .error-message {
+                display: none;
+                color: #d32f2f;
+                font-size: 0.875rem;
+                margin-top: 0.5rem;
+                font-weight: 500;
+            }
+
+            .error-message.show {
+                display: block !important;
+            }
+
+            .form-group.error input,
+            .form-group.error select {
+                border-color: #d32f2f !important;
+                background-color: #fff5f5;
+            }
+
+            .form-group.error label {
+                color: #d32f2f !important;
+            }
+
+            .form-note {
+                font-size: 0.875rem;
+                color: var(--gray);
+                margin-top: 0.5rem;
+            }
+
+            .submit-note {
+                font-size: 0.9375rem;
+                color: var(--dark);
+                background: #e8f5e9;
+                padding: 1rem 1.25rem;
+                border-radius: 8px;
+                border-left: 3px solid #4caf50;
+                margin-bottom: 1.25rem;
+                line-height: 1.6;
+                display: none;
+            }
+
+            .btn-submit {
+                width: 100%;
+                padding: 1rem;
+                background: var(--primary);
+                color: white;
+                border: none;
+                border-radius: 6px;
+                font-size: 1.125rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+
+            .btn-submit:hover {
+                background: #0052cc;
+                transform: translateY(-1px);
+            }
+
+            .btn-submit:active {
+                transform: translateY(0);
+            }
+
+            /* Footer */
             footer {
-                padding: 1.5rem;
+                border-top: 1px solid var(--border);
+                padding: 2rem 3rem;
+                text-align: center;
+                font-size: 0.875rem;
+                color: var(--gray);
             }
-        }
 
-        .btn-submit.loading {
-            opacity: 0.7;
-            cursor: not-allowed;
-            position: relative;
-            color: transparent !important;
-        }
-
-        .btn-submit.loading::after {
-            content: "";
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            top: 50%;
-            left: 50%;
-            margin-top: -10px;
-            margin-left: -10px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
+            footer a {
+                color: var(--dark);
+                text-decoration: none;
             }
-        }
 
-        .alert {
-            padding: 1rem 1.25rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            display: none;
-        }
+            footer a:hover {
+                text-decoration: underline;
+            }
 
-        .alert-success {
-            background: #E8F5E9;
-            color: #2E7D32;
-            border: 1px solid #C8E6C9;
-            display: block;
-        }
+            /* Mobile Responsive */
+            @media (max-width: 768px) {
+                body {
+                    padding-top: 70px;
+                }
 
-        .alert-error {
-            background: #FFEBEE;
-            color: #C62828;
-            border: 1px solid #FFCDD2;
-            display: block;
-        }
-    </style>
-</head>
+                .nav-container {
+                    padding: 1.25rem 1.5rem;
+                }
 
-<body>
-    <!-- Navigation -->
-    <nav></nav>
+                .nav-links {
+                    position: fixed;
+                    top: 70px;
+                    left: 0;
+                    right: 0;
+                    background: white;
+                    flex-direction: column;
+                    padding: 2rem;
+                    gap: 1.5rem;
+                    border-bottom: 1px solid var(--border);
+                    transform: translateY(-100%);
+                    opacity: 0;
+                    transition: all 0.3s ease;
+                    pointer-events: none;
+                    z-index: 999;
+                    align-items: stretch;
+                }
 
-    <!-- Main Container -->
-    <div class="container">
-        <div class="two-column">
-            <!-- Left Column - Value Prop -->
-            <div class="value-prop">
-                <h1>Request early access to WashIQ</h1>
-                <p class="subhead">Join 10 operators getting first access to AI-powered insights for car wash operations
-                </p>
+                .nav-links.active {
+                    transform: translateY(0);
+                    opacity: 1;
+                    pointer-events: all;
+                }
 
-                <ul class="benefits">
-                    <li>Free access through 2026</li>
-                    <li>Post-launch discounts</li>
-                    <li>Direct line to our product team</li>
-                    <li>Help shape the roadmap</li>
-                    <li>No credit card needed</li>
-                </ul>
+                .mobile-toggle {
+                    display: block;
+                }
 
-                <p class="login-link">Already have access? <a href="https://www.carwashcx.com/auth">Log in</a></p>
-            </div>
+                .nav-cta {
+                    width: 100%;
+                    text-align: center;
+                    justify-content: center;
+                }
 
-            <!-- Right Column - Form -->
-            <div class="form-container">
-                <form id="earlyAccessForm" novalidate>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="firstName">First name</label>
-                            <input type="text" id="firstName" name="firstName" required>
-                            <div class="error-message">Please enter your first name</div>
+                .nav-login {
+                    width: 100%;
+                    text-align: center;
+                    justify-content: center;
+                    display: block;
+                }
+
+                .dropdown-menu {
+                    position: static;
+                    opacity: 1;
+                    visibility: visible;
+                    transform: none;
+                    box-shadow: none;
+                    border: none;
+                    border-radius: 0;
+                    border-left: 2px solid var(--border);
+                    margin-left: 1rem;
+                    padding: 0 0 0 1rem;
+                    min-width: 0;
+                    width: auto;
+                    max-height: 0;
+                    overflow: hidden;
+                    transition: max-height 0.3s ease;
+                    background: transparent;
+                }
+
+                .dropdown-menu.active {
+                    max-height: 600px;
+                }
+
+                .dropdown-menu a {
+                    flex-direction: row;
+                    padding: 0.75rem 0.5rem;
+                    margin-bottom: 0.5rem;
+                    background: transparent;
+                    border-radius: 8px;
+                }
+
+                .dropdown-menu a:hover {
+                    background: #fafafa;
+                }
+
+                .menu-icon {
+                    width: 40px;
+                    height: 40px;
+                    flex-shrink: 0;
+                }
+
+                .menu-icon svg {
+                    width: 24px;
+                    height: 24px;
+                }
+
+                .menu-item-content {
+                    flex: 1;
+                    min-width: 0;
+                }
+
+                .menu-item-title {
+                    font-size: 0.9375rem;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .menu-item-description {
+                    font-size: 0.8125rem;
+                    line-height: 1.3;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                }
+
+                .container {
+                    padding: 2rem 1.5rem;
+                }
+
+                .two-column {
+                    grid-template-columns: 1fr;
+                    gap: 3rem;
+                }
+
+                .value-prop h1 {
+                    font-size: 2rem;
+                }
+
+                .value-prop .subhead {
+                    font-size: 1.125rem;
+                }
+
+                .benefits li {
+                    font-size: 1rem;
+                }
+
+                .form-row {
+                    grid-template-columns: 1fr;
+                }
+
+                footer {
+                    padding: 1.5rem;
+                }
+            }
+
+            .btn-submit.loading {
+                opacity: 0.7;
+                cursor: not-allowed;
+                position: relative;
+                color: transparent !important;
+            }
+
+            .btn-submit.loading::after {
+                content: "";
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                top: 50%;
+                left: 50%;
+                margin-top: -10px;
+                margin-left: -10px;
+                border: 3px solid rgba(255, 255, 255, 0.3);
+                border-radius: 50%;
+                border-top-color: white;
+                animation: spin 0.8s linear infinite;
+            }
+
+            @keyframes spin {
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            .alert {
+                padding: 1rem 1.25rem;
+                border-radius: 8px;
+                margin-bottom: 1.5rem;
+                display: none;
+            }
+
+            .alert-success {
+                background: #e8f5e9;
+                color: #2e7d32;
+                border: 1px solid #c8e6c9;
+                display: block;
+            }
+
+            .alert-error {
+                background: #ffebee;
+                color: #c62828;
+                border: 1px solid #ffcdd2;
+                display: block;
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- Navigation -->
+        <nav></nav>
+
+        <!-- Main Container -->
+        <div class="container">
+            <div class="two-column">
+                <!-- Left Column - Value Prop -->
+                <div class="value-prop">
+                    <h1>Request early access to WashIQ</h1>
+                    <p class="subhead">
+                        Join 10 operators getting first access to AI-powered
+                        insights for car wash operations
+                    </p>
+
+                    <ul class="benefits">
+                        <li>Free access through 2026</li>
+                        <li>Post-launch discounts</li>
+                        <li>Direct line to our product team</li>
+                        <li>Help shape the roadmap</li>
+                        <li>No credit card needed</li>
+                    </ul>
+
+                    <p class="login-link">
+                        Already have access?
+                        <a href="https://www.carwashcx.com/auth">Log in</a>
+                    </p>
+                </div>
+
+                <!-- Right Column - Form -->
+                <div class="form-container">
+                    <form id="earlyAccessForm" novalidate>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First name</label>
+                                <input
+                                    type="text"
+                                    id="firstName"
+                                    name="firstName"
+                                    required
+                                />
+                                <div class="error-message">
+                                    Please enter your first name
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="lastName">Last name</label>
+                                <input
+                                    type="text"
+                                    id="lastName"
+                                    name="lastName"
+                                    required
+                                />
+                                <div class="error-message">
+                                    Please enter your last name
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="lastName">Last name</label>
-                            <input type="text" id="lastName" name="lastName" required>
-                            <div class="error-message">Please enter your last name</div>
+                            <label for="email">Work email</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                required
+                            />
+                            <div class="error-message">
+                                Please enter a valid work email
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="email">Work email</label>
-                        <input type="email" id="email" name="email" required>
-                        <div class="error-message">Please enter a valid work email</div>
-                    </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                required
+                            />
+                            <div class="error-message">
+                                Please enter your phone number
+                            </div>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="phone">Phone</label>
-                        <input type="tel" id="phone" name="phone" required>
-                        <div class="error-message">Please enter your phone number</div>
-                    </div>
+                        <div class="form-group">
+                            <label for="locations">Number of locations</label>
+                            <select id="locations" name="locations" required>
+                                <option value="">Select...</option>
+                                <option value="1">1</option>
+                                <option value="2-3">2-3</option>
+                                <option value="4-5">4-5</option>
+                                <option value="6-10">6-10</option>
+                                <option value="10+">10+</option>
+                            </select>
+                            <div class="error-message">
+                                Please select number of locations
+                            </div>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="locations">Number of locations</label>
-                        <select id="locations" name="locations" required>
-                            <option value="">Select...</option>
-                            <option value="1">1</option>
-                            <option value="2-3">2-3</option>
-                            <option value="4-5">4-5</option>
-                            <option value="6-10">6-10</option>
-                            <option value="10+">10+</option>
-                        </select>
-                        <div class="error-message">Please select number of locations</div>
-                    </div>
+                        <div class="form-group">
+                            <label for="pos">Current POS system</label>
+                            <select id="pos" name="pos" required>
+                                <option value="">Select...</option>
+                                <option value="sonnys">Sonny's</option>
+                                <option value="drb">DRB</option>
+                                <option value="washify">Washify</option>
+                                <option value="micrologic">Micrologic</option>
+                                <option value="everwash">EverWash</option>
+                                <option value="dencar">DenCar</option>
+                                <option value="patheon">Patheon</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <div class="error-message">
+                                Please select your POS system
+                            </div>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="pos">Current POS system</label>
-                        <select id="pos" name="pos" required>
-                            <option value="">Select...</option>
-                            <option value="sonnys">Sonny's</option>
-                            <option value="drb">DRB</option>
-                            <option value="washify">Washify</option>
-                            <option value="micrologic">Micrologic</option>
-                            <option value="everwash">EverWash</option>
-                            <option value="dencar">DenCar</option>
-                            <option value="patheon">Patheon</option>
-                            <option value="other">Other</option>
-                        </select>
-                        <div class="error-message">Please select your POS system</div>
-                    </div>
+                        <div class="form-group">
+                            <label for="challenge"
+                                >Biggest operational challenge</label
+                            >
+                            <select id="challenge" name="challenge" required>
+                                <option value="">Select...</option>
+                                <option value="memberships">
+                                    Growing memberships
+                                </option>
+                                <option value="churn">Reducing churn</option>
+                                <option value="labor">Labor efficiency</option>
+                                <option value="revenue">
+                                    Understanding revenue drivers
+                                </option>
+                                <option value="operations">
+                                    Day-to-day operations
+                                </option>
+                                <option value="other">Other</option>
+                            </select>
+                            <div class="error-message">
+                                Please select your biggest challenge
+                            </div>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="challenge">Biggest operational challenge</label>
-                        <select id="challenge" name="challenge" required>
-                            <option value="">Select...</option>
-                            <option value="memberships">Growing memberships</option>
-                            <option value="churn">Reducing churn</option>
-                            <option value="labor">Labor efficiency</option>
-                            <option value="revenue">Understanding revenue drivers</option>
-                            <option value="operations">Day-to-day operations</option>
-                            <option value="other">Other</option>
-                        </select>
-                        <div class="error-message">Please select your biggest challenge</div>
-                    </div>
+                        <p class="submit-note">
+                            We review applications weekly and will reach out
+                            within 3 business days.
+                        </p>
 
-                    <p class="submit-note">We review applications weekly and will reach out within 3 business days.</p>
-
-                    <button type="submit" class="btn-submit">Submit Request</button>
-                </form>
+                        <button type="submit" class="btn-submit">
+                            Submit Request
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>Use of WashIQ signifies agreement with our <a href="/privacy.html">Privacy Policy</a> and <a
-                href="/terms.html">Terms of Service</a></p>
-        <p style="margin-top: 0.5rem;">© 2026 WashIQ. All rights reserved.</p>
-    </footer>
+        <!-- Footer -->
+        <footer>
+            <p>
+                Use of WashIQ signifies agreement with our
+                <a href="/privacy.html">Privacy Policy</a> and
+                <a href="/terms.html">Terms of Service</a>
+            </p>
+            <p style="margin-top: 0.5rem">
+                © 2026 WashIQ. All rights reserved.
+            </p>
+        </footer>
 
-    <script src="/assets/js/navbar.js"></script>
-    <script>
+        <script src="/assets/js/navbar.js"></script>
+        <script>
+            // Form validation and submission
+            const form = document.getElementById("earlyAccessForm");
 
-        // Form validation and submission
-        const form = document.getElementById('earlyAccessForm');
+            if (form) {
+                form.addEventListener("submit", function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
 
-        if (form) {
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
+                    // Clear all previous errors
+                    document
+                        .querySelectorAll(".form-group")
+                        .forEach((group) => {
+                            group.classList.remove("error");
+                            const errMsg =
+                                group.querySelector(".error-message");
+                            if (errMsg) {
+                                errMsg.classList.remove("show");
+                                errMsg.style.display = "none";
+                            }
+                        });
 
-                // Clear all previous errors
-                document.querySelectorAll('.form-group').forEach(group => {
-                    group.classList.remove('error');
-                    const errMsg = group.querySelector('.error-message');
-                    if (errMsg) {
-                        errMsg.classList.remove('show');
-                        errMsg.style.display = 'none';
+                    let isValid = true;
+                    let firstErrorField = null;
+
+                    // Validate first name
+                    const firstName = document.getElementById("firstName");
+                    if (!firstName.value.trim()) {
+                        showError(firstName, "Please enter your first name");
+                        isValid = false;
+                        if (!firstErrorField) firstErrorField = firstName;
                     }
+
+                    // Validate last name
+                    const lastName = document.getElementById("lastName");
+                    if (!lastName.value.trim()) {
+                        showError(lastName, "Please enter your last name");
+                        isValid = false;
+                        if (!firstErrorField) firstErrorField = lastName;
+                    }
+
+                    // Validate email
+                    const email = document.getElementById("email");
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!email.value.trim()) {
+                        showError(email, "Please enter your work email");
+                        isValid = false;
+                        if (!firstErrorField) firstErrorField = email;
+                    } else if (!emailRegex.test(email.value)) {
+                        showError(email, "Please enter a valid email address");
+                        isValid = false;
+                        if (!firstErrorField) firstErrorField = email;
+                    }
+
+                    // Validate phone
+                    const phone = document.getElementById("phone");
+                    if (!phone.value.trim()) {
+                        showError(phone, "Please enter your phone number");
+                        isValid = false;
+                        if (!firstErrorField) firstErrorField = phone;
+                    }
+
+                    // Validate locations
+                    const locations = document.getElementById("locations");
+                    if (!locations.value) {
+                        showError(
+                            locations,
+                            "Please select number of locations",
+                        );
+                        isValid = false;
+                        if (!firstErrorField) firstErrorField = locations;
+                    }
+
+                    // Validate POS
+                    const pos = document.getElementById("pos");
+                    if (!pos.value) {
+                        showError(pos, "Please select your POS system");
+                        isValid = false;
+                        if (!firstErrorField) firstErrorField = pos;
+                    }
+
+                    // Validate challenge
+                    const challenge = document.getElementById("challenge");
+                    if (!challenge.value) {
+                        showError(
+                            challenge,
+                            "Please select your biggest challenge",
+                        );
+                        isValid = false;
+                        if (!firstErrorField) firstErrorField = challenge;
+                    }
+
+                    // If validation fails, scroll to first error
+                    if (!isValid) {
+                        if (firstErrorField) {
+                            firstErrorField.focus();
+                            firstErrorField.scrollIntoView({
+                                behavior: "smooth",
+                                block: "center",
+                            });
+                        }
+                        return false;
+                    }
+
+                    // If validation passes, collect and submit data
+                    const formData = {
+                        firstName: firstName.value.trim(),
+                        lastName: lastName.value.trim(),
+                        workEmail: email.value.trim(),
+                        phone: phone.value.trim(),
+                        numberOfLocations: locations.value,
+                        currentPOSSystem: pos.value,
+                        biggestOperationalChallenge: challenge.value,
+                    };
+
+                    // --- GraphQL Integration ---
+                    submitToGraphQL(formData);
+
+                    return false;
                 });
 
-                let isValid = true;
-                let firstErrorField = null;
+                async function submitToGraphQL(data) {
+                    const btnSubmit = form.querySelector(".btn-submit");
+                    const submitNote = document.querySelector(".submit-note");
+                    const originalNoteContent = submitNote.innerHTML;
 
-                // Validate first name
-                const firstName = document.getElementById('firstName');
-                if (!firstName.value.trim()) {
-                    showError(firstName, 'Please enter your first name');
-                    isValid = false;
-                    if (!firstErrorField) firstErrorField = firstName;
-                }
+                    // Set loading state
+                    btnSubmit.classList.add("loading");
+                    btnSubmit.disabled = true;
 
-                // Validate last name
-                const lastName = document.getElementById('lastName');
-                if (!lastName.value.trim()) {
-                    showError(lastName, 'Please enter your last name');
-                    isValid = false;
-                    if (!firstErrorField) firstErrorField = lastName;
-                }
+                    const GQL_ENDPOINT = "https://api.carwashcx.com/graphql";
+                    // const GQL_ENDPOINT = 'http://localhost:8081/graphql';
 
-                // Validate email
-                const email = document.getElementById('email');
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!email.value.trim()) {
-                    showError(email, 'Please enter your work email');
-                    isValid = false;
-                    if (!firstErrorField) firstErrorField = email;
-                } else if (!emailRegex.test(email.value)) {
-                    showError(email, 'Please enter a valid email address');
-                    isValid = false;
-                    if (!firstErrorField) firstErrorField = email;
-                }
-
-                // Validate phone
-                const phone = document.getElementById('phone');
-                if (!phone.value.trim()) {
-                    showError(phone, 'Please enter your phone number');
-                    isValid = false;
-                    if (!firstErrorField) firstErrorField = phone;
-                }
-
-                // Validate locations
-                const locations = document.getElementById('locations');
-                if (!locations.value) {
-                    showError(locations, 'Please select number of locations');
-                    isValid = false;
-                    if (!firstErrorField) firstErrorField = locations;
-                }
-
-                // Validate POS
-                const pos = document.getElementById('pos');
-                if (!pos.value) {
-                    showError(pos, 'Please select your POS system');
-                    isValid = false;
-                    if (!firstErrorField) firstErrorField = pos;
-                }
-
-                // Validate challenge
-                const challenge = document.getElementById('challenge');
-                if (!challenge.value) {
-                    showError(challenge, 'Please select your biggest challenge');
-                    isValid = false;
-                    if (!firstErrorField) firstErrorField = challenge;
-                }
-
-                // If validation fails, scroll to first error
-                if (!isValid) {
-                    if (firstErrorField) {
-                        firstErrorField.focus();
-                        firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // Validate email
+                    const email = document.getElementById("email");
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!email.value.trim()) {
+                        showError(email, "Please enter your work email");
+                        isValid = false;
+                        if (!firstErrorField) firstErrorField = email;
+                    } else if (!emailRegex.test(email.value)) {
+                        showError(email, "Please enter a valid email address");
+                        isValid = false;
+                        if (!firstErrorField) firstErrorField = email;
                     }
+
+                    // Validate phone
+                    const phone = document.getElementById("phone");
+                    if (!phone.value.trim()) {
+                        showError(phone, "Please enter your phone number");
+                        isValid = false;
+                        if (!firstErrorField) firstErrorField = phone;
+                    }
+
+                    // Validate locations
+                    const locations = document.getElementById("locations");
+                    if (!locations.value) {
+                        showError(
+                            locations,
+                            "Please select number of locations",
+                        );
+                        isValid = false;
+                        if (!firstErrorField) firstErrorField = locations;
+                    }
+
+                    // Validate POS
+                    const pos = document.getElementById("pos");
+                    if (!pos.value) {
+                        showError(pos, "Please select your POS system");
+                        isValid = false;
+                        if (!firstErrorField) firstErrorField = pos;
+                    }
+
+                    // Validate challenge
+                    const challenge = document.getElementById("challenge");
+                    if (!challenge.value) {
+                        showError(
+                            challenge,
+                            "Please select your biggest challenge",
+                        );
+                        isValid = false;
+                        if (!firstErrorField) firstErrorField = challenge;
+                    }
+
+                    // If validation fails, scroll to first error
+                    if (!isValid) {
+                        if (firstErrorField) {
+                            firstErrorField.focus();
+                            firstErrorField.scrollIntoView({
+                                behavior: "smooth",
+                                block: "center",
+                            });
+                        }
+                        return false;
+                    }
+
+                    // If validation passes, collect and submit data
+                    const formData = {
+                        firstName: firstName.value.trim(),
+                        lastName: lastName.value.trim(),
+                        workEmail: email.value.trim(),
+                        phone: phone.value.trim(),
+                        numberOfLocations: locations.value,
+                        currentPosSystem: pos.value,
+                        biggestOperationalChallenge: challenge.value,
+                    };
+
+                    // --- GraphQL Integration ---
+                    submitToGraphQL(formData);
+
                     return false;
                 }
 
-                // If validation passes, collect and submit data
-                const formData = {
-                    firstName: firstName.value.trim(),
-                    lastName: lastName.value.trim(),
-                    workEmail: email.value.trim(),
-                    phone: phone.value.trim(),
-                    numberOfLocations: locations.value,
-                    currentPosSystem: pos.value,
-                    biggestOperationalChallenge: challenge.value
-                };
+                async function submitToGraphQL(data) {
+                    const btnSubmit = form.querySelector(".btn-submit");
+                    const submitNote = document.querySelector(".submit-note");
+                    const originalNoteContent = submitNote.innerHTML;
 
-                // --- GraphQL Integration ---
-                submitToGraphQL(formData);
+                    // Set loading state
+                    btnSubmit.classList.add("loading");
+                    btnSubmit.disabled = true;
 
-                return false;
-            });
+                    const GQL_ENDPOINT = "https://api.carwashcx.com/graphql";
+                    // const GQL_ENDPOINT = 'http://localhost:8081/graphql';
 
-            async function submitToGraphQL(data) {
-                const btnSubmit = form.querySelector('.btn-submit');
-                const submitNote = document.querySelector('.submit-note');
-                const originalNoteContent = submitNote.innerHTML;
-
-                // Set loading state
-                btnSubmit.classList.add('loading');
-                btnSubmit.disabled = true;
-
-                const GQL_ENDPOINT = 'https://api.carwashcx.com/graphql';
-                // const GQL_ENDPOINT = 'http://localhost:8081/graphql';
-
-                const query = `mutation CreateEarlyAccessRequest($input: CreateEarlyAccessInput!) {
+                    const query = `mutation CreateEarlyAccessRequest($input: CreateEarlyAccessInput!) {
                         createEarlyAccessRequest(input: $input) {
                             id
                             firstName
@@ -692,103 +853,110 @@
                     }
                 `;
 
-                try {
-                    const response = await fetch(GQL_ENDPOINT, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            query,
-                            variables: {
-                                input: data
-                            }
-                        })
-                    });
+                    try {
+                        const response = await fetch(GQL_ENDPOINT, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                query,
+                                variables: {
+                                    input: data,
+                                },
+                            }),
+                        });
 
-                    const result = await response.json();
+                        const result = await response.json();
 
-                    if (result.errors) {
-                        throw new Error(result.errors[0].message || 'GraphQL Error');
-                    }
+                        if (result.errors) {
+                            throw new Error(
+                                result.errors[0].message || "GraphQL Error",
+                            );
+                        }
 
-                    const enquiry = result.data?.createEarlyAccessEnquiry;
-                    if (!enquiry || !enquiry.id) {
-                        throw new Error('Unexpected response from server');
-                    }
+                        const enquiry = result.data?.createEarlyAccessEnquiry;
+                        if (!enquiry || !enquiry.id) {
+                            throw new Error("Unexpected response from server");
+                        }
 
-                    // Success handling
-                    submitNote.className = 'alert alert-success';
-                    submitNote.innerHTML = '<strong>Success!</strong> Thank you for requesting early access. We\'ll reach out within 3 business days.';
-                    form.reset();
+                        // Success handling
+                        submitNote.className = "alert alert-success";
+                        submitNote.innerHTML =
+                            "<strong>Success!</strong> Thank you for requesting early access. We'll reach out within 3 business days.";
+                        form.reset();
 
-                    // Optional: Scroll to success message
-                    submitNote.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        // Optional: Scroll to success message
+                        submitNote.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center",
+                        });
+                    } catch (error) {
+                        console.error("Submission error:", error);
 
-                } catch (error) {
-                    console.error('Submission error:', error);
+                        // Error handling
+                        submitNote.className = "alert alert-error";
+                        submitNote.innerHTML =
+                            "<strong>Error:</strong> Sorry, we couldn't process your request. Please try again or email us directly.";
 
-                    // Error handling
-                    submitNote.className = 'alert alert-error';
-                    submitNote.innerHTML = '<strong>Error:</strong> Sorry, we couldn\'t process your request. Please try again or email us directly.';
-
-                    // Reset button after a short delay so user can try again
-                    setTimeout(() => {
-                        btnSubmit.classList.remove('loading');
-                        btnSubmit.disabled = false;
-                        // Keep the error message visible but maybe restore original after some time if requested
-                    }, 2000);
-                } finally {
-                    // If success, we don't necessarily want to re-enable the button immediately
-                    // unless we want them to be able to submit again.
-                    if (!submitNote.classList.contains('alert-success')) {
-                        btnSubmit.classList.remove('loading');
-                        btnSubmit.disabled = false;
+                        // Reset button after a short delay so user can try again
+                        setTimeout(() => {
+                            btnSubmit.classList.remove("loading");
+                            btnSubmit.disabled = false;
+                            // Keep the error message visible but maybe restore original after some time if requested
+                        }, 2000);
+                    } finally {
+                        // If success, we don't necessarily want to re-enable the button immediately
+                        // unless we want them to be able to submit again.
+                        if (!submitNote.classList.contains("alert-success")) {
+                            btnSubmit.classList.remove("loading");
+                            btnSubmit.disabled = false;
+                        }
                     }
                 }
+
+                // Clear error on input
+                form.querySelectorAll("input, select").forEach((field) => {
+                    field.addEventListener("input", () => {
+                        const formGroup = field.closest(".form-group");
+                        if (formGroup) {
+                            formGroup.classList.remove("error");
+                            const errMsg =
+                                formGroup.querySelector(".error-message");
+                            if (errMsg) {
+                                errMsg.classList.remove("show");
+                                errMsg.style.display = "none";
+                            }
+                        }
+                    });
+
+                    field.addEventListener("change", () => {
+                        const formGroup = field.closest(".form-group");
+                        if (formGroup) {
+                            formGroup.classList.remove("error");
+                            const errMsg =
+                                formGroup.querySelector(".error-message");
+                            if (errMsg) {
+                                errMsg.classList.remove("show");
+                                errMsg.style.display = "none";
+                            }
+                        }
+                    });
+                });
             }
 
-            // Clear error on input
-            form.querySelectorAll('input, select').forEach(field => {
-                field.addEventListener('input', () => {
-                    const formGroup = field.closest('.form-group');
-                    if (formGroup) {
-                        formGroup.classList.remove('error');
-                        const errMsg = formGroup.querySelector('.error-message');
-                        if (errMsg) {
-                            errMsg.classList.remove('show');
-                            errMsg.style.display = 'none';
-                        }
-                    }
-                });
+            function showError(field, message) {
+                const formGroup = field.closest(".form-group");
+                if (!formGroup) return;
 
-                field.addEventListener('change', () => {
-                    const formGroup = field.closest('.form-group');
-                    if (formGroup) {
-                        formGroup.classList.remove('error');
-                        const errMsg = formGroup.querySelector('.error-message');
-                        if (errMsg) {
-                            errMsg.classList.remove('show');
-                            errMsg.style.display = 'none';
-                        }
-                    }
-                });
-            });
-        }
+                formGroup.classList.add("error");
+                const errorMessage = formGroup.querySelector(".error-message");
+                if (!errorMessage) return;
 
-        function showError(field, message) {
-            const formGroup = field.closest('.form-group');
-            if (!formGroup) return;
-
-            formGroup.classList.add('error');
-            const errorMessage = formGroup.querySelector('.error-message');
-            if (!errorMessage) return;
-
-            errorMessage.textContent = message;
-            errorMessage.classList.add('show');
-            errorMessage.style.display = 'block';
-        }
-    </script>
-</body>
-
+                errorMessage.textContent = message;
+                errorMessage.classList.add("show");
+                errorMessage.style.display = "block";
+            }
+        </script>
+    </body>
 </html>
