@@ -783,7 +783,7 @@
                             );
                         }
 
-                        const enquiry = result.data?.createEarlyAccessEnquiry;
+                        const enquiry = result.data?.createEarlyAccessRequest;
                         if (!enquiry || !enquiry.id) {
                             throw new Error("Unexpected response from server");
                         }
