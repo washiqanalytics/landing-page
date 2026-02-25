@@ -745,98 +745,6 @@
                     const GQL_ENDPOINT = "https://api.carwashcx.com/graphql";
                     // const GQL_ENDPOINT = 'http://localhost:8081/graphql';
 
-                    // Validate email
-                    const email = document.getElementById("email");
-                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    if (!email.value.trim()) {
-                        showError(email, "Please enter your work email");
-                        isValid = false;
-                        if (!firstErrorField) firstErrorField = email;
-                    } else if (!emailRegex.test(email.value)) {
-                        showError(email, "Please enter a valid email address");
-                        isValid = false;
-                        if (!firstErrorField) firstErrorField = email;
-                    }
-
-                    // Validate phone
-                    const phone = document.getElementById("phone");
-                    if (!phone.value.trim()) {
-                        showError(phone, "Please enter your phone number");
-                        isValid = false;
-                        if (!firstErrorField) firstErrorField = phone;
-                    }
-
-                    // Validate locations
-                    const locations = document.getElementById("locations");
-                    if (!locations.value) {
-                        showError(
-                            locations,
-                            "Please select number of locations",
-                        );
-                        isValid = false;
-                        if (!firstErrorField) firstErrorField = locations;
-                    }
-
-                    // Validate POS
-                    const pos = document.getElementById("pos");
-                    if (!pos.value) {
-                        showError(pos, "Please select your POS system");
-                        isValid = false;
-                        if (!firstErrorField) firstErrorField = pos;
-                    }
-
-                    // Validate challenge
-                    const challenge = document.getElementById("challenge");
-                    if (!challenge.value) {
-                        showError(
-                            challenge,
-                            "Please select your biggest challenge",
-                        );
-                        isValid = false;
-                        if (!firstErrorField) firstErrorField = challenge;
-                    }
-
-                    // If validation fails, scroll to first error
-                    if (!isValid) {
-                        if (firstErrorField) {
-                            firstErrorField.focus();
-                            firstErrorField.scrollIntoView({
-                                behavior: "smooth",
-                                block: "center",
-                            });
-                        }
-                        return false;
-                    }
-
-                    // If validation passes, collect and submit data
-                    const formData = {
-                        firstName: firstName.value.trim(),
-                        lastName: lastName.value.trim(),
-                        workEmail: email.value.trim(),
-                        phone: phone.value.trim(),
-                        numberOfLocations: locations.value,
-                        currentPosSystem: pos.value,
-                        biggestOperationalChallenge: challenge.value,
-                    };
-
-                    // --- GraphQL Integration ---
-                    submitToGraphQL(formData);
-
-                    return false;
-                }
-
-                async function submitToGraphQL(data) {
-                    const btnSubmit = form.querySelector(".btn-submit");
-                    const submitNote = document.querySelector(".submit-note");
-                    const originalNoteContent = submitNote.innerHTML;
-
-                    // Set loading state
-                    btnSubmit.classList.add("loading");
-                    btnSubmit.disabled = true;
-
-                    const GQL_ENDPOINT = "https://api.carwashcx.com/graphql";
-                    // const GQL_ENDPOINT = 'http://localhost:8081/graphql';
-
                     const query = `mutation CreateEarlyAccessRequest($input: CreateEarlyAccessInput!) {
                         createEarlyAccessRequest(input: $input) {
                             id
@@ -845,7 +753,7 @@
                             workEmail
                             phone
                             numberOfLocations
-                            currentPosSystem
+                            currentPOSSystem
                             biggestOperationalChallenge
                             createdAt
                             updatedAt
