@@ -1,0 +1,2892 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Configuration — WashIQ</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                --primary: #0066ff;
+                --green: #00d084;
+                --orange: #ff6b35;
+                --dark: #1a1a1a;
+                --gray: #666;
+                --gray-light: #f5f5f5;
+                --border: #e0e0e0;
+                --red: #ef4444;
+            }
+            *,
+            *::before,
+            *::after {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            html,
+            body {
+                overflow-x: hidden;
+            }
+            body {
+                font-family:
+                    "Inter",
+                    -apple-system,
+                    BlinkMacSystemFont,
+                    sans-serif;
+                line-height: 1.6;
+                color: var(--dark);
+                background: #fff;
+                -webkit-font-smoothing: antialiased;
+            }
+            .app {
+                display: flex;
+                min-height: 100vh;
+            }
+            .sidebar {
+                width: 248px;
+                background: #fff;
+                border-right: 1px solid var(--border);
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                display: flex;
+                flex-direction: column;
+                z-index: 200;
+                overflow-y: auto;
+            }
+            .sidebar-backdrop {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.4);
+                z-index: 199;
+            }
+            .hamburger {
+                display: none;
+                background: none;
+                border: none;
+                padding: 0.25rem;
+                cursor: pointer;
+            }
+            .hamburger svg {
+                width: 24px;
+                height: 24px;
+                stroke: var(--dark);
+                stroke-width: 2;
+            }
+            .sidebar-logo {
+                padding: 1.25rem 1.5rem;
+                border-bottom: 1px solid var(--border);
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                text-decoration: none;
+                color: var(--dark);
+            }
+            .sidebar-logo span {
+                font-size: 1.5rem;
+                font-weight: 700;
+                letter-spacing: -0.02em;
+            }
+            .sidebar-nav {
+                flex: 1;
+                padding: 1rem 0.75rem;
+            }
+            .sidebar-section {
+                margin-bottom: 1.5rem;
+            }
+            .sidebar-section-label {
+                font-size: 0.6875rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                color: #999;
+                padding: 0 0.75rem;
+                margin-bottom: 0.375rem;
+            }
+            .sidebar-link {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                padding: 0.5rem 0.75rem;
+                border-radius: 6px;
+                color: var(--gray);
+                font-size: 0.9375rem;
+                font-weight: 500;
+                text-decoration: none;
+                transition: all 0.2s;
+                margin-bottom: 2px;
+            }
+            .sidebar-link:hover {
+                background: var(--gray-light);
+                color: var(--dark);
+            }
+            .sidebar-link.active {
+                background: var(--gray-light);
+                color: var(--dark);
+                font-weight: 600;
+            }
+            .sidebar-link svg {
+                width: 20px;
+                height: 20px;
+                flex-shrink: 0;
+                stroke: currentColor;
+            }
+            .sidebar-badge {
+                margin-left: auto;
+                background: var(--orange);
+                color: #fff;
+                font-size: 0.75rem;
+                font-weight: 700;
+                padding: 0 6px;
+                border-radius: 10px;
+                min-width: 20px;
+                text-align: center;
+                line-height: 1.6;
+            }
+            .role-switcher {
+                padding: 0.75rem;
+                border-top: 1px solid var(--border);
+            }
+            .role-switcher-label {
+                font-size: 0.6875rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                color: #999;
+                margin-bottom: 0.375rem;
+                padding-left: 0.25rem;
+            }
+            .role-btn {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                width: 100%;
+                padding: 0.375rem 0.5rem;
+                border: none;
+                background: transparent;
+                border-radius: 6px;
+                cursor: pointer;
+                font-family: inherit;
+                font-size: 0.8125rem;
+                color: var(--gray);
+                transition: all 0.15s;
+                text-align: left;
+                margin-bottom: 1px;
+            }
+            .role-btn:hover {
+                background: var(--gray-light);
+                color: var(--dark);
+            }
+            .role-btn.active {
+                background: var(--dark);
+                color: #fff;
+            }
+            .role-btn .ra {
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.5625rem;
+                font-weight: 700;
+                color: #fff;
+                flex-shrink: 0;
+            }
+            .role-btn .rn {
+                font-weight: 600;
+                line-height: 1.2;
+            }
+            .role-btn .rt {
+                font-size: 0.625rem;
+                opacity: 0.7;
+            }
+            .main {
+                flex: 1;
+                margin-left: 248px;
+            }
+            .page-header {
+                padding: 1.25rem 2.5rem;
+                border-bottom: 1px solid var(--border);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                position: sticky;
+                top: 0;
+                z-index: 100;
+            }
+            .page-header h1 {
+                font-size: 1.5rem;
+                font-weight: 800;
+                letter-spacing: -0.02em;
+            }
+            .tab-bar {
+                display: flex;
+                gap: 0;
+                padding: 0 2.5rem;
+                border-bottom: 1px solid var(--border);
+                background: #fff;
+                position: sticky;
+                top: 57px;
+                z-index: 99;
+                overflow-x: auto;
+            }
+            .tab-btn {
+                padding: 0.875rem 1.5rem;
+                font-size: 0.9375rem;
+                font-weight: 600;
+                color: var(--gray);
+                background: none;
+                border: none;
+                border-bottom: 2px solid transparent;
+                cursor: pointer;
+                font-family: inherit;
+                transition: all 0.15s;
+                white-space: nowrap;
+            }
+            .tab-btn:hover {
+                color: var(--dark);
+            }
+            .tab-btn.active {
+                color: var(--dark);
+                border-bottom-color: var(--dark);
+            }
+            .tab-panel {
+                display: none;
+            }
+            .tab-panel.active {
+                display: block;
+            }
+            .page-content {
+                padding: 1.5rem 2.5rem 4rem;
+            }
+
+            /* ── Config Cards ── */
+            .cfg-section {
+                margin-bottom: 2rem;
+            }
+            .cfg-section-title {
+                font-size: 1rem;
+                font-weight: 700;
+                margin-bottom: 0.75rem;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            .cfg-section-title .section-icon {
+                display: inline-flex;
+                align-items: center;
+            }
+            .cfg-section-title .section-icon svg {
+                width: 18px;
+                height: 18px;
+                stroke: var(--dark);
+                fill: none;
+                stroke-width: 2;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+            }
+            .cfg-card {
+                background: #fff;
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                margin-bottom: 0.75rem;
+                overflow: visible;
+                transition: all 0.2s;
+            }
+            .cfg-card:hover {
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            }
+            .cfg-card-header {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                padding: 1rem 1.25rem;
+                cursor: pointer;
+                user-select: none;
+            }
+            .cfg-card-header .cfg-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            }
+            .cfg-card-header .cfg-icon svg {
+                width: 18px;
+                height: 18px;
+                stroke: var(--gray);
+                fill: none;
+                stroke-width: 2;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+            }
+            .sev-dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                flex-shrink: 0;
+                display: inline-block;
+            }
+            .cfg-card-meta {
+                display: flex;
+                gap: 0.5rem;
+                align-items: center;
+                margin-left: auto;
+                flex-shrink: 0;
+            }
+            .cfg-lock-ind {
+                font-size: 0.6875rem;
+                color: var(--orange);
+                display: flex;
+                align-items: center;
+                gap: 0.25rem;
+                padding: 0.125rem 0.375rem;
+                background: #fff7ed;
+                border-radius: 3px;
+                border: 1px solid #fed7aa;
+            }
+            .cfg-lock-ind svg {
+                width: 11px;
+                height: 11px;
+                stroke: var(--orange);
+                fill: none;
+                stroke-width: 2;
+            }
+            .cfg-impact {
+                font-size: 0.75rem;
+                color: var(--gray);
+                display: flex;
+                align-items: center;
+                gap: 0.25rem;
+                margin-top: 0.25rem;
+                padding: 0.25rem 0.5rem;
+                background: #f8f9fa;
+                border-radius: 4px;
+                border: 1px solid #f0f0f0;
+            }
+            .cfg-impact strong {
+                color: var(--dark);
+            }
+            .cfg-range {
+                font-size: 0.75rem;
+                color: var(--gray);
+                margin-left: 0.25rem;
+            }
+            .cfg-input.invalid {
+                border-color: var(--red);
+                background: #fef2f2;
+            }
+            .cfg-validation {
+                font-size: 0.75rem;
+                color: var(--red);
+                margin-top: 0.125rem;
+            }
+            .summary-card {
+                padding: 1rem 1.25rem;
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                margin-bottom: 0.5rem;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+            }
+            .summary-card .s-icon {
+                display: flex;
+                align-items: center;
+            }
+            .summary-card .s-icon svg {
+                width: 18px;
+                height: 18px;
+                stroke: var(--gray);
+                fill: none;
+                stroke-width: 2;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+            }
+            .summary-card .s-body {
+                flex: 1;
+            }
+            .summary-card .s-name {
+                font-weight: 600;
+                font-size: 0.875rem;
+            }
+            .summary-card .s-val {
+                font-size: 0.8125rem;
+                color: var(--gray);
+                margin-top: 0.125rem;
+            }
+            .summary-card .s-tag {
+                font-size: 0.6875rem;
+                font-weight: 600;
+                padding: 0.125rem 0.375rem;
+                border-radius: 3px;
+                flex-shrink: 0;
+            }
+            .s-tag.company {
+                background: var(--gray-light);
+                color: var(--gray);
+                border: 1px solid var(--border);
+            }
+            .s-tag.custom {
+                background: #eff6ff;
+                color: var(--primary);
+                border: 1px solid #bfdbfe;
+            }
+            .esc-personal {
+                background: #f0fdf9;
+                border: 1px solid #bbf7d0;
+                border-radius: 8px;
+                padding: 1rem 1.25rem;
+                margin-bottom: 1rem;
+            }
+            .esc-personal-title {
+                font-weight: 600;
+                font-size: 0.875rem;
+                margin-bottom: 0.5rem;
+            }
+            .esc-personal-chain {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                flex-wrap: wrap;
+                font-size: 0.875rem;
+            }
+            .esc-personal .ep-step {
+                padding: 0.375rem 0.75rem;
+                background: #fff;
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                gap: 0.375rem;
+            }
+            .esc-personal .ep-you {
+                background: var(--dark);
+                color: #fff;
+                border-color: var(--dark);
+            }
+            .esc-personal .ep-arrow {
+                color: var(--gray);
+                font-size: 0.8125rem;
+            }
+            .cfg-fin-toggle {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.75rem 0;
+                border-bottom: 1px solid #f5f5f5;
+            }
+            .audit-row {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                padding: 0.5rem 0;
+                border-bottom: 1px solid #f5f5f5;
+                font-size: 0.8125rem;
+            }
+            .audit-row:last-child {
+                border-bottom: none;
+            }
+            .audit-time {
+                color: var(--gray);
+                min-width: 100px;
+                flex-shrink: 0;
+            }
+            .audit-who {
+                font-weight: 600;
+                min-width: 100px;
+                flex-shrink: 0;
+            }
+            .audit-what {
+                color: var(--dark);
+                flex: 1;
+            }
+            .ai-cfg-suggest {
+                font-size: 0.75rem;
+                color: #00a86b;
+                display: flex;
+                align-items: center;
+                gap: 0.25rem;
+                flex-wrap: wrap;
+            }
+            .ai-cfg-suggest .ai-icon {
+                display: inline-flex;
+                align-items: center;
+            }
+            .ai-cfg-suggest .ai-icon svg {
+                width: 12px;
+                height: 12px;
+                fill: #1a1a1a;
+            }
+            .cfg-apply-btn {
+                background: var(--green);
+                color: #fff;
+                border: none;
+                border-radius: 4px;
+                padding: 0.125rem 0.5rem;
+                font-family: inherit;
+                font-size: 0.6875rem;
+                font-weight: 700;
+                cursor: pointer;
+                white-space: nowrap;
+                margin-left: 0.25rem;
+            }
+            .cfg-apply-btn:hover {
+                background: #00b870;
+            }
+            .cfg-confirm-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.4);
+                z-index: 9998;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .cfg-confirm {
+                background: #fff;
+                border-radius: 12px;
+                padding: 1.5rem;
+                max-width: 400px;
+                width: 90%;
+                box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+            }
+            .cfg-confirm h3 {
+                font-size: 1rem;
+                font-weight: 700;
+                margin-bottom: 0.5rem;
+            }
+            .cfg-confirm p {
+                font-size: 0.875rem;
+                color: var(--gray);
+                margin-bottom: 1rem;
+                line-height: 1.5;
+            }
+            .cfg-confirm-actions {
+                display: flex;
+                gap: 0.5rem;
+                justify-content: flex-end;
+            }
+            .cfg-confirm-actions button {
+                padding: 0.5rem 1rem;
+                border-radius: 6px;
+                font-family: inherit;
+                font-size: 0.875rem;
+                font-weight: 600;
+                cursor: pointer;
+            }
+            .cfg-confirm-cancel {
+                background: #fff;
+                border: 1px solid var(--border);
+                color: var(--dark);
+            }
+            .cfg-confirm-go {
+                background: var(--dark);
+                border: none;
+                color: #fff;
+            }
+            .ov-input-saving {
+                outline: 2px solid var(--green) !important;
+                transition: outline 0.2s;
+            }
+            .cfg-card-header .cfg-title {
+                flex: 1;
+            }
+            .cfg-card-header .cfg-name {
+                font-weight: 600;
+                font-size: 0.9375rem;
+            }
+            .cfg-card-header .cfg-desc {
+                font-size: 0.8125rem;
+                color: var(--gray);
+                margin-top: 0.125rem;
+            }
+            .cfg-card-header .cfg-badge {
+                font-size: 0.75rem;
+                font-weight: 600;
+                padding: 0.125rem 0.5rem;
+                border-radius: 4px;
+                flex-shrink: 0;
+            }
+            .cfg-badge.on {
+                background: #f0fdf9;
+                color: #059669;
+                border: 1px solid #00d084;
+            }
+            .cfg-badge.off {
+                background: var(--gray-light);
+                color: var(--gray);
+                border: 1px solid var(--border);
+            }
+            .cfg-badge.view {
+                background: #eff6ff;
+                color: #1d4ed8;
+                border: 1px solid #bfdbfe;
+            }
+            .cfg-chevron {
+                color: var(--gray);
+                font-size: 0.75rem;
+                transition: transform 0.2s;
+                flex-shrink: 0;
+            }
+            .cfg-card.open .cfg-chevron {
+                transform: rotate(90deg);
+            }
+            .cfg-card-body {
+                display: none;
+                padding: 0 1.25rem 1.25rem;
+                border-top: 1px solid #f0f0f0;
+            }
+            .cfg-card.open .cfg-card-body {
+                display: block;
+            }
+
+            /* ── Form Elements ── */
+            .cfg-row {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                padding: 0.75rem 0;
+                border-bottom: 1px solid #f5f5f5;
+            }
+            .cfg-row:last-child {
+                border-bottom: none;
+            }
+            .cfg-label {
+                font-size: 0.875rem;
+                font-weight: 500;
+                min-width: 180px;
+                display: flex;
+                align-items: center;
+                gap: 0.375rem;
+            }
+            .cfg-label .lock-icon {
+                color: var(--orange);
+                font-size: 0.75rem;
+                cursor: help;
+            }
+            .cfg-value {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            .cfg-input {
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                padding: 0.375rem 0.75rem;
+                font-size: 0.875rem;
+                font-family: inherit;
+                width: 80px;
+                text-align: center;
+                transition: border-color 0.15s;
+            }
+            .cfg-input:focus {
+                outline: none;
+                border-color: var(--primary);
+            }
+            .cfg-input:disabled {
+                background: #f8f8f8;
+                color: var(--gray);
+                cursor: not-allowed;
+            }
+            .cfg-unit {
+                font-size: 0.8125rem;
+                color: var(--gray);
+            }
+            .cfg-note {
+                font-size: 0.75rem;
+                color: var(--gray);
+                font-style: italic;
+            }
+            .cfg-locked {
+                font-size: 0.75rem;
+                color: var(--orange);
+                display: flex;
+                align-items: center;
+                gap: 0.25rem;
+            }
+
+            /* Toggle Switch */
+            .toggle {
+                position: relative;
+                width: 40px;
+                height: 22px;
+                flex-shrink: 0;
+            }
+            .toggle input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+            .toggle-track {
+                position: absolute;
+                inset: 0;
+                background: var(--border);
+                border-radius: 11px;
+                cursor: pointer;
+                transition: background 0.2s;
+            }
+            .toggle-track::after {
+                content: "";
+                position: absolute;
+                width: 16px;
+                height: 16px;
+                left: 3px;
+                top: 3px;
+                background: #fff;
+                border-radius: 50%;
+                transition: transform 0.2s;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            }
+            .toggle input:checked + .toggle-track {
+                background: var(--green);
+            }
+            .toggle input:checked + .toggle-track::after {
+                transform: translateX(18px);
+            }
+            .toggle input:disabled + .toggle-track {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
+            /* Lock Toggle */
+            .lock-toggle {
+                display: flex;
+                align-items: center;
+                gap: 0.375rem;
+                margin-left: auto;
+                font-size: 0.75rem;
+                color: var(--gray);
+                cursor: pointer;
+                padding: 0.25rem 0.5rem;
+                border: 1px solid var(--border);
+                border-radius: 4px;
+                background: #fff;
+                font-family: inherit;
+                transition: all 0.15s;
+            }
+            .lock-toggle:hover {
+                border-color: var(--orange);
+                color: var(--orange);
+            }
+            .lock-toggle.locked {
+                background: #fff7ed;
+                border-color: var(--orange);
+                color: var(--orange);
+            }
+
+            /* Per-location overrides */
+            .override-table {
+                width: 100%;
+                font-size: 0.8125rem;
+                border-collapse: collapse;
+                margin-top: 0.5rem;
+            }
+            .override-table th {
+                text-align: left;
+                padding: 0.5rem;
+                font-weight: 600;
+                border-bottom: 2px solid var(--border);
+                color: var(--gray);
+                font-size: 0.75rem;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+            }
+            .override-table td {
+                padding: 0.5rem;
+                border-bottom: 1px solid #f5f5f5;
+            }
+            .override-table .ov-input {
+                border: 1px solid var(--border);
+                border-radius: 4px;
+                padding: 0.25rem 0.5rem;
+                font-size: 0.8125rem;
+                font-family: inherit;
+                width: 70px;
+                text-align: center;
+            }
+            .override-table .ov-input:disabled {
+                background: #f8f8f8;
+                color: var(--gray);
+            }
+            .override-table .ov-default {
+                color: var(--gray);
+                font-style: italic;
+                font-size: 0.75rem;
+            }
+
+            /* ── Custom Alert Builder ── */
+            .builder {
+                background: #fafafa;
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                padding: 1.5rem;
+                margin-top: 1rem;
+            }
+            .builder-title {
+                font-weight: 700;
+                font-size: 1rem;
+                margin-bottom: 1rem;
+            }
+            .builder-step {
+                margin-bottom: 1.25rem;
+            }
+            .builder-step-label {
+                font-size: 0.8125rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                color: #999;
+                margin-bottom: 0.5rem;
+            }
+            .builder-row {
+                display: flex;
+                gap: 0.75rem;
+                align-items: center;
+                flex-wrap: wrap;
+            }
+            .builder-select {
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                padding: 0.5rem 0.75rem;
+                font-size: 0.875rem;
+                font-family: inherit;
+                background: #fff;
+                min-width: 160px;
+                cursor: pointer;
+            }
+            .builder-select:focus {
+                outline: none;
+                border-color: var(--primary);
+            }
+
+            /* ── Escalation Chain ── */
+            .esc-chain {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                flex-wrap: wrap;
+                padding: 0.75rem 0;
+            }
+            .esc-node {
+                display: flex;
+                align-items: center;
+                gap: 0.375rem;
+                padding: 0.5rem 0.875rem;
+                background: #fff;
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                font-size: 0.875rem;
+                font-weight: 500;
+            }
+            .esc-node .esc-avatar {
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.5rem;
+                font-weight: 700;
+                color: #fff;
+            }
+            .esc-arrow {
+                color: var(--gray);
+                font-size: 0.875rem;
+                display: flex;
+                align-items: center;
+                gap: 0.25rem;
+            }
+            .esc-arrow .esc-time {
+                font-size: 0.75rem;
+                font-weight: 600;
+                color: var(--orange);
+            }
+
+            /* ── Notification Grid ── */
+            .notif-grid {
+                width: 100%;
+                font-size: 0.875rem;
+                border-collapse: collapse;
+            }
+            .notif-grid th {
+                text-align: center;
+                padding: 0.625rem 0.5rem;
+                font-weight: 600;
+                font-size: 0.75rem;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                color: var(--gray);
+                border-bottom: 2px solid var(--border);
+            }
+            .notif-grid th:first-child {
+                text-align: left;
+            }
+            .notif-grid td {
+                padding: 0.625rem 0.5rem;
+                text-align: center;
+                border-bottom: 1px solid #f5f5f5;
+            }
+            .notif-grid td:first-child {
+                text-align: left;
+                font-weight: 500;
+            }
+            .notif-grid .required {
+                font-size: 0.625rem;
+                color: var(--orange);
+                display: block;
+            }
+
+            /* ── Region Cards ── */
+            .region-card {
+                background: #fff;
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                padding: 1.25rem;
+                margin-bottom: 0.75rem;
+            }
+            .region-card-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 0.75rem;
+            }
+            .region-card-title {
+                font-weight: 700;
+                font-size: 1rem;
+            }
+            .region-card-mgr {
+                font-size: 0.8125rem;
+                color: var(--gray);
+            }
+            .region-sites {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            .region-site {
+                padding: 0.375rem 0.75rem;
+                background: var(--gray-light);
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                font-size: 0.8125rem;
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                gap: 0.375rem;
+            }
+            .region-site .site-mgr {
+                font-size: 0.75rem;
+                color: var(--gray);
+                font-weight: 400;
+            }
+
+            /* ── Buttons ── */
+            .btn-primary {
+                background: var(--dark);
+                color: #fff;
+                border: none;
+                padding: 0.625rem 1.25rem;
+                border-radius: 6px;
+                font-weight: 600;
+                font-size: 0.875rem;
+                cursor: pointer;
+                transition: all 0.2s;
+                font-family: inherit;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.375rem;
+            }
+            .btn-primary:hover {
+                background: #333;
+            }
+            .btn-secondary {
+                background: #fff;
+                color: var(--dark);
+                border: 1px solid var(--border);
+                padding: 0.625rem 1.25rem;
+                border-radius: 6px;
+                font-weight: 600;
+                font-size: 0.875rem;
+                cursor: pointer;
+                transition: all 0.2s;
+                font-family: inherit;
+            }
+            .btn-secondary:hover {
+                border-color: var(--dark);
+            }
+            .btn-text {
+                background: none;
+                border: none;
+                color: var(--primary);
+                font-weight: 600;
+                font-size: 0.875rem;
+                cursor: pointer;
+                font-family: inherit;
+                padding: 0.25rem 0;
+            }
+            .btn-text:hover {
+                text-decoration: underline;
+            }
+            .btn-danger {
+                background: none;
+                border: 1px solid var(--red);
+                color: var(--red);
+                padding: 0.375rem 0.875rem;
+                border-radius: 6px;
+                font-weight: 600;
+                font-size: 0.8125rem;
+                cursor: pointer;
+                font-family: inherit;
+            }
+            .btn-danger:hover {
+                background: #fef2f2;
+            }
+
+            /* ── Toast ── */
+            .toast {
+                position: fixed;
+                bottom: 2rem;
+                left: 50%;
+                transform: translateX(-50%) translateY(20px);
+                background: var(--dark);
+                color: #fff;
+                padding: 0.875rem 1.5rem;
+                border-radius: 8px;
+                font-size: 0.9375rem;
+                font-weight: 600;
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                opacity: 0;
+                animation: toastIn 0.3s ease forwards;
+                z-index: 9999;
+            }
+            @keyframes toastIn {
+                to {
+                    opacity: 1;
+                    transform: translateX(-50%) translateY(0);
+                }
+            }
+
+            @media (max-width: 768px) {
+                .sidebar {
+                    display: none;
+                    transform: translateX(-100%);
+                    transition: transform 0.25s ease;
+                }
+                .sidebar.open {
+                    display: flex;
+                    transform: translateX(0);
+                }
+                .sidebar-backdrop.open {
+                    display: block;
+                }
+                .hamburger {
+                    display: flex;
+                }
+                .main {
+                    margin-left: 0;
+                }
+                .page-header {
+                    padding: 1rem;
+                    flex-wrap: wrap;
+                    gap: 0.5rem;
+                }
+                .page-header h1 {
+                    font-size: 1.25rem;
+                }
+                .tab-bar {
+                    padding: 0 0.5rem;
+                    overflow-x: auto;
+                    -webkit-overflow-scrolling: touch;
+                }
+                .tab-btn {
+                    padding: 0.75rem 0.875rem;
+                    font-size: 0.8125rem;
+                }
+                .page-content {
+                    padding: 1rem;
+                }
+                .cfg-row {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 0.375rem;
+                }
+                .cfg-label {
+                    min-width: auto;
+                }
+                .cfg-card-meta {
+                    margin-left: 0.5rem;
+                }
+                .cfg-lock-ind span {
+                    display: none;
+                }
+                .builder-row {
+                    flex-direction: column;
+                    align-items: stretch;
+                }
+                .builder-select {
+                    min-width: auto;
+                    width: 100%;
+                }
+                .esc-chain {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+                .esc-personal-chain {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+                .override-table {
+                    font-size: 0.75rem;
+                }
+                .override-table thead {
+                    display: none;
+                }
+                .override-table tbody tr {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 0.25rem 0.5rem;
+                    padding: 0.5rem 0;
+                    border-bottom: 1px solid var(--border);
+                    align-items: center;
+                }
+                .override-table tbody td {
+                    border: none;
+                    padding: 0;
+                }
+                .override-table tbody td:first-child {
+                    font-weight: 600;
+                    width: 100%;
+                    font-size: 0.8125rem;
+                }
+                .override-table .ov-input {
+                    width: 80px;
+                    padding: 0.5rem 0.625rem;
+                    font-size: 0.9375rem;
+                }
+                .override-table .ai-cfg-suggest {
+                    font-size: 0.75rem;
+                }
+                .override-table .cfg-apply-btn {
+                    padding: 0.25rem 0.625rem;
+                    font-size: 0.75rem;
+                }
+                .cfg-input {
+                    padding: 0.5rem 0.625rem;
+                    font-size: 0.9375rem;
+                }
+                .cfg-confirm {
+                    max-width: 92vw;
+                    padding: 1.25rem;
+                }
+                .summary-card {
+                    flex-wrap: wrap;
+                }
+                .notif-grid {
+                    font-size: 0.8125rem;
+                }
+                .notif-grid th,
+                .notif-grid td {
+                    padding: 0.5rem 0.25rem;
+                }
+                .audit-row {
+                    flex-wrap: wrap;
+                    gap: 0.25rem;
+                }
+                .audit-time {
+                    min-width: auto;
+                }
+                .audit-who {
+                    min-width: auto;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="app">
+            <aside class="sidebar">
+                <a class="sidebar-logo" href="#"
+                    ><svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                    >
+                        <rect
+                            x="4"
+                            y="14"
+                            width="3"
+                            height="6"
+                            rx="1"
+                            fill="#00D084"
+                        />
+                        <rect
+                            x="10.5"
+                            y="8"
+                            width="3"
+                            height="12"
+                            rx="1"
+                            fill="#00D084"
+                        />
+                        <rect
+                            x="17"
+                            y="4"
+                            width="3"
+                            height="16"
+                            rx="1"
+                            fill="#00D084"
+                        /></svg><span>WashIQ</span></a
+                >
+                <nav class="sidebar-nav">
+                    <div class="sidebar-section">
+                        <div class="sidebar-section-label">Overview</div>
+                        <a class="sidebar-link" href="#"
+                            ><svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                            >
+                                <rect x="3" y="3" width="7" height="7" />
+                                <rect x="14" y="3" width="7" height="7" />
+                                <rect x="3" y="14" width="7" height="7" />
+                                <rect x="14" y="14" width="7" height="7" /></svg>Dashboard</a
+                        >
+                    </div>
+                    <div class="sidebar-section">
+                        <div class="sidebar-section-label">Alerts</div>
+                        <a class="sidebar-link" href="/alerts-feed.html"
+                            ><svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                            >
+                                <path
+                                    d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"
+                                />
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>Alert Feed<span
+                                class="sidebar-badge"
+                                id="badge-count"
+                                >8</span
+                            ></a
+                        >
+                        <a class="sidebar-link active" href="#"
+                            ><svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                            >
+                                <circle cx="12" cy="12" r="3" />
+                                <path
+                                    d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"
+                                /></svg>Configuration</a
+                        >
+                        <a class="sidebar-link" href="/history.html"
+                            ><svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                            >
+                                <circle cx="12" cy="12" r="10" />
+                                <polyline points="12 6 12 12 16 14" /></svg>History</a
+                        >
+                        <a class="sidebar-link" href="#"
+                            ><svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <path
+                                    d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
+                                />
+                                <circle cx="12" cy="12" r="3" /></svg>Settings</a
+                        >
+                    </div>
+                    <div class="sidebar-section">
+                        <div class="sidebar-section-label">Coming Soon</div>
+                        <a
+                            class="sidebar-link"
+                            style="opacity: 0.4; pointer-events: none"
+                            href="#"
+                            ><svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                            >
+                                <line x1="12" y1="1" x2="12" y2="23" />
+                                <path
+                                    d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+                                /></svg>Financial Integration</a
+                        >
+                        <a
+                            class="sidebar-link"
+                            style="opacity: 0.4; pointer-events: none"
+                            href="#"
+                            ><svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                            >
+                                <path
+                                    d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+                                />
+                                <circle cx="9" cy="7" r="4" />
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>CRM & Marketing</a
+                        >
+                    </div>
+                </nav>
+                <div class="role-switcher">
+                    <div class="role-switcher-label">Viewing as</div>
+                    <button
+                        class="role-btn active"
+                        onclick="switchRole('owner')"
+                    >
+                        <div class="ra" style="background: var(--dark)">JD</div>
+                        <div>
+                            <div class="rn">Jake Dawson</div>
+                            <div class="rt">Owner · All Locations</div>
+                        </div>
+                    </button>
+                    <button class="role-btn" onclick="switchRole('area')">
+                        <div class="ra" style="background: var(--orange)">
+                            SC
+                        </div>
+                        <div>
+                            <div class="rn">Sarah Chen</div>
+                            <div class="rt">Area Manager · Region North</div>
+                        </div>
+                    </button>
+                    <button class="role-btn" onclick="switchRole('site')">
+                        <div class="ra" style="background: var(--green)">
+                            MT
+                        </div>
+                        <div>
+                            <div class="rn">Mike Torres</div>
+                            <div class="rt">Site Manager · Downtown</div>
+                        </div>
+                    </button>
+                </div>
+            </aside>
+            <div
+                class="sidebar-backdrop"
+                id="sidebar-backdrop"
+                onclick="closeSidebar()"
+            ></div>
+            <main class="main">
+                <header class="page-header">
+                    <div
+                        style="display: flex; align-items: center; gap: 0.75rem"
+                    >
+                        <button class="hamburger" onclick="openSidebar()">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke-linecap="round"
+                            >
+                                <line x1="3" y1="6" x2="21" y2="6" />
+                                <line x1="3" y1="12" x2="21" y2="12" />
+                                <line x1="3" y1="18" x2="21" y2="18" />
+                            </svg>
+                        </button>
+                        <h1>Configuration</h1>
+                    </div>
+                    <span
+                        id="role-label"
+                        style="
+                            font-size: 0.875rem;
+                            color: var(--gray);
+                            font-weight: 500;
+                        "
+                        >Owner · Full Access</span
+                    >
+                </header>
+                <div class="tab-bar">
+                    <button
+                        class="tab-btn active"
+                        onclick="switchTab('standard')"
+                    >
+                        Alerts
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('escalation')">
+                        Escalation & Notifications
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('regions')">
+                        Regions & Locations
+                    </button>
+                </div>
+
+                <!-- ═══ TAB 1: STANDARD ALERTS ═══ -->
+                <div class="tab-panel active" id="panel-standard">
+                    <div class="page-content" id="standard-content"></div>
+                    <div style="padding: 0 2.5rem">
+                        <hr
+                            style="
+                                border: none;
+                                border-top: 2px dashed var(--border);
+                                margin: 1rem 0 2rem;
+                            "
+                        />
+                    </div>
+                    <div
+                        class="page-content"
+                        id="custom-content"
+                        style="padding-top: 0"
+                    ></div>
+                </div>
+
+                <!-- ═══ TAB 2: ESCALATION & NOTIFICATIONS ═══ -->
+                <div class="tab-panel" id="panel-escalation">
+                    <div class="page-content" id="escalation-content"></div>
+                </div>
+
+                <!-- ═══ TAB 4: REGIONS & LOCATIONS ═══ -->
+                <div class="tab-panel" id="panel-regions">
+                    <div class="page-content" id="regions-content"></div>
+                </div>
+            </main>
+        </div>
+        <script>
+            var ROLES = {
+                owner: { name: "Jake Dawson", label: "Owner · Full Access" },
+                area: {
+                    name: "Sarah Chen",
+                    label: "Area Manager · Region North",
+                },
+                site: { name: "Mike Torres", label: "Site Manager · Downtown" },
+            };
+            var curRole = "owner";
+            var SITES = [
+                {
+                    id: "downtown",
+                    name: "Downtown",
+                    region: "Region South",
+                    mgr: "Mike Torres",
+                },
+                {
+                    id: "westside",
+                    name: "Westside",
+                    region: "Region South",
+                    mgr: "David Park",
+                },
+                {
+                    id: "northgate",
+                    name: "Northgate",
+                    region: "Region North",
+                    mgr: "Lisa Wang",
+                },
+                {
+                    id: "riverside",
+                    name: "Riverside",
+                    region: "Region North",
+                    mgr: "Amy Foster",
+                },
+                {
+                    id: "lakefront",
+                    name: "Lakefront",
+                    region: "Region North",
+                    mgr: "Carlos Ruiz",
+                },
+            ];
+            var REGIONS = [
+                {
+                    name: "Region North",
+                    mgr: "Sarah Chen",
+                    sites: ["northgate", "riverside", "lakefront"],
+                },
+                {
+                    name: "Region South",
+                    mgr: "— Unassigned",
+                    sites: ["downtown", "westside"],
+                },
+            ];
+            var TEAM = [
+                {
+                    name: "Jake Dawson",
+                    role: "Owner",
+                    initials: "JD",
+                    color: "var(--dark)",
+                },
+                {
+                    name: "Sarah Chen",
+                    role: "Area Manager",
+                    initials: "SC",
+                    color: "var(--orange)",
+                    region: "Region North",
+                },
+                {
+                    name: "Mike Torres",
+                    role: "Site Manager",
+                    initials: "MT",
+                    color: "var(--green)",
+                    site: "Downtown",
+                },
+                {
+                    name: "David Park",
+                    role: "Site Manager",
+                    initials: "DP",
+                    color: "var(--primary)",
+                    site: "Westside",
+                },
+                {
+                    name: "Lisa Wang",
+                    role: "Site Manager",
+                    initials: "LW",
+                    color: "#8B5CF6",
+                    site: "Northgate",
+                },
+                {
+                    name: "Amy Foster",
+                    role: "Site Manager",
+                    initials: "AF",
+                    color: "#EC4899",
+                    site: "Riverside",
+                },
+                {
+                    name: "Carlos Ruiz",
+                    role: "Site Manager",
+                    initials: "CR",
+                    color: "#14B8A6",
+                    site: "Lakefront",
+                },
+            ];
+            var SVG = {
+                gear: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
+                clock: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+                trending:
+                    '<svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>',
+                car: '<svg viewBox="0 0 24 24"><path d="M5 17h14v-5H5z"/><path d="M7 12l2-5h6l2 5"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/></svg>',
+                gauge: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>',
+                bell: '<svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>',
+                barChart:
+                    '<svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>',
+                pkg: '<svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>',
+                zap: '<svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
+                moon: '<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',
+                user: '<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+                users: '<svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+                refresh:
+                    '<svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>',
+                list: '<svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>',
+                map: '<svg viewBox="0 0 24 24"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>',
+                pin: '<svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+                building:
+                    '<svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="9" y1="6" x2="9" y2="6.01"/><line x1="15" y1="6" x2="15" y2="6.01"/><line x1="9" y1="10" x2="9" y2="10.01"/><line x1="15" y1="10" x2="15" y2="10.01"/><line x1="9" y1="14" x2="9" y2="14.01"/><line x1="15" y1="14" x2="15" y2="14.01"/><line x1="9" y1="18" x2="15" y2="18"/></svg>',
+                plus: '<svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>',
+                eye: '<svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>',
+                history:
+                    '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+                dot: function (c) {
+                    return (
+                        '<span class="sev-dot" style="background:' +
+                        c +
+                        '"></span>'
+                    );
+                },
+            };
+            function lockSvg() {
+                return '<svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:var(--orange);fill:none;stroke-width:2;stroke-linecap:round;display:inline"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
+            }
+
+            var STD_ALERTS = [
+                {
+                    id: "no-cars",
+                    group: "Operational",
+                    icon: "car",
+                    name: "No Cars Processed",
+                    desc: "Alerts when no vehicles processed within time window",
+                    on: true,
+                    locked: false,
+                    fields: [
+                        {
+                            key: "t",
+                            label: "Time Window",
+                            val: 15,
+                            unit: "min",
+                            type: "number",
+                            min: 5,
+                            max: 60,
+                        },
+                        {
+                            key: "w",
+                            label: "Auto-downgrade on Rain",
+                            val: true,
+                            type: "toggle",
+                        },
+                    ],
+                    ov: {
+                        downtown: 15,
+                        westside: 15,
+                        northgate: 20,
+                        riverside: 20,
+                        lakefront: 20,
+                    },
+                    impact: 18,
+                    ai: {
+                        downtown: "12 — avg gap 3 min, issues at 10+",
+                        northgate: "22 — slower site, longer natural gaps",
+                        westside: "14 — high traffic",
+                    },
+                },
+                {
+                    id: "low-prod",
+                    group: "Operational",
+                    icon: "gauge",
+                    name: "Low Productivity",
+                    desc: "Alerts when cars per labor hour falls below threshold",
+                    on: true,
+                    locked: false,
+                    fields: [
+                        {
+                            key: "t",
+                            label: "Cars/Labor Hour",
+                            val: 8.0,
+                            unit: "cars/hr",
+                            type: "number",
+                            min: 3,
+                            max: 20,
+                        },
+                    ],
+                    ov: {
+                        downtown: 8,
+                        westside: 8,
+                        northgate: 7,
+                        riverside: 8,
+                        lakefront: 7,
+                    },
+                    impact: 6,
+                    ai: {
+                        downtown: "8.5 — avg is 9.2",
+                        northgate: "6.5 — longer tunnel",
+                        westside: "7.5 — below avg, reduce noise",
+                    },
+                },
+                {
+                    id: "early-clock",
+                    group: "Time Tracking",
+                    icon: "clock",
+                    name: "Early Clock-In",
+                    desc: "Alerts when employee clocks in before threshold",
+                    on: true,
+                    locked: true,
+                    fields: [
+                        {
+                            key: "t",
+                            label: "Earliest Allowed",
+                            val: "7:00 AM",
+                            type: "time",
+                        },
+                    ],
+                    ov: {
+                        downtown: "7:00 AM",
+                        westside: "7:00 AM",
+                        northgate: "6:30 AM",
+                        riverside: "7:00 AM",
+                        lakefront: "7:00 AM",
+                    },
+                    impact: 3,
+                    ai: {
+                        downtown:
+                            "6:45 AM — 75% snoozed, real issues are 30+ min early",
+                        westside: "6:45 AM — same pattern",
+                        northgate: "6:15 AM — already relaxed, still 2 snoozes",
+                    },
+                },
+                {
+                    id: "late-clock",
+                    group: "Time Tracking",
+                    icon: "clock",
+                    name: "Late Clock-Out",
+                    desc: "Alerts when employee is still clocked in after threshold",
+                    on: true,
+                    locked: true,
+                    fields: [
+                        {
+                            key: "t",
+                            label: "Latest Allowed",
+                            val: "9:30 PM",
+                            type: "time",
+                        },
+                    ],
+                    ov: {
+                        downtown: "9:30 PM",
+                        westside: "9:30 PM",
+                        northgate: "9:30 PM",
+                        riverside: "9:30 PM",
+                        lakefront: "9:30 PM",
+                    },
+                    impact: 8,
+                    ai: {
+                        downtown:
+                            "9:45 PM — 80% resolve within 15 min of current threshold",
+                    },
+                },
+                {
+                    id: "clock-rem",
+                    group: "Time Tracking",
+                    icon: "bell",
+                    name: "Late Clock-Out Reminder",
+                    desc: "Recurring reminder for employees still clocked in",
+                    on: true,
+                    locked: false,
+                    fields: [
+                        {
+                            key: "i",
+                            label: "Repeat Every",
+                            val: 15,
+                            unit: "min",
+                            type: "number",
+                            min: 5,
+                            max: 60,
+                        },
+                        {
+                            key: "c",
+                            label: "Stop After",
+                            val: "11:00 PM",
+                            type: "time",
+                        },
+                    ],
+                    ov: null,
+                    impact: 12,
+                },
+                {
+                    id: "low-conv",
+                    group: "Sales Flagging",
+                    icon: "barChart",
+                    name: "Low Conversion Flag",
+                    desc: "Highlights locations below threshold in report tables",
+                    on: true,
+                    locked: false,
+                    fields: [
+                        {
+                            key: "t",
+                            label: "Minimum Conv %",
+                            val: 20,
+                            unit: "%",
+                            type: "number",
+                            min: 5,
+                            max: 50,
+                        },
+                    ],
+                    ov: {
+                        downtown: 20,
+                        westside: 20,
+                        northgate: 20,
+                        riverside: 20,
+                        lakefront: 20,
+                    },
+                    impact: 2,
+                    ai: {
+                        downtown: "18 — avg 22.4%, issues below 18",
+                        westside:
+                            "17 — declining trend, lower bar avoids false flags",
+                        northgate: "19 — steady performer",
+                    },
+                },
+                {
+                    id: "low-prem",
+                    group: "Sales Flagging",
+                    icon: "pkg",
+                    name: "Low Premium Mix Flag",
+                    desc: "Highlights locations below threshold in report tables",
+                    on: true,
+                    locked: false,
+                    fields: [
+                        {
+                            key: "t",
+                            label: "Minimum Prem %",
+                            val: 40,
+                            unit: "%",
+                            type: "number",
+                            min: 10,
+                            max: 80,
+                        },
+                    ],
+                    ov: {
+                        downtown: 40,
+                        westside: 40,
+                        northgate: 40,
+                        riverside: 40,
+                        lakefront: 40,
+                    },
+                    impact: 3,
+                    ai: {
+                        downtown: "38 — avg 42%, tight margin",
+                        lakefront: "35 — lower premium demand area",
+                    },
+                },
+            ];
+            var CUSTOM = [
+                {
+                    id: "c1",
+                    name: "Low Daily Subscriptions",
+                    cat: "Sales",
+                    metric: "Subscription Count",
+                    cond: "Below",
+                    thresh: 5,
+                    scope: "Any Location",
+                    sev: "Warning",
+                    on: true,
+                    fires: 47,
+                    by: "Jake Dawson",
+                },
+                {
+                    id: "c2",
+                    name: "Conversion Drop Alert",
+                    cat: "Trend",
+                    metric: "Conversion %",
+                    cond: "Drops more than",
+                    thresh: 5,
+                    scope: "Any Location",
+                    sev: "Warning",
+                    on: true,
+                    fires: 12,
+                    by: "Jake Dawson",
+                },
+                {
+                    id: "c3",
+                    name: "Overstaffed Downtime",
+                    cat: "Labor",
+                    metric: "Employees with no cars",
+                    cond: "Above",
+                    thresh: 3,
+                    scope: "Region North",
+                    sev: "Info",
+                    on: false,
+                    fires: 0,
+                    by: "Sarah Chen",
+                },
+            ];
+            var ESC = {
+                critical: {
+                    steps: [
+                        { role: "Site Manager", delay: 0, ch: "In-App + SMS" },
+                        { role: "Area Manager", delay: 10, ch: "Slack + SMS" },
+                        { role: "Owner", delay: 15, ch: "SMS" },
+                    ],
+                },
+                warning: {
+                    steps: [
+                        { role: "Site Manager", delay: 0, ch: "In-App" },
+                        { role: "Area Manager", delay: 30, ch: "Slack" },
+                    ],
+                },
+            };
+            var NOTIF = {
+                owner: {
+                    critical: { app: 1, slack: 1, sms: 1, email: 0 },
+                    warning: { app: 1, slack: 1, sms: 0, email: 0 },
+                    info: { app: 1, slack: 0, sms: 0, email: 0 },
+                    reports: { app: 1, slack: 0, sms: 0, email: 1 },
+                },
+                area: {
+                    critical: { app: 1, slack: 1, sms: 1, email: 0 },
+                    warning: { app: 1, slack: 1, sms: 0, email: 0 },
+                    info: { app: 1, slack: 0, sms: 0, email: 0 },
+                    reports: { app: 1, slack: 0, sms: 0, email: 0 },
+                },
+                site: {
+                    critical: { app: 1, slack: 0, sms: 1, email: 0 },
+                    warning: { app: 1, slack: 0, sms: 0, email: 0 },
+                    info: { app: 1, slack: 0, sms: 0, email: 0 },
+                    reports: { app: 1, slack: 0, sms: 0, email: 0 },
+                },
+            };
+            var BH = {
+                downtown: { o: "7:00 AM", c: "9:00 PM" },
+                westside: { o: "7:00 AM", c: "9:00 PM" },
+                northgate: { o: "6:30 AM", c: "9:30 PM" },
+                riverside: { o: "7:00 AM", c: "9:00 PM" },
+                lakefront: { o: "7:00 AM", c: "9:00 PM" },
+            };
+            var AUDIT = [
+                {
+                    t: "Today 2:10 PM",
+                    w: "Jake Dawson",
+                    d: 'Locked "Early Clock-In" threshold',
+                },
+                {
+                    t: "Today 9:15 AM",
+                    w: "Sarah Chen",
+                    d: 'Changed Northgate "No Cars" from 15 → 20 min',
+                },
+                {
+                    t: "Yesterday",
+                    w: "Jake Dawson",
+                    d: 'Created custom alert "Low Daily Subscriptions"',
+                },
+                {
+                    t: "Feb 18",
+                    w: "Jake Dawson",
+                    d: 'Changed "Low Productivity" from 7.0 → 8.0 cars/hr',
+                },
+                {
+                    t: "Feb 15",
+                    w: "Sarah Chen",
+                    d: "Enabled Slack for warning notifications",
+                },
+            ];
+
+            function switchRole(r) {
+                curRole = r;
+                document.querySelectorAll(".role-btn").forEach(function (b) {
+                    b.classList.remove("active");
+                });
+                document
+                    .querySelector("[onclick=\"switchRole('" + r + "')\"]")
+                    .classList.add("active");
+                document.getElementById("role-label").textContent =
+                    ROLES[r].label;
+                renderAll();
+            }
+            function switchTab(t) {
+                document.querySelectorAll(".tab-btn").forEach(function (b) {
+                    b.classList.remove("active");
+                });
+                document
+                    .querySelector("[onclick=\"switchTab('" + t + "')\"]")
+                    .classList.add("active");
+                document.querySelectorAll(".tab-panel").forEach(function (p) {
+                    p.classList.remove("active");
+                });
+                document.getElementById("panel-" + t).classList.add("active");
+            }
+            function openSidebar() {
+                document.querySelector(".sidebar").classList.add("open");
+                document
+                    .getElementById("sidebar-backdrop")
+                    .classList.add("open");
+            }
+            function closeSidebar() {
+                document.querySelector(".sidebar").classList.remove("open");
+                document
+                    .getElementById("sidebar-backdrop")
+                    .classList.remove("open");
+            }
+            function toast(m) {
+                document.querySelectorAll(".toast").forEach(function (t) {
+                    t.remove();
+                });
+                var e = document.createElement("div");
+                e.className = "toast";
+                e.innerHTML = '<span style="color:var(--green)">✓</span> ' + m;
+                document.body.appendChild(e);
+                setTimeout(function () {
+                    e.remove();
+                }, 2500);
+            }
+            var debounceTimers = {};
+            function debounceInput(el, locName) {
+                var key = el.id;
+                clearTimeout(debounceTimers[key]);
+                el.classList.remove("ov-input-saving");
+                debounceTimers[key] = setTimeout(function () {
+                    el.classList.add("ov-input-saving");
+                    toast("Saved for " + locName);
+                    setTimeout(function () {
+                        el.classList.remove("ov-input-saving");
+                    }, 1500);
+                }, 1500);
+            }
+            function applyAiSuggestion(inputId, val, locName) {
+                var inp = document.getElementById(inputId);
+                if (inp) {
+                    var oldVal = inp.value;
+                    inp.value = val;
+                    inp.classList.add("ov-input-saving");
+                    toast("Applied AI suggestion: " + val + " for " + locName);
+                    setTimeout(function () {
+                        inp.classList.remove("ov-input-saving");
+                    }, 1500);
+                }
+            }
+            function confirmChange(msg, onConfirm) {
+                var ov = document.createElement("div");
+                ov.className = "cfg-confirm-overlay";
+                ov.innerHTML =
+                    '<div class="cfg-confirm"><h3>Confirm Change</h3><p>' +
+                    msg +
+                    '</p><div class="cfg-confirm-actions"><button class="cfg-confirm-cancel" onclick="this.closest(\'.cfg-confirm-overlay\').remove()">Cancel</button><button class="cfg-confirm-go">Continue</button></div></div>';
+                ov.querySelector(".cfg-confirm-go").onclick = function () {
+                    ov.remove();
+                    onConfirm();
+                };
+                document.body.appendChild(ov);
+                ov.onclick = function (e) {
+                    if (e.target === ov) ov.remove();
+                };
+            }
+            function showSuggestForm() {
+                var ov = document.createElement("div");
+                ov.className = "cfg-confirm-overlay";
+                ov.innerHTML =
+                    '<div class="cfg-confirm" style="max-width:440px"><h3>Suggest a Custom Alert</h3><p>Describe the alert you\'d like. Your area manager will review it.</p><div style="margin-bottom:.75rem"><input type="text" placeholder="Alert name (e.g. Slow Dry Time)" style="width:100%;padding:.5rem .75rem;border:1px solid #e0e0e0;border-radius:6px;font-family:inherit;font-size:.875rem;margin-bottom:.5rem"><textarea placeholder="Describe the condition and threshold..." style="width:100%;padding:.5rem .75rem;border:1px solid #e0e0e0;border-radius:6px;font-family:inherit;font-size:.875rem;height:70px;resize:vertical"></textarea></div><div class="cfg-confirm-actions"><button class="cfg-confirm-cancel" onclick="this.closest(\'.cfg-confirm-overlay\').remove()">Cancel</button><button class="cfg-confirm-go" onclick="submitSuggestion(this)">Submit Suggestion</button></div></div>';
+                document.body.appendChild(ov);
+                ov.onclick = function (e) {
+                    if (e.target === ov) ov.remove();
+                };
+            }
+            function submitSuggestion(btn) {
+                var ov = btn.closest(".cfg-confirm-overlay");
+                ov.remove();
+                var p = document.getElementById("suggest-pending");
+                if (p)
+                    p.innerHTML =
+                        '<div style="margin-top:.75rem;padding:.625rem .875rem;background:#EDFCF5;border:1px solid #B0E0CC;border-radius:8px;font-size:.8125rem"><strong style="color:var(--green)">✓ Submitted</strong> — Sent to Sarah Chen for review. You\'ll be notified when it\'s approved.</div>';
+                toast("Suggestion submitted to Sarah Chen");
+            }
+            function toggleCard(el) {
+                el.closest(".cfg-card").classList.toggle("open");
+            }
+            function canEdit(a) {
+                return curRole === "owner"
+                    ? true
+                    : curRole === "site"
+                      ? false
+                      : !(a && a.locked);
+            }
+            function canEditSite(sid) {
+                return curRole === "owner"
+                    ? true
+                    : curRole === "site"
+                      ? false
+                      : ["northgate", "riverside", "lakefront"].indexOf(sid) !==
+                        -1;
+            }
+            function visSites() {
+                return curRole === "owner"
+                    ? SITES
+                    : curRole === "area"
+                      ? SITES.filter(function (s) {
+                            return (
+                                ["northgate", "riverside", "lakefront"].indexOf(
+                                    s.id,
+                                ) !== -1
+                            );
+                        })
+                      : SITES.filter(function (s) {
+                            return s.id === "downtown";
+                        });
+            }
+            function validateInput(el, mn, mx) {
+                var v = parseFloat(el.value);
+                if (isNaN(v) || v < mn || v > mx) {
+                    el.classList.add("invalid");
+                    var m = el.parentElement.querySelector(".cfg-validation");
+                    if (!m) {
+                        m = document.createElement("div");
+                        m.className = "cfg-validation";
+                        el.parentElement.appendChild(m);
+                    }
+                    m.textContent = "Must be " + mn + "–" + mx;
+                } else {
+                    el.classList.remove("invalid");
+                    var m = el.parentElement.querySelector(".cfg-validation");
+                    if (m) m.remove();
+                    toast("Threshold updated");
+                }
+            }
+
+            // ═══ TAB 1: ALERTS ═══
+            function renderStandard() {
+                var h = "";
+                // FIX #5: Site manager gets clean summary cards, not disabled forms
+                if (curRole === "site") {
+                    h +=
+                        '<div class="cfg-section"><div class="cfg-section-title"><span class="section-icon">' +
+                        SVG.gear +
+                        "</span>Your Alert Thresholds — Downtown</div>";
+                    h +=
+                        '<p style="font-size:.875rem;color:var(--gray);margin-bottom:1rem">These thresholds determine when alerts fire at your location.</p>';
+                    STD_ALERTS.forEach(function (a) {
+                        var val =
+                            a.ov && a.ov.downtown
+                                ? a.ov.downtown
+                                : a.fields[0].val;
+                        var unit = a.fields[0].unit || "";
+                        var isDef = !a.ov || val == a.fields[0].val;
+                        h +=
+                            '<div class="summary-card"><div class="s-icon">' +
+                            SVG[a.icon] +
+                            '</div><div class="s-body"><div class="s-name">' +
+                            a.name +
+                            '</div><div class="s-val">' +
+                            val +
+                            " " +
+                            unit +
+                            '</div></div><span class="s-tag ' +
+                            (isDef ? "company" : "custom") +
+                            '">' +
+                            (isDef ? "Default" : "Custom") +
+                            "</span></div>";
+                    });
+                    h += "</div>";
+                    // Custom alerts affecting Downtown
+                    h +=
+                        '<div style="border-top:2px dashed var(--border);margin:1.5rem 0"></div>';
+                    h +=
+                        '<div class="cfg-section"><div class="cfg-section-title"><span class="section-icon">' +
+                        SVG.plus +
+                        "</span>Custom Alerts at Downtown</div>";
+                    var rel = CUSTOM.filter(function (a) {
+                        return a.scope === "Any Location";
+                    });
+                    if (!rel.length)
+                        h +=
+                            '<p style="color:var(--gray);font-size:.875rem">No custom alerts affect your location.</p>';
+                    rel.forEach(function (a) {
+                        h +=
+                            '<div class="summary-card"><div class="s-icon">' +
+                            SVG.dot(
+                                a.sev === "Warning"
+                                    ? "var(--orange)"
+                                    : "var(--primary)",
+                            ) +
+                            '</div><div class="s-body"><div class="s-name">' +
+                            a.name +
+                            '</div><div class="s-val">' +
+                            a.metric +
+                            " " +
+                            a.cond +
+                            " " +
+                            a.thresh +
+                            " · by " +
+                            a.by +
+                            '</div></div><span class="s-tag company">' +
+                            (a.on ? "Active" : "Off") +
+                            "</span></div>";
+                    });
+                    h +=
+                        '<button class="btn-secondary" style="margin-top:.75rem" onclick="showSuggestForm()">✏️ Suggest Custom Alert</button>';
+                    h += '<div id="suggest-pending"></div></div>';
+                    document.getElementById("standard-content").innerHTML = h;
+                    document.getElementById("custom-content").innerHTML = "";
+                    return;
+                }
+                // Owner & Area: full editable view
+                var grps = {};
+                STD_ALERTS.forEach(function (a) {
+                    if (!grps[a.group]) grps[a.group] = [];
+                    grps[a.group].push(a);
+                });
+                var sIcons = {
+                    Operational: SVG.gear,
+                    "Time Tracking": SVG.clock,
+                    "Sales Flagging": SVG.trending,
+                };
+                Object.keys(grps).forEach(function (g) {
+                    h +=
+                        '<div class="cfg-section"><div class="cfg-section-title"><span class="section-icon">' +
+                        sIcons[g] +
+                        "</span>" +
+                        g +
+                        "</div>";
+                    grps[g].forEach(function (a) {
+                        var ed = canEdit(a);
+                        // FIX #1: Lock indicator visible on collapsed card
+                        var meta = '<div class="cfg-card-meta">';
+                        if (a.locked)
+                            meta +=
+                                '<span class="cfg-lock-ind">' +
+                                lockSvg() +
+                                " <span>Locked</span></span>";
+                        meta +=
+                            (a.on
+                                ? '<span class="cfg-badge on">Active</span>'
+                                : '<span class="cfg-badge off">Off</span>') +
+                            "</div>";
+                        h +=
+                            '<div class="cfg-card"><div class="cfg-card-header" onclick="toggleCard(this)"><span class="cfg-icon">' +
+                            SVG[a.icon] +
+                            '</span><div class="cfg-title"><div class="cfg-name">' +
+                            a.name +
+                            '</div><div class="cfg-desc">' +
+                            a.desc +
+                            "</div></div>" +
+                            meta +
+                            '<span class="cfg-chevron">▶</span></div>';
+                        h +=
+                            '<div class="cfg-card-body"><div style="padding-top:1rem">';
+                        // Enable + Lock
+                        h +=
+                            '<div class="cfg-row"><span class="cfg-label">Enabled</span><div class="cfg-value"><label class="toggle"><input type="checkbox" ' +
+                            (a.on ? "checked" : "") +
+                            " " +
+                            (ed ? "" : "disabled") +
+                            ' onchange="toast(\'Saved\')"><span class="toggle-track"></span></label></div>';
+                        if (curRole === "owner")
+                            h +=
+                                '<button class="lock-toggle ' +
+                                (a.locked ? "locked" : "") +
+                                '" onclick="toggleLock(\'' +
+                                a.id +
+                                "',this)\">" +
+                                lockSvg() +
+                                " " +
+                                (a.locked ? "Locked" : "Unlocked") +
+                                "</button>";
+                        h += "</div>";
+                        // Fields with FIX #2: validation ranges
+                        a.fields.forEach(function (f) {
+                            h +=
+                                '<div class="cfg-row"><span class="cfg-label">' +
+                                f.label;
+                            if (!ed && a.locked && curRole === "area")
+                                h += " " + lockSvg();
+                            h += '</span><div class="cfg-value">';
+                            if (f.type === "toggle")
+                                h +=
+                                    '<label class="toggle"><input type="checkbox" ' +
+                                    (f.val ? "checked" : "") +
+                                    " " +
+                                    (ed ? "" : "disabled") +
+                                    ' onchange="toast(\'Saved\')"><span class="toggle-track"></span></label>';
+                            else if (f.type === "number") {
+                                h +=
+                                    '<input class="cfg-input" type="number" value="' +
+                                    f.val +
+                                    '" ' +
+                                    (ed
+                                        ? 'onchange="validateInput(this,' +
+                                          f.min +
+                                          "," +
+                                          f.max +
+                                          ')"'
+                                        : "disabled") +
+                                    ">";
+                                if (f.unit)
+                                    h +=
+                                        '<span class="cfg-unit">' +
+                                        f.unit +
+                                        "</span>";
+                                if (f.min != null && ed)
+                                    h +=
+                                        '<span class="cfg-range">(' +
+                                        f.min +
+                                        "–" +
+                                        f.max +
+                                        ")</span>";
+                            } else if (f.type === "time")
+                                h +=
+                                    '<input class="cfg-input" type="text" value="' +
+                                    f.val +
+                                    '" style="width:100px" ' +
+                                    (ed ? "" : "disabled") +
+                                    " onchange=\"toast('Saved')\">";
+                            else
+                                h +=
+                                    '<span class="cfg-unit">' +
+                                    f.val +
+                                    "</span>";
+                            if (!ed && a.locked && curRole === "area")
+                                h +=
+                                    '<span class="cfg-locked" style="font-size:.75rem;color:var(--orange)">Set by owner</span>';
+                            h += "</div></div>";
+                        });
+                        // FIX #7: Impact preview
+                        h +=
+                            '<div class="cfg-impact">Fired <strong>' +
+                            a.impact +
+                            "</strong> times in the last 7 days</div>";
+                        // Overrides
+                        if (a.ov) {
+                            var vs = visSites();
+                            var hasAi = !!a.ai;
+                            h +=
+                                '<div class="cfg-row" style="flex-direction:column;align-items:stretch"><span class="cfg-label" style="margin-bottom:.5rem">Per-Location Overrides</span>';
+                            h +=
+                                '<table class="override-table"><thead><tr><th>Location</th><th>Value</th>' +
+                                (hasAi ? "<th>Suggested</th>" : "") +
+                                "<th>Status</th></tr></thead><tbody>";
+                            vs.forEach(function (s) {
+                                var v = a.ov[s.id];
+                                var se =
+                                    canEdit(a) &&
+                                    (curRole === "owner" || canEditSite(s.id));
+                                var isDef = v == a.fields[0].val;
+                                var inputId = "ov-" + a.id + "-" + s.id;
+                                h +=
+                                    '<tr><td style="font-weight:500">' +
+                                    s.name +
+                                    '</td><td><input class="ov-input" id="' +
+                                    inputId +
+                                    '" type="text" value="' +
+                                    v +
+                                    '" ' +
+                                    (se ? "" : "disabled") +
+                                    " oninput=\"debounceInput(this,'" +
+                                    s.name +
+                                    "')\">";
+                                h += "</td>";
+                                if (hasAi) {
+                                    var sugText = a.ai[s.id];
+                                    if (sugText && se) {
+                                        var sugVal = sugText.split(" ")[0];
+                                        h +=
+                                            '<td><span class="ai-cfg-suggest"><span class="ai-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="#00D084"><path d="M10 1C10 1 12.5 7 16 7C12.5 7 10 13 10 13C10 13 7.5 7 4 7C7.5 7 10 1 10 1Z"/><path d="M19 11C19 11 20.2 14 22 14C20.2 14 19 17 19 17C19 17 17.8 14 16 14C17.8 14 19 11 19 11Z" opacity="0.5"/></svg></span>' +
+                                            sugText +
+                                            ' <button class="cfg-apply-btn" onclick="applyAiSuggestion(\'' +
+                                            inputId +
+                                            "','" +
+                                            sugVal +
+                                            "','" +
+                                            s.name +
+                                            "')\">Apply</button></span></td>";
+                                    } else if (sugText) {
+                                        h +=
+                                            '<td><span class="ai-cfg-suggest"><span class="ai-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="#00D084"><path d="M10 1C10 1 12.5 7 16 7C12.5 7 10 13 10 13C10 13 7.5 7 4 7C7.5 7 10 1 10 1Z"/><path d="M19 11C19 11 20.2 14 22 14C20.2 14 19 17 19 17C19 17 17.8 14 16 14C17.8 14 19 11 19 11Z" opacity="0.5"/></svg></span>' +
+                                            sugText +
+                                            "</span></td>";
+                                    } else {
+                                        h +=
+                                            '<td><span class="ov-default">—</span></td>';
+                                    }
+                                }
+                                h +=
+                                    "<td>" +
+                                    (isDef
+                                        ? '<span class="ov-default">Default</span>'
+                                        : '<span style="font-size:.75rem;color:var(--primary);font-weight:600">Custom</span>') +
+                                    "</td></tr>";
+                            });
+                            h += "</tbody></table></div>";
+                        }
+                        h += "</div></div></div>";
+                    });
+                    h += "</div>";
+                });
+                // FIX #6: Financial visibility toggle (owner only)
+                if (curRole === "owner") {
+                    h +=
+                        '<div class="cfg-section"><div class="cfg-section-title"><span class="section-icon">' +
+                        SVG.eye +
+                        "</span>Data Visibility</div>";
+                    h +=
+                        '<div class="cfg-card"><div class="cfg-card-header" onclick="toggleCard(this)"><span class="cfg-icon">' +
+                        SVG.eye +
+                        '</span><div class="cfg-title"><div class="cfg-name">Financial Data Access</div><div class="cfg-desc">Control which roles see revenue, MRR, and dollar amounts</div></div><span class="cfg-chevron">▶</span></div>';
+                    h +=
+                        '<div class="cfg-card-body"><div style="padding-top:1rem">';
+                    h +=
+                        '<div class="cfg-fin-toggle"><span class="cfg-label">Owner</span><div class="cfg-value"><label class="toggle"><input type="checkbox" checked disabled><span class="toggle-track"></span></label><span class="cfg-unit">Always visible</span></div></div>';
+                    h +=
+                        '<div class="cfg-fin-toggle"><span class="cfg-label">Area Managers</span><div class="cfg-value"><label class="toggle"><input type="checkbox" onchange="toast(\'Visibility updated\')"><span class="toggle-track"></span></label><span class="cfg-unit">Revenue, Retail $, MRR</span></div></div>';
+                    h +=
+                        '<div class="cfg-fin-toggle"><span class="cfg-label">Site Managers</span><div class="cfg-value"><label class="toggle"><input type="checkbox" onchange="toast(\'Visibility updated\')"><span class="toggle-track"></span></label><span class="cfg-unit">Revenue, Retail $, MRR</span></div></div>';
+                    h += "</div></div></div></div>";
+                }
+                document.getElementById("standard-content").innerHTML = h;
+                renderCustom();
+            }
+
+            // ═══ CUSTOM ALERTS ═══
+            function renderCustom() {
+                if (curRole === "site") {
+                    document.getElementById("custom-content").innerHTML = "";
+                    return;
+                }
+                var h =
+                    '<div class="cfg-section"><div class="cfg-section-title"><span class="section-icon">' +
+                    SVG.plus +
+                    "</span>Custom Alerts</div>";
+                h +=
+                    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem"><span style="font-size:.875rem;color:var(--gray)">' +
+                    CUSTOM.length +
+                    " alerts" +
+                    (curRole === "area"
+                        ? " · Warning & Info · Your region"
+                        : "") +
+                    '</span><button class="btn-primary" onclick="showBuilder()">+ Create Alert</button></div>';
+                CUSTOM.forEach(function (a) {
+                    var own =
+                        curRole === "owner" ||
+                        (curRole === "area" && a.by === "Sarah Chen");
+                    h +=
+                        '<div class="cfg-card"><div class="cfg-card-header" onclick="toggleCard(this)"><span class="cfg-icon">' +
+                        SVG.dot(
+                            a.sev === "Warning"
+                                ? "var(--orange)"
+                                : "var(--primary)",
+                        ) +
+                        '</span><div class="cfg-title"><div class="cfg-name">' +
+                        a.name +
+                        '</div><div class="cfg-desc">' +
+                        a.metric +
+                        " " +
+                        a.cond +
+                        " " +
+                        a.thresh +
+                        (a.cat === "Trend" ? "%" : "") +
+                        " · " +
+                        a.scope +
+                        '</div></div><div class="cfg-card-meta">' +
+                        (a.on
+                            ? '<span class="cfg-badge on">Active</span>'
+                            : '<span class="cfg-badge off">Off</span>') +
+                        '</div><span class="cfg-chevron">▶</span></div>';
+                    h +=
+                        '<div class="cfg-card-body"><div style="padding-top:1rem">';
+                    h +=
+                        '<div class="cfg-row"><span class="cfg-label">Category</span><div class="cfg-value">' +
+                        a.cat +
+                        "</div></div>";
+                    h +=
+                        '<div class="cfg-row"><span class="cfg-label">Severity</span><div class="cfg-value">' +
+                        SVG.dot(
+                            a.sev === "Warning"
+                                ? "var(--orange)"
+                                : "var(--primary)",
+                        ) +
+                        " " +
+                        a.sev +
+                        "</div></div>";
+                    h +=
+                        '<div class="cfg-impact">Fired <strong>' +
+                        a.fires +
+                        "</strong> times in 30 days" +
+                        (a.fires > 30 ? " — consider adjusting" : "") +
+                        "</div>";
+                    h +=
+                        '<div class="cfg-row"><span class="cfg-label">Created by</span><div class="cfg-value">' +
+                        a.by +
+                        "</div></div>";
+                    h +=
+                        '<div class="cfg-row"><span class="cfg-label">Enabled</span><div class="cfg-value"><label class="toggle"><input type="checkbox" ' +
+                        (a.on ? "checked" : "") +
+                        ' onchange="toast(\'Saved\')"><span class="toggle-track"></span></label></div></div>';
+                    if (own)
+                        h +=
+                            '<div style="display:flex;gap:.75rem;margin-top:.75rem"><button class="btn-secondary" onclick="toast(\'Edit\')">Edit</button><button class="btn-danger" onclick="toast(\'Deleted\')">Delete</button></div>';
+                    h += "</div></div></div>";
+                });
+                h += '<div id="builder-area"></div></div>';
+                document.getElementById("custom-content").innerHTML = h;
+            }
+            function showBuilder() {
+                var sev =
+                    curRole === "owner"
+                        ? "<option>Critical</option><option selected>Warning</option><option>Info</option><option>Milestone</option>"
+                        : '<option selected>Warning</option><option>Info</option><option>Milestone</option><option disabled style="color:#999">Critical (Owner only)</option>';
+                var sc =
+                    curRole === "owner"
+                        ? "<option>Any Location</option><option>Region North</option><option>Region South</option>" +
+                          SITES.map(function (s) {
+                              return "<option>" + s.name + "</option>";
+                          }).join("")
+                        : "<option>Region North</option><option>Northgate</option><option>Riverside</option><option>Lakefront</option>";
+                var h =
+                    '<div class="builder"><div class="builder-title">Create Custom Alert</div>';
+                h +=
+                    '<div class="builder-step"><div class="builder-step-label">Trigger</div><div class="builder-row"><select class="builder-select"><option>Sales</option><option>Volume</option><option>Labor</option><option>Trend</option><option>Milestone</option></select><select class="builder-select"><option>Subscription Count</option><option>Conversion %</option><option>Premium Mix %</option><option>Revenue</option><option>MRR</option></select><select class="builder-select"><option>Below</option><option>Above</option><option>Drops more than</option><option>Rises more than</option></select><input class="cfg-input" type="number" value="5" style="width:70px"></div></div>';
+                h +=
+                    '<div class="builder-step"><div class="builder-step-label">Location</div><div class="builder-row"><select class="builder-select">' +
+                    sc +
+                    "</select></div></div>";
+                h +=
+                    '<div class="builder-step"><div class="builder-step-label">Severity</div><div class="builder-row"><select class="builder-select">' +
+                    sev +
+                    "</select></div></div>";
+                h +=
+                    '<div class="builder-step"><div class="builder-step-label">Notify</div><div class="builder-row"><select class="builder-select"><option>Follow escalation chain</option><option>Specific people</option></select><select class="builder-select"><option>In-App</option><option>In-App + Slack</option><option>In-App + SMS</option></select></div></div>';
+                h +=
+                    '<div class="builder-step"><div class="builder-step-label">Schedule</div><div class="builder-row"><select class="builder-select"><option>Real-time</option><option>Hourly</option><option>Daily</option></select><select class="builder-select"><option>All day</option><option>Business hours only</option></select></div></div>';
+                h +=
+                    "<div style=\"display:flex;gap:.75rem;margin-top:1rem\"><button class=\"btn-primary\" onclick=\"toast('Custom alert created');document.getElementById('builder-area').innerHTML=''\">Create</button><button class=\"btn-secondary\" onclick=\"document.getElementById('builder-area').innerHTML=''\">Cancel</button></div></div>";
+                document.getElementById("builder-area").innerHTML = h;
+                document
+                    .getElementById("builder-area")
+                    .scrollIntoView({ behavior: "smooth" });
+            }
+
+            // ═══ TAB 2: ESCALATION & NOTIFICATIONS ═══
+            function renderEscalation() {
+                var h = "";
+                // FIX #3: Personalized escalation for site manager
+                if (curRole === "site") {
+                    h +=
+                        '<div class="esc-personal"><div class="esc-personal-title">When a critical alert fires at Downtown</div><div class="esc-personal-chain"><div class="ep-step ep-you">You</div><div class="ep-arrow">— 10 min →</div><div class="ep-step">Sarah Chen</div><div class="ep-arrow">— 15 min →</div><div class="ep-step">Jake Dawson</div></div><p style="font-size:.8125rem;color:var(--gray);margin-top:.625rem">Acknowledge within 10 minutes to stop escalation.</p></div>';
+                    h +=
+                        '<div class="esc-personal" style="background:#FFFBEB;border-color:#FDE68A"><div class="esc-personal-title">When a warning fires at Downtown</div><div class="esc-personal-chain"><div class="ep-step ep-you">You</div><div class="ep-arrow">— 30 min →</div><div class="ep-step">Sarah Chen</div></div><p style="font-size:.8125rem;color:var(--gray);margin-top:.625rem">Warnings escalate after 30 minutes.</p></div>';
+                }
+                // Chains
+                var viewOnly = curRole !== "owner";
+                h +=
+                    '<div class="cfg-section"><div class="cfg-section-title"><span class="section-icon">' +
+                    SVG.zap +
+                    "</span>Escalation Chains" +
+                    (viewOnly
+                        ? ' <span style="font-size:.8125rem;color:var(--gray);font-weight:400">(View only)</span>'
+                        : "") +
+                    "</div>";
+                var colors = {
+                    Owner: "var(--dark)",
+                    "Area Manager": "var(--orange)",
+                    "Site Manager": "var(--green)",
+                };
+                ["critical", "warning"].forEach(function (sev) {
+                    var chain = ESC[sev];
+                    h +=
+                        '<div class="cfg-card"><div class="cfg-card-header" onclick="toggleCard(this)"><span class="cfg-icon">' +
+                        SVG.dot(
+                            sev === "critical" ? "var(--red)" : "var(--orange)",
+                        ) +
+                        '</span><div class="cfg-title"><div class="cfg-name">' +
+                        (sev === "critical" ? "Critical" : "Warning") +
+                        ' Alerts</div><div class="cfg-desc">' +
+                        chain.steps.length +
+                        ' steps</div></div><span class="cfg-chevron">▶</span></div>';
+                    h +=
+                        '<div class="cfg-card-body"><div style="padding-top:1rem"><div class="esc-chain">';
+                    chain.steps.forEach(function (s, i) {
+                        h +=
+                            '<div class="esc-node"><span class="esc-avatar" style="background:' +
+                            colors[s.role] +
+                            '">' +
+                            s.role.charAt(0) +
+                            "</span>" +
+                            s.role +
+                            '<span style="font-size:.75rem;color:var(--gray)">· ' +
+                            s.ch +
+                            "</span></div>";
+                        if (i < chain.steps.length - 1)
+                            h +=
+                                '<div class="esc-arrow">→ <span style="font-size:.75rem;font-weight:600;color:var(--orange)">' +
+                                chain.steps[i + 1].delay +
+                                " min</span> →</div>";
+                    });
+                    h += "</div>";
+                    if (curRole === "owner") {
+                        chain.steps.forEach(function (s, i) {
+                            if (!i) return;
+                            h +=
+                                '<div class="cfg-row"><span class="cfg-label">Escalate to ' +
+                                s.role +
+                                ' after</span><div class="cfg-value"><input class="cfg-input" type="number" value="' +
+                                s.delay +
+                                '" onchange="validateInput(this,5,60)"><span class="cfg-unit">min</span><span class="cfg-range">(5–60)</span></div></div>';
+                        });
+                    }
+                    h += "</div></div></div>";
+                });
+                // After-hours (owner)
+                if (curRole === "owner") {
+                    h +=
+                        '<div class="cfg-card"><div class="cfg-card-header" onclick="toggleCard(this)"><span class="cfg-icon">' +
+                        SVG.moon +
+                        '</span><div class="cfg-title"><div class="cfg-name">After-Hours Rules</div><div class="cfg-desc">Behavior outside business hours</div></div><span class="cfg-chevron">▶</span></div>';
+                    h +=
+                        '<div class="cfg-card-body"><div style="padding-top:1rem">';
+                    [
+                        { a: "No Cars Processed", r: "Suppress after close" },
+                        { a: "Low Productivity", r: "Suppress after close" },
+                        { a: "Early Clock-In", r: "Fire normally" },
+                        { a: "Late Clock-Out", r: "Fire normally" },
+                        { a: "Clock-Out Reminder", r: "Fire normally" },
+                    ].forEach(function (x) {
+                        h +=
+                            '<div class="cfg-row"><span class="cfg-label">' +
+                            x.a +
+                            '</span><div class="cfg-value"><select class="builder-select" style="min-width:180px" onchange="toast(\'Saved\')"><option' +
+                            (x.r === "Fire normally" ? " selected" : "") +
+                            ">Fire normally</option><option" +
+                            (x.r === "Suppress after close"
+                                ? " selected"
+                                : "") +
+                            ">Suppress after close</option><option>Fire, skip escalation</option></select></div></div>";
+                    });
+                    h += "</div></div></div>";
+                }
+                h += "</div>";
+                // Notifications
+                h +=
+                    '<div class="cfg-section"><div class="cfg-section-title"><span class="section-icon">' +
+                    SVG.bell +
+                    "</span>My Notifications</div>";
+                var prefs = NOTIF[curRole];
+                h +=
+                    '<table class="notif-grid"><thead><tr><th>Level</th><th>In-App</th><th>Slack</th><th>SMS</th><th>Email</th></tr></thead><tbody>';
+                [
+                    { k: "critical", l: "Critical", c: "var(--red)" },
+                    { k: "warning", l: "Warning", c: "var(--orange)" },
+                    { k: "info", l: "Info", c: "var(--primary)" },
+                    { k: "reports", l: "Reports", c: "var(--gray)" },
+                ].forEach(function (lv) {
+                    var p = prefs[lv.k];
+                    h += "<tr><td>" + SVG.dot(lv.c) + " " + lv.l + "</td>";
+                    ["app", "slack", "sms", "email"].forEach(function (ch) {
+                        var v = p[ch];
+                        var forced =
+                            ch === "app" ||
+                            (lv.k === "critical" &&
+                                ch === "sms" &&
+                                curRole === "site");
+                        h +=
+                            '<td><label class="toggle"><input type="checkbox" ' +
+                            (v ? "checked" : "") +
+                            " " +
+                            (forced ? "disabled" : "") +
+                            ' onchange="toast(\'Saved\')"><span class="toggle-track"></span></label>';
+                        if (forced)
+                            h +=
+                                '<span class="required">' +
+                                (ch === "app" ? "Always on" : "Required") +
+                                "</span>";
+                        h += "</td>";
+                    });
+                    h += "</tr>";
+                });
+                h += "</tbody></table></div>";
+                // Backup
+                if (curRole !== "site") {
+                    h +=
+                        '<div class="cfg-section"><div class="cfg-section-title"><span class="section-icon">' +
+                        SVG.refresh +
+                        "</span>Backup / On-Call</div>";
+                    h +=
+                        '<div class="cfg-card"><div class="cfg-card-header" onclick="toggleCard(this)"><span class="cfg-icon">' +
+                        SVG.user +
+                        '</span><div class="cfg-title"><div class="cfg-name">My Availability</div><div class="cfg-desc">Route alerts to backup when unavailable</div></div><span class="cfg-chevron">▶</span></div>';
+                    h +=
+                        '<div class="cfg-card-body"><div style="padding-top:1rem">';
+                    h +=
+                        '<div class="cfg-row"><span class="cfg-label">Status</span><div class="cfg-value"><label class="toggle"><input type="checkbox" checked onchange="toast(\'Updated\')"><span class="toggle-track"></span></label><span class="cfg-unit">Available</span></div></div>';
+                    h +=
+                        '<div class="cfg-row"><span class="cfg-label">Backup</span><div class="cfg-value"><select class="builder-select" onchange="toast(\'Updated\')">';
+                    TEAM.forEach(function (t) {
+                        if (t.name !== ROLES[curRole].name)
+                            h += "<option>" + t.name + "</option>";
+                    });
+                    h += "</select></div></div></div></div></div></div>";
+                }
+                // FIX #4: Audit log
+                h +=
+                    '<div class="cfg-section"><div class="cfg-section-title"><span class="section-icon">' +
+                    SVG.history +
+                    "</span>Recent Changes</div>";
+                var log =
+                    curRole === "site"
+                        ? []
+                        : curRole === "area"
+                          ? AUDIT.filter(function (l) {
+                                return l.w === "Sarah Chen";
+                            })
+                          : AUDIT;
+                if (!log.length)
+                    h +=
+                        '<p style="color:var(--gray);font-size:.875rem">No recent changes.</p>';
+                log.forEach(function (l) {
+                    h +=
+                        '<div class="audit-row"><span class="audit-time">' +
+                        l.t +
+                        '</span><span class="audit-who">' +
+                        l.w +
+                        '</span><span class="audit-what">' +
+                        l.d +
+                        "</span></div>";
+                });
+                h += "</div>";
+                document.getElementById("escalation-content").innerHTML = h;
+            }
+
+            // ═══ TAB 3: REGIONS & LOCATIONS ═══
+            function renderRegions() {
+                var h = "";
+                h +=
+                    '<div class="cfg-section"><div class="cfg-section-title"><span class="section-icon">' +
+                    SVG.map +
+                    "</span>Regions" +
+                    (curRole === "owner"
+                        ? '<button class="btn-text" style="margin-left:auto" onclick="toast(\'Coming soon\')">+ Add Region</button>'
+                        : "") +
+                    "</div>";
+                var vr =
+                    curRole === "site"
+                        ? REGIONS.filter(function (r) {
+                              return r.sites.indexOf("downtown") !== -1;
+                          })
+                        : curRole === "area"
+                          ? REGIONS.filter(function (r) {
+                                return r.name === "Region North";
+                            })
+                          : REGIONS;
+                vr.forEach(function (r) {
+                    h +=
+                        '<div class="region-card"><div class="region-card-header"><div><div class="region-card-title">' +
+                        r.name +
+                        '</div><div class="region-card-mgr">Area Manager: ' +
+                        r.mgr +
+                        "</div></div>";
+                    if (curRole === "owner")
+                        h +=
+                            '<button class="btn-secondary" style="font-size:.8125rem;padding:.375rem .75rem" onclick="toast(\'Edit\')">Edit</button>';
+                    h += '</div><div class="region-sites">';
+                    r.sites.forEach(function (sid) {
+                        var s = SITES.find(function (x) {
+                            return x.id === sid;
+                        });
+                        h +=
+                            '<div class="region-site">' +
+                            s.name +
+                            ' <span class="site-mgr">· ' +
+                            s.mgr +
+                            "</span></div>";
+                    });
+                    h += "</div></div>";
+                });
+                h += "</div>";
+                // Locations
+                h +=
+                    '<div class="cfg-section"><div class="cfg-section-title"><span class="section-icon">' +
+                    SVG.pin +
+                    "</span>Locations</div>";
+                visSites().forEach(function (s) {
+                    var bh = BH[s.id];
+                    var ed = curRole === "owner";
+                    h +=
+                        '<div class="cfg-card"><div class="cfg-card-header" onclick="toggleCard(this)"><span class="cfg-icon">' +
+                        SVG.building +
+                        '</span><div class="cfg-title"><div class="cfg-name">' +
+                        s.name +
+                        '</div><div class="cfg-desc">' +
+                        s.region +
+                        " · " +
+                        s.mgr +
+                        '</div></div><span class="cfg-chevron">▶</span></div>';
+                    h +=
+                        '<div class="cfg-card-body"><div style="padding-top:1rem">';
+                    h +=
+                        '<div class="cfg-row"><span class="cfg-label">Hours</span><div class="cfg-value"><input class="cfg-input" type="text" value="' +
+                        bh.o +
+                        '" style="width:90px" ' +
+                        (ed ? "" : "disabled") +
+                        '> <span class="cfg-unit">to</span> <input class="cfg-input" type="text" value="' +
+                        bh.c +
+                        '" style="width:90px" ' +
+                        (ed ? "" : "disabled") +
+                        "></div></div>";
+                    h +=
+                        '<div class="cfg-row"><span class="cfg-label">Region</span><div class="cfg-value">' +
+                        s.region +
+                        "</div></div>";
+                    h +=
+                        '<div class="cfg-row"><span class="cfg-label">Site Manager</span><div class="cfg-value">';
+                    if (ed)
+                        h +=
+                            '<select class="builder-select" onchange="toast(\'Updated\')">' +
+                            TEAM.filter(function (t) {
+                                return t.role === "Site Manager";
+                            })
+                                .map(function (t) {
+                                    return (
+                                        "<option" +
+                                        (t.site === s.name ? " selected" : "") +
+                                        ">" +
+                                        t.name +
+                                        "</option>"
+                                    );
+                                })
+                                .join("") +
+                            "</select>";
+                    else h += s.mgr;
+                    h += "</div></div>";
+                    var ov = [];
+                    STD_ALERTS.forEach(function (a) {
+                        if (a.ov && a.ov[s.id] != a.fields[0].val)
+                            ov.push(a.name);
+                    });
+                    if (ov.length)
+                        h +=
+                            '<div class="cfg-row"><span class="cfg-label">Overrides</span><div class="cfg-value" style="font-size:.8125rem;color:var(--primary);font-weight:500">' +
+                            ov.join(", ") +
+                            "</div></div>";
+                    h += "</div></div></div>";
+                });
+                h += "</div>";
+                // Team (owner)
+                if (curRole === "owner") {
+                    h +=
+                        '<div class="cfg-section"><div class="cfg-section-title"><span class="section-icon">' +
+                        SVG.users +
+                        '</span>Team<button class="btn-text" style="margin-left:auto" onclick="toast(\'Coming soon\')">+ Add Member</button></div>';
+                    h +=
+                        '<table class="override-table" style="font-size:.875rem"><thead><tr><th>Name</th><th>Role</th><th>Assignment</th><th></th></tr></thead><tbody>';
+                    TEAM.forEach(function (t) {
+                        h +=
+                            '<tr><td style="font-weight:600"><span style="display:inline-flex;align-items:center;gap:.5rem"><span style="width:22px;height:22px;border-radius:50%;background:' +
+                            t.color +
+                            ';display:inline-flex;align-items:center;justify-content:center;font-size:.5rem;font-weight:700;color:#fff">' +
+                            t.initials +
+                            "</span>" +
+                            t.name +
+                            "</span></td><td>" +
+                            t.role +
+                            '</td><td style="color:var(--gray)">' +
+                            (t.site || t.region || "All") +
+                            '</td><td><button class="btn-text" style="font-size:.8125rem" onclick="toast(\'Edit\')">Edit</button></td></tr>';
+                    });
+                    h += "</tbody></table></div>";
+                }
+                document.getElementById("regions-content").innerHTML = h;
+            }
+
+            function toggleLock(id, btn) {
+                var a = STD_ALERTS.find(function (x) {
+                    return x.id === id;
+                });
+                var action = a.locked ? "unlock" : "lock";
+                var msg =
+                    action === "lock"
+                        ? "Locking <strong>" +
+                          a.name +
+                          "</strong> will prevent area and site managers from changing this threshold at any location. Continue?"
+                        : "Unlocking <strong>" +
+                          a.name +
+                          "</strong> will allow area managers to change this threshold for their locations. Continue?";
+                confirmChange(msg, function () {
+                    a.locked = !a.locked;
+                    btn.className = "lock-toggle" + (a.locked ? " locked" : "");
+                    btn.innerHTML =
+                        lockSvg() + " " + (a.locked ? "Locked" : "Unlocked");
+                    toast(
+                        a.name +
+                            (a.locked
+                                ? " locked — managers cannot edit"
+                                : " unlocked — managers can edit"),
+                    );
+                    renderStandard();
+                });
+            }
+            function renderAll() {
+                renderStandard();
+                renderEscalation();
+                renderRegions();
+            }
+            renderAll();
+        </script>
+    </body>
+</html>

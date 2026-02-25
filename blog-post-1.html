@@ -1,18 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Why real-time data changes everything at the site level - WashIQ Blog</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
             --primary: #0066FF;
@@ -32,9 +26,83 @@
             background: #ffffff;
             -webkit-font-smoothing: antialiased;
         }
-    </style>
-    <link rel="stylesheet" href="/assets/css/navbar.css">
-    <style>
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.25rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: opacity 0.2s ease;
+        }
+
+        .nav-links a:hover { opacity: 0.6; }
+
+        .nav-cta {
+            background: var(--green);
+            color: white !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .nav-cta:hover { opacity: 0.85 !important; transform: translateY(-1px); }
+
+        .nav-login {
+            background: transparent;
+            color: var(--dark) !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            border: 2px solid var(--dark);
+            transition: all 0.2s ease;
+        }
+
+        .nav-login:hover { background: var(--dark); color: white !important; transform: translateY(-1px); }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark);
+        }
+
         /* ── Post Hero ── */
         .post-hero {
             padding: 8rem 3rem 5rem;
@@ -55,9 +123,7 @@
             transition: color 0.2s ease;
         }
 
-        .back-link:hover {
-            color: var(--dark);
-        }
+        .back-link:hover { color: var(--dark); }
 
         .post-tag {
             display: inline-flex;
@@ -71,25 +137,10 @@
             width: fit-content;
         }
 
-        .tag-operations {
-            background: rgba(0, 208, 132, 0.1);
-            color: #008F5A;
-        }
-
-        .tag-ai {
-            background: #F0F0FF;
-            color: var(--purple);
-        }
-
-        .tag-growth {
-            background: #E8F4FF;
-            color: var(--primary);
-        }
-
-        .tag-industry {
-            background: #FFF4ED;
-            color: var(--orange);
-        }
+        .tag-operations { background: rgba(0,208,132,0.1); color: #008F5A; }
+        .tag-ai         { background: #F0F0FF; color: var(--purple); }
+        .tag-growth     { background: #E8F4FF; color: var(--primary); }
+        .tag-industry   { background: #FFF4ED; color: var(--orange); }
 
         .post-hero h1 {
             font-size: clamp(2rem, 4vw, 3.25rem);
@@ -137,17 +188,10 @@
             color: white;
         }
 
-        .avatar-ab {
-            background: linear-gradient(135deg, #00D084, #00B872);
-        }
+        .avatar-ab { background: linear-gradient(135deg, #00D084, #00B872); }
+        .avatar-sc { background: linear-gradient(135deg, #0066FF, #0052CC); }
 
-        .avatar-sc {
-            background: linear-gradient(135deg, #0066FF, #0052CC);
-        }
-
-        .meta-dot {
-            color: var(--border);
-        }
+        .meta-dot { color: var(--border); }
 
         /* ── Hero Image ── */
         .hero-image {
@@ -194,7 +238,7 @@
             border-left: 4px solid var(--green);
             padding: 1.25rem 1.75rem;
             margin: 2.5rem 0;
-            background: rgba(0, 208, 132, 0.05);
+            background: rgba(0,208,132,0.05);
             border-radius: 0 12px 12px 0;
         }
 
@@ -225,7 +269,7 @@
         }
 
         .post-cta p {
-            color: rgba(255, 255, 255, 0.65);
+            color: rgba(255,255,255,0.65);
             font-size: 1rem;
             margin-bottom: 1.5rem;
         }
@@ -242,10 +286,7 @@
             transition: all 0.2s ease;
         }
 
-        .cta-btn:hover {
-            background: #00B872;
-            transform: translateY(-2px);
-        }
+        .cta-btn:hover { background: #00B872; transform: translateY(-2px); }
 
         /* ── More Posts ── */
         .more-posts {
@@ -283,13 +324,11 @@
 
         .more-card:hover {
             border-color: var(--green);
-            box-shadow: 0 4px 16px rgba(0, 208, 132, 0.1);
+            box-shadow: 0 4px 16px rgba(0,208,132,0.1);
             transform: translateY(-2px);
         }
 
-        .more-card .post-tag {
-            margin-bottom: 0.75rem;
-        }
+        .more-card .post-tag { margin-bottom: 0.75rem; }
 
         .more-card h4 {
             font-size: 0.9375rem;
@@ -298,92 +337,126 @@
             letter-spacing: -0.01em;
         }
 
+        
 
-
-        .footer-about h3 {
-            color: var(--dark);
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
-        .footer-about p {
-            color: var(--gray);
-            line-height: 1.7;
-        }
-
-        .footer-links h4 {
-            color: var(--dark);
-            margin-bottom: 1.25rem;
-            font-size: 1rem;
-            font-weight: 600;
-        }
-
-        .footer-links ul {
-            list-style: none;
-            display: grid;
-            gap: 0.875rem;
-        }
-
-        .footer-links a {
-            color: var(--gray);
-            text-decoration: none;
-            transition: opacity 0.2s ease;
-        }
-
-        .footer-links a:hover {
-            opacity: 0.6;
-        }
-
-        .footer-bottom {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
-            text-align: center;
-            font-size: 0.9375rem;
-            color: var(--gray);
-        }
+        .footer-about h3 { color: var(--dark); margin-bottom: 1rem; font-size: 1.5rem; font-weight: 700; }
+        .footer-about p { color: var(--gray); line-height: 1.7; }
+        .footer-links h4 { color: var(--dark); margin-bottom: 1.25rem; font-size: 1rem; font-weight: 600; }
+        .footer-links ul { list-style: none; display: grid; gap: 0.875rem; }
+        .footer-links a { color: var(--gray); text-decoration: none; transition: opacity 0.2s ease; }
+        .footer-links a:hover { opacity: 0.6; }
+        .footer-bottom { max-width: 1400px; margin: 0 auto; padding-top: 2rem; border-top: 1px solid var(--border); text-align: center; font-size: 0.9375rem; color: var(--gray); }
 
         @media (max-width: 1024px) {
-            .footer-content {
-                grid-template-columns: 1fr 1fr;
-            }
+            .footer-content { grid-template-columns: 1fr 1fr; }
         }
 
         @media (max-width: 768px) {
-
-
-            .post-hero,
-            .hero-image,
-            .article-body,
-            .more-posts {
-                padding-left: 1.5rem;
-                padding-right: 1.5rem;
+            .nav-container { padding: 1.25rem 1.5rem; }
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 70px; left: 0; right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 2rem 1.5rem;
+                border-bottom: 1px solid var(--border);
+                gap: 1.5rem;
             }
-
-            .more-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .post-meta {
-                flex-wrap: wrap;
-                gap: 0.5rem;
-                justify-content: center;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 2.5rem;
-            }
+            .nav-links.active { display: flex; }
+            .mobile-toggle { display: block; }
+            .post-hero, .hero-image, .article-body, .more-posts { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .more-grid { grid-template-columns: 1fr; }
+            .post-meta { flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+            .footer-content { grid-template-columns: 1fr; gap: 2.5rem; }
         }
-
         /* Products Dropdown */
-        .nav-item {
-            position: relative;
+        .nav-item { position: relative; }
+        .products-dropdown { position: relative; }
+
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            cursor: pointer;
         }
 
+        .dropdown-arrow {
+            font-size: 0.7rem;
+            transition: transform 0.2s ease;
+        }
 
+        .products-dropdown:hover .dropdown-arrow { transform: rotate(180deg); }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-10px);
+            background: #F5F5F5;
+            border: 1px solid #E0E0E0;
+            border-radius: 20px;
+            padding: 1.5rem;
+            min-width: 480px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+            margin-top: 0.5rem;
+        }
+
+        .products-dropdown:hover .dropdown-menu,
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-radius: 16px;
+            margin-bottom: 0.5rem;
+            background: white;
+        }
+
+        .dropdown-menu a:last-child { margin-bottom: 0; }
+
+        .dropdown-menu a:hover {
+            background: #FAFAFA;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .dropdown-menu a:hover .menu-item-title { color: var(--primary); }
+
+        .menu-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .menu-icon svg { width: 28px; height: 28px; }
+
+        .menu-item-content { flex: 1; }
+
+        .menu-item-title {
+            font-weight: 600;
+            margin-bottom: 0.125rem;
+            color: var(--dark);
+            font-size: 1rem;
+        }
 
         .menu-item-description {
             font-size: 0.875rem;
@@ -391,7 +464,6 @@
             font-weight: 400;
             line-height: 1.4;
         }
-
         /* ── Footer ── */
         footer {
             background: var(--gray-light);
@@ -438,9 +510,7 @@
             transition: opacity 0.2s ease;
         }
 
-        .footer-links a:hover {
-            opacity: 0.6;
-        }
+        .footer-links a:hover { opacity: 0.6; }
 
         .footer-bottom {
             max-width: 1400px;
@@ -451,18 +521,71 @@
             font-size: 0.9375rem;
             color: var(--gray);
         }
-
-        @media (max-width: 425px) {
-            .footer-content {
-                grid-template-columns: 1fr;
-            }
-        }
     </style>
 </head>
-
 <body>
 
-    <nav></nav>
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="logo">WashIQ</a>
+            <ul class="nav-links">
+                <li class="nav-item products-dropdown">
+                    <a href="#products" class="dropdown-toggle">
+                        Products
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="/dashboards-updated.html">
+                            <div class="menu-icon" style="background: #E8F4FF;">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="4" y="14" width="3" height="6" rx="1" fill="#0066FF"/>
+                                    <rect x="10.5" y="8" width="3" height="12" rx="1" fill="#0066FF"/>
+                                    <rect x="17" y="4" width="3" height="16" rx="1" fill="#0066FF"/>
+                                </svg>
+                            </div>
+                            <div class="menu-item-content">
+                                <div class="menu-item-title">Real-Time Dashboards</div>
+                                <div class="menu-item-description">Track every metric that matters in one place</div>
+                            </div>
+                        </a>
+                        <a href="/alerts.html">
+                            <div class="menu-icon" style="background: #FFF4ED;">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12" cy="12" r="8" stroke="#FF6B35" stroke-width="2"/>
+                                    <circle cx="12" cy="12" r="5" stroke="#FF6B35" stroke-width="2"/>
+                                    <circle cx="12" cy="12" r="2" fill="#FF6B35"/>
+                                </svg>
+                            </div>
+                            <div class="menu-item-content">
+                                <div class="menu-item-title">Proactive Alerts</div>
+                                <div class="menu-item-description">Catch issues in real-time and take immediate action</div>
+                            </div>
+                        </a>
+                        <a href="/intelligence.html">
+                            <div class="menu-icon" style="background: #EEF2FF;">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12" cy="12" r="8" stroke="#A5B4FC" stroke-width="2"/>
+                                    <line x1="12" y1="4" x2="12" y2="8" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="12" y1="16" x2="12" y2="20" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="4" y1="12" x2="8" y2="12" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="16" y1="12" x2="20" y2="12" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <div class="menu-item-content">
+                                <div class="menu-item-title">AI-Powered Intelligence</div>
+                                <div class="menu-item-description">Turn complex data into clear actions that drive growth</div>
+                            </div>
+                        </a>
+                    </div>
+                </li>
+                <li><a href="/#case-studies">Case Studies</a></li>
+                <li><a href="/blog.html" style="color: var(--green);">Blog</a></li>
+                <li><a href="/login.html" class="nav-login">Login</a></li>
+                <li><a href="/early-access.html" class="nav-cta">Request Early Access</a></li>
+            </ul>
+            <button class="mobile-toggle" id="mobileToggle">☰</button>
+        </div>
+    </nav>
 
     <div class="post-hero">
         <a href="/blog.html" class="back-link">← Back to Blog</a>
@@ -470,9 +593,7 @@
             <span class="post-tag tag-operations">Operations</span>
         </div>
         <h1>Why real-time data changes everything at the site level</h1>
-        <p class="post-intro">Most operators find out about problems hours after they happen. Here's what changes when
-            you're looking at live data — and why the first 15 minutes after a drop in car count are the most important
-            ones to act on.</p>
+        <p class="post-intro">Most operators find out about problems hours after they happen. Here's what changes when you're looking at live data — and why the first 15 minutes after a drop in car count are the most important ones to act on.</p>
         <div class="post-meta">
             <div class="post-author">
                 <div class="author-avatar avatar-ab">AB</div>
@@ -490,40 +611,23 @@
     </div>
 
     <div class="article-body">
-        <h2>The lag problem nobody talks about</h2>
-        <p>When something goes wrong at your wash — a conveyor slowdown, a chemical system issue, a sudden drop in
-            throughput — how long before you know about it? For most operators, the honest answer is: hours. Maybe the
-            next morning when you check your POS report. Maybe when a frustrated customer calls. Maybe when your shift
-            manager finally texts you.</p>
-        <p>That lag is the single most expensive problem in car wash operations, and almost nobody treats it like the
-            emergency it is. Every hour you don't know is an hour of lost revenue, frustrated customers, and a problem
-            that's getting worse instead of better.</p>
+                <h2>The lag problem nobody talks about</h2>
+        <p>When something goes wrong at your wash — a conveyor slowdown, a chemical system issue, a sudden drop in throughput — how long before you know about it? For most operators, the honest answer is: hours. Maybe the next morning when you check your POS report. Maybe when a frustrated customer calls. Maybe when your shift manager finally texts you.</p>
+        <p>That lag is the single most expensive problem in car wash operations, and almost nobody treats it like the emergency it is. Every hour you don't know is an hour of lost revenue, frustrated customers, and a problem that's getting worse instead of better.</p>
         <h2>What the first 15 minutes actually look like</h2>
-        <p>Here's a scenario we heard from an operator early in our beta: on a busy Saturday afternoon, their tunnel
-            throughput dropped by 40% over about 20 minutes. Under the old system, they would have found out at end of
-            day when the revenue numbers didn't add up.</p>
-        <p>With real-time data, they got an alert at minute 12. The manager walked the tunnel, found a rinse arch
-            partially blocked, cleared it in under 3 minutes, and was back to full speed before the next car in line had
-            even noticed. Total revenue impact: negligible. Under the old model? They'd have lost 3–4 hours of degraded
-            throughput on the busiest day of the week.</p>
+        <p>Here's a scenario we heard from an operator during our beta: on a busy Saturday morning, their conveyor stopped. The site team did what any crew would do — they tried to handle it. Hit the reset, checked for jams, restarted the controller. Nothing obvious. So they kept troubleshooting, trying different things, confident they could sort it out if they just gave it a few more minutes.</p>
+        <p>By the time they finally called — almost 40 minutes later — the line had cleared and cars were driving past. The owner, who was across town at another location, picked up, asked one question, and walked them through a manual reset in under two minutes. A 5-minute fix that cost almost an hour of peak Saturday revenue.</p>
+        <p>With WashIQ, the no-cars-processed alert would have hit the owner's phone within 15 minutes — before the team ever had to make the judgment call on whether to escalate. Not because the crew did anything wrong, but because the system removes the guesswork. The owner calls in, walks them through the fix, and the tunnel is back up before most of the line drives away. On a Saturday pushing 70+ cars an hour at a $15 average ticket, that's the difference between losing a couple hundred dollars and losing over a thousand.</p>
 
         <div class="pull-quote">
-            <p>Here's a scenario we heard from an operator early in our beta: on a busy Saturday afternoon, their tunnel
-                throughput dropped by 40% over about 20 minutes.</p>
+            <p>My guys weren't slacking — they were trying to fix it. They just kept thinking they were five minutes away from figuring it out. By the time they called me, we'd lost 40 minutes of peak volume. That's the gap WashIQ closes.</p>
         </div>
 
         <h2>It's not just about catching problems</h2>
-        <p>Real-time visibility doesn't just help you react faster — it changes how you run the whole operation. When
-            you can see car count, revenue per car, and membership scans updating live, you start making decisions
-            differently.</p>
-        <p>You notice that Wednesdays between 11am and 1pm are consistently slower than Thursdays. You spot that your
-            express detail upsell rate drops on weekends when your busiest staff are running the tunnel. You catch that
-            one location is consistently outperforming others on membership conversion — and you can actually
-            investigate why, instead of just being pleasantly surprised at month end.</p>
+        <p>Real-time visibility doesn't just help you react faster — it changes how you run the whole operation. When you can see car count, revenue per car, and membership scans updating live, you start making decisions differently.</p>
+        <p>You notice that Wednesdays between 11am and 1pm are consistently slower than Thursdays. You spot that your express detail upsell rate drops on weekends when your busiest staff are running the tunnel. You catch that one location is consistently outperforming others on membership conversion — and you can actually investigate why, instead of just being pleasantly surprised at month end.</p>
         <h2>The bottom line</h2>
-        <p>The operators who will win in this industry over the next decade aren't necessarily the ones with the newest
-            equipment or the most locations. They're the ones who know what's happening in their business right now —
-            not yesterday, not last week.</p>
+        <p>The operators who will win in this industry over the next decade aren't necessarily the ones with the newest equipment or the most locations. They're the ones who know what's happening in their business right now — not yesterday, not last week.</p>
         <p>Real-time data isn't a luxury. It's the difference between running your wash and being run by it.</p>
 
         <div class="post-cta">
@@ -536,7 +640,7 @@
     <div class="more-posts">
         <h3>More from the blog</h3>
         <div class="more-grid">
-            <a href="/blog-post-2.html" class="more-card">
+                        <a href="/blog-post-2.html" class="more-card">
                 <span class="post-tag tag-ai">AI & Data</span>
                 <h4>How AI spots membership churn before you lose the customer</h4>
             </a>
@@ -552,13 +656,12 @@
         <div class="footer-content">
             <div class="footer-about">
                 <h3>WashIQ</h3>
-                <p>Data-driven intelligence platform designed specifically for modern car wash businesses. Make smarter
-                    decisions, optimize operations, and drive growth.</p>
+                <p>Data-driven intelligence platform designed specifically for modern car wash businesses. Make smarter decisions, optimize operations, and drive growth.</p>
             </div>
             <div class="footer-links">
                 <h4>Product</h4>
                 <ul>
-                    <li><a href="/dashboards.html">Dashboards</a></li>
+                    <li><a href="/dashboards-updated.html">Dashboards</a></li>
                     <li><a href="/intelligence.html">AI Intelligence</a></li>
                     <li><a href="/alerts.html">Alerts</a></li>
                     <li><a href="/early-access.html">Early Access</a></li>
@@ -583,7 +686,16 @@
         <div class="footer-bottom">© 2026 WashIQ. All rights reserved.</div>
     </footer>
 
-    <script src="/assets/js/navbar.js"></script>
-</body>
+    <script>
+                const mobileToggle = document.getElementById('mobileToggle');
+        const navLinksList = document.querySelector('.nav-links');
+        if (mobileToggle) {
+            mobileToggle.addEventListener('click', () => {
+                navLinksList.classList.toggle('active');
+                mobileToggle.textContent = navLinksList.classList.contains('active') ? '✕' : '☰';
+            });
+        }
 
+    </script>
+</body>
 </html>

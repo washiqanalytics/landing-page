@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>History — WashIQ</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#0066FF;--green:#00D084;--orange:#FF6B35;--dark:#1a1a1a;--gray:#666;--gray-light:#f5f5f5;--border:#e0e0e0;--red:#EF4444}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{overflow-x:hidden}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.6;color:var(--dark);background:#fff;-webkit-font-smoothing:antialiased}
+.app{display:flex;min-height:100vh}
+.sidebar{width:248px;background:#fff;border-right:1px solid var(--border);position:fixed;top:0;left:0;bottom:0;display:flex;flex-direction:column;z-index:200;overflow-y:auto}
+.sidebar-backdrop{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.4);z-index:199}
+.hamburger{display:none;background:none;border:none;padding:.25rem;cursor:pointer}
+.hamburger svg{width:24px;height:24px;stroke:var(--dark);stroke-width:2}
+.sidebar-logo{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem;text-decoration:none;color:var(--dark)}
+.sidebar-logo span{font-size:1.5rem;font-weight:700;letter-spacing:-.02em}
+.sidebar-nav{flex:1;padding:1rem .75rem}
+.sidebar-section{margin-bottom:1.5rem}
+.sidebar-section-label{font-size:.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#999;padding:0 .75rem;margin-bottom:.375rem}
+.sidebar-link{display:flex;align-items:center;gap:.75rem;padding:.5rem .75rem;border-radius:6px;color:var(--gray);font-size:.9375rem;font-weight:500;text-decoration:none;transition:all .2s;margin-bottom:2px}
+.sidebar-link:hover{background:var(--gray-light);color:var(--dark)}
+.sidebar-link.active{background:var(--gray-light);color:var(--dark);font-weight:600}
+.sidebar-link svg{width:20px;height:20px;flex-shrink:0;stroke:currentColor}
+.sidebar-badge{margin-left:auto;background:var(--orange);color:#fff;font-size:.75rem;font-weight:700;padding:0 6px;border-radius:10px;min-width:20px;text-align:center;line-height:1.6}
+.role-switcher{padding:.75rem;border-top:1px solid var(--border)}
+.role-switcher-label{font-size:.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#999;margin-bottom:.375rem;padding-left:.25rem}
+.role-btn{display:flex;align-items:center;gap:.5rem;width:100%;padding:.375rem .5rem;border:none;background:transparent;border-radius:6px;cursor:pointer;font-family:inherit;font-size:.8125rem;color:var(--gray);transition:all .15s;text-align:left;margin-bottom:1px}
+.role-btn:hover{background:var(--gray-light);color:var(--dark)}
+.role-btn.active{background:var(--dark);color:#fff}
+.role-btn .ra{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.5625rem;font-weight:700;color:#fff;flex-shrink:0}
+.role-btn .rn{font-weight:600;line-height:1.2}
+.role-btn .rt{font-size:.625rem;opacity:.7}
+.main{flex:1;margin-left:248px}
+.page-header{padding:1.25rem 2.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);position:sticky;top:0;z-index:100}
+.page-header h1{font-size:1.5rem;font-weight:800;letter-spacing:-.02em}
+.page-content{padding:1.5rem 2.5rem 4rem}
+
+/* ── Executive Summary ── */
+.exec-summary{display:flex;gap:1rem;padding:1rem 1.25rem;border:1px solid var(--border);border-radius:10px;background:var(--gray-light);margin-bottom:1.5rem}
+.exec-icon{font-size:1.25rem;flex-shrink:0;margin-top:.125rem}
+.exec-title{font-weight:700;font-size:.9375rem;margin-bottom:.375rem}
+.exec-text{font-size:.875rem;color:var(--gray);line-height:1.6}
+
+/* ── Metric Cards ── */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+.metric{padding:1.25rem;border:1px solid var(--border);border-radius:10px;background:#fff}
+.metric-label{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--gray);margin-bottom:.375rem}
+.metric-val{font-size:1.75rem;font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.metric-sub{font-size:.8125rem;color:var(--gray);margin-top:.25rem;display:flex;align-items:center;gap:.375rem}
+.metric-up{color:var(--green);font-weight:600}
+.metric-down{color:var(--orange);font-weight:600}
+
+/* ── Filters ── */
+.filters{display:flex;gap:.75rem;margin-bottom:1.5rem;flex-wrap:wrap;align-items:center}
+.filter-select{padding:.5rem .875rem;border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:.875rem;font-weight:500;color:var(--dark);background:#fff;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23666' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .75rem center;padding-right:2rem}
+
+/* ── Section headers ── */
+.section-title{font-size:1rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.section-title svg{width:18px;height:18px;stroke:var(--gray);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ── Response Table ── */
+.resp-table{width:100%;border-collapse:collapse;font-size:.875rem;margin-bottom:2rem}
+.resp-table th{text-align:left;padding:.625rem .75rem;font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;color:var(--gray);border-bottom:2px solid var(--border);white-space:nowrap}
+.resp-table td{padding:.625rem .75rem;border-bottom:1px solid #f0f0f0}
+.resp-table tr:last-child td{border-bottom:none}
+.resp-table .name-cell{font-weight:600;display:flex;align-items:center;gap:.5rem}
+.resp-table .avatar{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.5625rem;font-weight:700;color:#fff;flex-shrink:0}
+.good{color:var(--green);font-weight:600}
+.warn{color:var(--orange);font-weight:600}
+.bad{color:var(--red);font-weight:600}
+
+/* ── Timeline ── */
+.timeline{margin-bottom:2rem}
+.tl-item{display:flex;gap:1rem;padding:.875rem 0;border-bottom:1px solid #f5f5f5}
+.tl-item:last-child{border-bottom:none}
+.tl-time{min-width:100px;font-size:.8125rem;color:var(--gray);flex-shrink:0;padding-top:.125rem}
+.tl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:.375rem}
+.tl-body{flex:1}
+.tl-title{font-weight:600;font-size:.875rem;margin-bottom:.125rem}
+.tl-detail{font-size:.8125rem;color:var(--gray)}
+.tl-lifecycle{display:flex;gap:.25rem;align-items:center;margin-top:.375rem;font-size:.75rem;flex-wrap:wrap}
+.tl-step{padding:.125rem .5rem;border-radius:4px;font-weight:500}
+.tl-step.fired{background:#FEE2E2;color:var(--red)}
+.tl-step.escalated{background:#FFF3E0;color:var(--orange)}
+.tl-step.acked{background:#D1FAE5;color:#065F46}
+.tl-step.resolved{background:var(--gray-light);color:var(--gray)}
+.tl-step.snoozed{background:#E0EDFF;color:var(--primary)}
+.tl-arrow{color:#ccc;font-size:.75rem}
+.tl-ai-flag{display:flex;align-items:flex-start;gap:.375rem;margin-top:.375rem;padding:.375rem .625rem;background:linear-gradient(135deg,#F0FDF6,#EDFCF5);border-radius:6px;border:1px solid #B0E0CC;font-size:.75rem;color:#00805A;line-height:1.45}
+.tl-ai-flag .ai-icon svg{width:16px;height:16px;flex-shrink:0;margin-top:1px}
+
+/* ── Snooze/Dismiss Patterns ── */
+.pattern-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-bottom:2rem}
+.pattern-card{padding:1rem 1.25rem;border:1px solid var(--border);border-radius:10px}
+.pattern-name{font-weight:600;font-size:.875rem;margin-bottom:.375rem}
+.pattern-bar{height:8px;background:var(--gray-light);border-radius:4px;overflow:hidden;margin-bottom:.375rem}
+.pattern-fill{height:100%;border-radius:4px}
+.pattern-stat{font-size:.8125rem;color:var(--gray)}
+
+/* ── AI Insight Cards ── */
+.ai-icon{display:inline-flex;align-items:center;flex-shrink:0}
+.ai-card{background:linear-gradient(135deg,#F0FDF6 0%,#EDFCF5 100%);border:1px solid #B0E0CC;border-radius:12px;margin-bottom:1rem;overflow:visible;position:relative}
+.ai-card-header{display:flex;align-items:center;gap:.625rem;padding:1rem 1.25rem .75rem}
+.ai-card-label{font-size:.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#00D084}
+.ai-card-body{padding:0 1.25rem 1.25rem}
+.ai-card-insight{font-size:1rem;font-weight:600;color:#006040;line-height:1.45;margin-bottom:.625rem}
+.ai-card-evidence{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.75rem}
+.ai-card-stat{font-size:.8125rem;padding:.25rem .625rem;background:rgba(0,208,132,.08);border-radius:5px;color:#00A86B;font-weight:500}
+.ai-card-stat.warn{background:rgba(255,107,53,.08);color:var(--orange)}
+.ai-card-explanation{font-size:.8125rem;color:#00805A;line-height:1.55;padding:.75rem;background:rgba(0,208,132,.04);border-radius:8px;border-left:3px solid #90CDAA}
+.ai-card-actions{padding:0 1.25rem 1.25rem;display:flex;gap:.5rem;flex-wrap:wrap}
+
+/* ── Buttons ── */
+.btn-primary{padding:.5rem 1.25rem;background:var(--dark);color:#fff;border:none;border-radius:6px;font-family:inherit;font-size:.875rem;font-weight:600;cursor:pointer}
+.btn-secondary{padding:.5rem 1.25rem;background:#fff;color:var(--dark);border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:.875rem;font-weight:600;cursor:pointer}
+
+/* ── Section Nav ── */
+.section-nav{display:flex;gap:.25rem;padding:.5rem 2.5rem;border-bottom:1px solid var(--border);background:#fff;position:sticky;top:56px;z-index:99;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.section-nav:empty{display:none}
+.section-nav-btn{padding:.375rem .75rem;border:none;background:none;font-family:inherit;font-size:.75rem;font-weight:600;color:var(--gray);cursor:pointer;border-radius:4px;white-space:nowrap}
+.section-nav-btn:hover{background:var(--gray-light);color:var(--dark)}
+.section-nav-btn.active{background:var(--dark);color:#fff}
+
+.ai-toggle-btn.off{opacity:.5}
+.ai-toggle-btn.off span{color:var(--gray)}
+.ai-hidden .ai-card{display:none!important}
+.ai-hidden .tl-ai-flag{display:none!important}
+
+/* ── Action Links in AI cards ── */
+.ai-action-link{display:inline-flex;align-items:center;gap:.25rem;font-size:.8125rem;font-weight:600;color:var(--green);cursor:pointer;text-decoration:none;padding:.25rem .625rem;border:1px solid #B0E0CC;border-radius:5px;background:#F0FDF6;margin-top:.5rem}
+.ai-action-link:hover{background:#D6F5E8}
+
+/* ── Confidence Badge ── */
+.ai-confidence{display:inline-flex;align-items:center;gap:.25rem;font-size:.6875rem;font-weight:600;color:var(--gray);margin-top:.5rem;padding:.125rem .5rem;background:var(--gray-light);border-radius:3px}
+.ai-confidence.high{color:var(--green);background:#EDFCF5}
+.ai-confidence.med{color:var(--orange);background:#FFF8F0}
+
+/* ── Toast ── */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--dark);color:#fff;padding:.875rem 1.5rem;border-radius:8px;font-size:.9375rem;font-weight:600;box-shadow:0 8px 30px rgba(0,0,0,.2);display:flex;align-items:center;gap:.5rem;opacity:0;animation:toastIn .3s ease forwards;z-index:9999}
+@keyframes toastIn{to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
+/* ── Mobile ── */
+@media(max-width:768px){
+.sidebar{display:none;transform:translateX(-100%);transition:transform .25s ease}
+.sidebar.open{display:flex;transform:translateX(0)}
+.sidebar-backdrop.open{display:block}
+.hamburger{display:flex}
+.main{margin-left:0}
+.page-header{padding:1rem;flex-wrap:wrap;gap:.5rem}
+.page-header h1{font-size:1.25rem}
+.page-content{padding:1rem}
+.metrics{grid-template-columns:repeat(2,1fr);gap:.75rem}
+.metric-val{font-size:1.375rem}
+.filters{gap:.5rem}
+.filter-select{font-size:.8125rem;padding:.375rem .625rem}
+.resp-table{font-size:.8125rem}
+.resp-table th,.resp-table td{padding:.5rem .375rem}
+.tl-time{min-width:70px;font-size:.75rem}
+.tl-lifecycle{font-size:.6875rem}
+.pattern-grid{grid-template-columns:1fr}
+.ai-card-insight{font-size:.9375rem}
+.section-nav{padding:.5rem 1rem;top:48px}
+.ai-action-link{font-size:.75rem;padding:.25rem .5rem}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+<a class="sidebar-logo" href="#"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="4" y="14" width="3" height="6" rx="1" fill="#00D084"/><rect x="10.5" y="8" width="3" height="12" rx="1" fill="#00D084"/><rect x="17" y="4" width="3" height="16" rx="1" fill="#00D084"/></svg><span>WashIQ</span></a>
+  <nav class="sidebar-nav">
+    <div class="sidebar-section"><div class="sidebar-section-label">Overview</div><a href="#" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</a></div>
+    <div class="sidebar-section"><div class="sidebar-section-label">Alerts</div>
+      <a href="alerts-feed.html" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Alert Feed<span class="sidebar-badge">8</span></a>
+      <a href="config.html" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-2.82 1.18V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.6.85 1 1.51 1H21a2 2 0 0 1 0 4h-.09c-.66.05-1.25.44-1.51 1z"/></svg>Configuration</a>
+      <a href="#" class="sidebar-link active"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>History</a>
+      <a href="#" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>Settings</a>
+    </div>
+    <div class="sidebar-section"><div class="sidebar-section-label">Coming Soon</div>
+      <a href="#" class="sidebar-link" style="opacity:.4;pointer-events:none"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Financial Integration</a>
+      <a href="#" class="sidebar-link" style="opacity:.4;pointer-events:none"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>CRM &amp; Marketing</a>
+    </div>
+  </nav>
+  <div class="role-switcher">
+    <div class="role-switcher-label">Switch Persona</div>
+    <button class="role-btn active" onclick="switchRole('owner')"><div class="ra" style="background:var(--dark)">JD</div><div><div class="rn">Jake Dawson</div><div class="rt">Owner · All Locations</div></div></button>
+    <button class="role-btn" onclick="switchRole('area')"><div class="ra" style="background:var(--orange)">SC</div><div><div class="rn">Sarah Chen</div><div class="rt">Area Mgr · Region North</div></div></button>
+    <button class="role-btn" onclick="switchRole('site')"><div class="ra" style="background:var(--green)">MT</div><div><div class="rn">Mike Torres</div><div class="rt">Site Mgr · Downtown</div></div></button>
+  </div>
+</aside>
+<div class="sidebar-backdrop" id="sidebar-backdrop" onclick="closeSidebar()"></div>
+<main class="main">
+  <header class="page-header">
+    <div style="display:flex;align-items:center;gap:.75rem">
+      <button class="hamburger" onclick="openSidebar()"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      <h1>History</h1>
+    </div>
+    <div style="display:flex;align-items:center;gap:.75rem">
+      <span id="role-label" style="font-size:.875rem;color:var(--gray)">Owner · Full Access</span>
+      <button class="btn-secondary ai-toggle-btn" id="ai-toggle" onclick="toggleAiCards()" style="padding:.375rem .875rem;font-size:.8125rem"><span style="color:var(--green)">✦</span> AI On</button>
+      <button class="btn-secondary" onclick="toast('Report downloaded as PDF')" style="padding:.375rem .875rem;font-size:.8125rem">📄 Export</button>
+    </div>
+  </header>
+  <div class="section-nav" id="section-nav"></div>
+  <div class="page-content">
+    <div id="history-content"></div>
+  </div>
+</main>
+</div>
+
+<script>
+var curRole='owner';
+var AI_ICON='<span class="ai-icon"><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><rect x="1" y="8" width="20" height="20" rx="4" fill="#1a1a1a"/><foreignObject x="1" y="8" width="20" height="20"><div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-family:Inter,sans-serif;font-weight:900;font-size:12px;color:#00D084;line-height:1;letter-spacing:0.5px">AI</div></foreignObject><path d="M25 1C25 1 27 5.5 30 5.5C27 5.5 25 10 25 10C25 10 23 5.5 20 5.5C23 5.5 25 1 25 1Z" fill="#00D084"/><path d="M29.5 10.5C29.5 10.5 30.2 12 31.2 12C30.2 12 29.5 13.5 29.5 13.5C29.5 13.5 28.8 12 27.8 12C28.8 12 29.5 10.5 29.5 10.5Z" fill="#00D084" opacity="0.4"/></svg></span>';
+
+var ROLES={owner:'Owner · Full Access',area:'Area Manager · Region North',site:'Site Manager · Downtown'};
+
+// ── DATA ──
+var METRICS={
+  owner:{alerts:142,respRate:89,avgTime:'4.2 min',escRate:'11%',alertsTrend:'+12',respTrend:'+3%',timeTrend:'-0.9 min',escTrend:'-2%'},
+  area:{alerts:68,respRate:92,avgTime:'3.8 min',escRate:'8%',alertsTrend:'+5',respTrend:'+4%',timeTrend:'-1.1 min',escTrend:'-3%'},
+  site:{alerts:31,respRate:96,avgTime:'3.1 min',escRate:'4%',alertsTrend:'+2',respTrend:'+2%',timeTrend:'-0.5 min',escTrend:'-1%'}
+};
+
+var TEAM_RESP={
+  owner:[
+    {name:'Mike Torres',init:'MT',color:'var(--green)',role:'Site Mgr',loc:'Downtown',alerts:31,ack:30,avg:'3.1',esc:1,snz:4},
+    {name:'David Park',init:'DP',color:'var(--primary)',role:'Site Mgr',loc:'Westside',alerts:28,ack:24,avg:'5.8',esc:4,snz:8},
+    {name:'Lisa Wang',init:'LW',color:'#8B5CF6',role:'Site Mgr',loc:'Northgate',alerts:24,ack:23,avg:'3.5',esc:1,snz:3},
+    {name:'Amy Foster',init:'AF',color:'#EC4899',role:'Site Mgr',loc:'Riverside',alerts:22,ack:21,avg:'4.0',esc:1,snz:2},
+    {name:'Carlos Ruiz',init:'CR',color:'#14B8A6',role:'Site Mgr',loc:'Lakefront',alerts:22,ack:20,avg:'4.9',esc:2,snz:5},
+    {name:'Sarah Chen',init:'SC',color:'var(--orange)',role:'Area Mgr',loc:'Region North',alerts:15,ack:15,avg:'2.1',esc:0,snz:1}
+  ],
+  area:[
+    {name:'Lisa Wang',init:'LW',color:'#8B5CF6',role:'Site Mgr',loc:'Northgate',alerts:24,ack:23,avg:'3.5',esc:1,snz:3},
+    {name:'Amy Foster',init:'AF',color:'#EC4899',role:'Site Mgr',loc:'Riverside',alerts:22,ack:21,avg:'4.0',esc:1,snz:2},
+    {name:'Carlos Ruiz',init:'CR',color:'#14B8A6',role:'Site Mgr',loc:'Lakefront',alerts:22,ack:20,avg:'4.9',esc:2,snz:5}
+  ],
+  site:[]
+};
+
+var TIMELINE=[
+  {time:'Today 2:43 PM',sev:'critical',dot:'var(--red)',title:'No Cars Processed — Downtown',detail:'Threshold: 15 min · Last car: 2:28 PM',steps:['Fired','Escalated to Sarah Chen (10 min)','Awaiting response'],status:'active'},
+  {time:'Today 1:15 PM',sev:'warning',dot:'var(--orange)',title:'Low Productivity — Northgate',detail:'4.2 cars/hr vs 7.0 threshold',steps:['Fired','Acknowledged by Lisa Wang (4 min)','Resolved — rate recovered to 7.8'],status:'resolved'},
+  {time:'Today 11:30 AM',sev:'info',dot:'var(--primary)',title:'Rain Detected — Northgate, Riverside',detail:'Auto-downgraded from No Cars alert',steps:['Fired','Snoozed by Sarah Chen (until 1 PM)','Auto-cleared — rain stopped'],status:'resolved'},
+  {time:'Today 9:22 AM',sev:'warning',dot:'var(--orange)',title:'Early Clock-In — Westside',detail:'Jessica Chen clocked in at 6:43 AM (threshold: 7:00 AM)',steps:['Fired','Reviewed by David Park (11 min)','Approved — scheduled early'],status:'resolved'},
+  {time:'Today 7:01 AM',sev:'success',dot:'var(--green)',title:'Personal Best — Sarah Martinez (Northgate)',detail:'12 subscriptions sold · Previous best: 10',steps:['Fired','Celebrated'],status:'resolved'},
+  {time:'Yesterday 9:45 PM',sev:'warning',dot:'var(--orange)',title:'Late Clock-Out Reminder — Downtown',detail:'4 employees still clocked in at 9:45 PM',steps:['Fired','Snoozed by Mike Torres (30 min)','Fired again 10:15 PM','Acknowledged by Mike Torres (2 min)','Resolved — all clocked out by 10:25 PM'],status:'resolved',aiFlag:'This is the 3rd consecutive Tuesday with late clock-outs at Downtown. Pattern suggests a recurring scheduling issue with the Tuesday evening shift.'},
+  {time:'Yesterday 3:10 PM',sev:'warning',dot:'var(--orange)',title:'Low Productivity — Riverside',detail:'5.1 cars/hr vs 8.0 threshold',steps:['Fired','Acknowledged by Amy Foster (6 min)','Resolved — shift change improved rate'],status:'resolved'},
+  {time:'Yesterday 10:30 AM',sev:'config',dot:'var(--gray)',title:'Config Change — Jake Dawson',detail:'Locked "Early Clock-In" threshold for all locations',steps:['Applied'],status:'config'},
+  {time:'Feb 20 2:15 PM',sev:'critical',dot:'var(--red)',title:'No Cars Processed — Westside',detail:'Threshold: 15 min · Equipment malfunction',steps:['Fired','Sent to David Park','Escalated to Sarah Chen (15 min)','Escalated to Jake Dawson (25 min)','Resolved — equipment fixed (42 min total)'],status:'resolved',aiFlag:'Slowest resolution this month. Each escalation level was delayed. If David Park had acknowledged within 5 min, total resolution would have been ~22 min instead of 42.'},
+  {time:'Feb 19 9:15 AM',sev:'config',dot:'var(--gray)',title:'Config Change — Sarah Chen',detail:'Changed Northgate "No Cars" threshold from 15 to 20 min',steps:['Applied'],status:'config'}
+];
+
+var PATTERNS=[
+  {name:'Late Clock-Out Reminder',total:48,snoozed:31,pct:65,color:'var(--orange)'},
+  {name:'Low Productivity',total:24,snoozed:8,pct:33,color:'var(--green)'},
+  {name:'No Cars Processed',total:18,snoozed:3,pct:17,color:'var(--green)'},
+  {name:'Early Clock-In',total:12,snoozed:9,pct:75,color:'var(--red)'},
+  {name:'Rain / Weather',total:8,snoozed:7,pct:88,color:'var(--red)'},
+  {name:'Low Conversion Flag',total:6,snoozed:0,pct:0,color:'var(--green)'}
+];
+
+function switchRole(r){curRole=r;document.querySelectorAll('.role-btn').forEach(function(b){b.classList.remove('active');});document.querySelector('[onclick="switchRole(\''+r+'\')"]').classList.add('active');document.getElementById('role-label').textContent=ROLES[r];render();}
+function openSidebar(){document.querySelector('.sidebar').classList.add('open');document.getElementById('sidebar-backdrop').classList.add('open');}
+function closeSidebar(){document.querySelector('.sidebar').classList.remove('open');document.getElementById('sidebar-backdrop').classList.remove('open');}
+function toast(m){var e=document.createElement('div');e.className='toast';e.innerHTML='<span style="color:var(--green)">✓</span> '+m;document.body.appendChild(e);setTimeout(function(){e.remove();},2500);}
+var aiVisible=true;
+function toggleAiCards(){aiVisible=!aiVisible;var btn=document.getElementById('ai-toggle');var content=document.getElementById('history-content');if(aiVisible){btn.innerHTML='<span style="color:var(--green)">✦</span> AI On';btn.classList.remove('off');content.classList.remove('ai-hidden');}else{btn.innerHTML='<span>✦</span> AI Off';btn.classList.add('off');content.classList.add('ai-hidden');}}
+
+function render(){
+  var h='';
+  var m=METRICS[curRole];
+
+  // ── EXECUTIVE SUMMARY (owner) / PERFORMANCE SNAPSHOT (site) ──
+  if(curRole==='owner'){
+    h+='<div class="exec-summary"><div class="exec-icon">📋</div><div class="exec-body"><div class="exec-title">February Summary</div><div class="exec-text">'+m.alerts+' alerts this month, '+m.respRate+'% response rate ('+m.respTrend+' vs last month). Average response time '+m.avgTime+'. Two issues need attention: Early Clock-In snoozed 75% — threshold likely too strict, and Westside response times lagging at 5.8 min. Northgate threshold change working well — false positives down 67%.</div></div></div>';
+  }
+  if(curRole==='site'){
+    h+='<div class="exec-summary" style="border-color:#B0E0CC;background:#F0FDF6"><div class="exec-icon">⭐</div><div class="exec-body"><div class="exec-title">Your February Performance</div><div class="exec-text">3.1 min avg response (26% faster than team). 97% acknowledged before escalation. 1 escalation — rain event while off-site. Top performer this month.</div><button class="btn-secondary" onclick="toast(\'Stats copied to clipboard — paste to share\')" style="margin-top:.5rem;font-size:.8125rem;padding:.25rem .75rem">📤 Copy My Stats</button></div></div>';
+  }
+
+  // ── METRICS ──
+  h+='<div id="sec-metrics" class="metrics">';
+  h+='<div class="metric"><div class="metric-label">Alerts This Month</div><div class="metric-val">'+m.alerts+'</div><div class="metric-sub"><span class="'+(m.alertsTrend.charAt(0)==='+'?'metric-down':'metric-up')+'">'+m.alertsTrend+'</span> vs last month</div></div>';
+  h+='<div class="metric"><div class="metric-label">Response Rate</div><div class="metric-val">'+m.respRate+'%</div><div class="metric-sub"><span class="metric-up">'+m.respTrend+'</span> vs last month</div></div>';
+  h+='<div class="metric"><div class="metric-label">Avg Response Time</div><div class="metric-val">'+m.avgTime+'</div><div class="metric-sub"><span class="metric-up">'+m.timeTrend+'</span> vs last month</div></div>';
+  h+='<div class="metric"><div class="metric-label">Escalation Rate</div><div class="metric-val">'+m.escRate+'</div><div class="metric-sub"><span class="metric-up">'+m.escTrend+'</span> vs last month</div></div>';
+  h+='</div>';
+
+  // ── AI INSIGHTS ──
+  h+='<div class="ai-card"><div class="ai-card-header">'+AI_ICON+'<span class="ai-card-label">Operational Analysis</span></div><div class="ai-card-body">';
+  if(curRole==='owner'){
+    h+='<div class="ai-card-insight">Two patterns need attention this month</div>';
+    h+='<div class="ai-card-evidence"><span class="ai-card-stat warn">Early Clock-In snoozed 75% of the time</span><span class="ai-card-stat warn">Westside avg response: 5.8 min (slowest)</span><span class="ai-card-stat">Northgate improved after threshold change</span></div>';
+    h+='<div class="ai-card-explanation">Early Clock-In alerts are being snoozed or dismissed at nearly every location — consider loosening the threshold from 7:00 AM to 6:45 AM, or converting to an info-level notification instead of a warning. Separately, Westside response times are 40% slower than the team average. David Park escalated 4 alerts this month — most on the team. The Feb 20 equipment issue took 42 minutes to resolve because of delayed response at every escalation level.</div>';
+    h+='<div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem"><a class="ai-action-link" onclick="toast(\'Opening Early Clock-In config...\')">⚙️ Adjust Early Clock-In Threshold</a><a class="ai-action-link" onclick="scrollToSection(\'sec-team\')">👤 View David Park\'s Record</a></div>';
+    h+='<div class="ai-confidence high">Based on 142 alerts over 30 days</div>';
+  }else if(curRole==='area'){
+    h+='<div class="ai-card-insight">Your region is outperforming company average</div>';
+    h+='<div class="ai-card-evidence"><span class="ai-card-stat">92% response rate vs 89% company</span><span class="ai-card-stat">3.8 min avg vs 4.2 company</span><span class="ai-card-stat">Northgate threshold change reduced false alerts by 4</span></div>';
+    h+='<div class="ai-card-explanation">The Northgate "No Cars" change from 15 to 20 minutes eliminated 4 false positives per week without missing any real issues. Carlos at Lakefront has the highest snooze rate on your team (5 this month) — worth checking if his thresholds need adjusting or if there\'s a training opportunity.</div>';
+    h+='<div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem"><a class="ai-action-link" onclick="toast(\'Opening Lakefront config...\')">⚙️ Review Lakefront Thresholds</a></div>';
+    h+='<div class="ai-confidence high">Based on 68 alerts over 30 days</div>';
+  }else{
+    h+='<div class="ai-card-insight">You\'re the fastest responder on the team</div>';
+    h+='<div class="ai-card-evidence"><span class="ai-card-stat">3.1 min avg response</span><span class="ai-card-stat">96% acknowledged before escalation</span><span class="ai-card-stat">Only 1 escalation this month</span></div>';
+    h+='<div class="ai-card-explanation">Your response time is 26% faster than the team average. The only escalation this month was during a rain event while you were off-site. Late Clock-Out Reminders account for most of your snoozes (4 of 4) — this is expected behavior for end-of-shift management.</div>';
+    h+='<div class="ai-confidence high">Based on 31 alerts over 30 days</div>';
+  }
+  h+='</div></div>';
+
+  // ── FILTERS ──
+  h+='<div class="filters"><select class="filter-select" onchange="toast(\'Filter applied\')"><option>Last 30 Days</option><option>Last 7 Days</option><option>Today</option><option>This Month</option><option>Custom Range</option></select>';
+  h+='<select class="filter-select" onchange="toast(\'Filter applied\')"><option>All Locations</option><option>Downtown</option><option>Westside</option><option>Northgate</option><option>Riverside</option><option>Lakefront</option></select>';
+  h+='<select class="filter-select" onchange="toast(\'Filter applied\')"><option>All Types</option><option>Critical</option><option>Warning</option><option>Info</option><option>Milestone</option><option>Config Changes</option></select></div>';
+
+  // ── TEAM RESPONSE TABLE (owner & area) ──
+  if(curRole!=='site'){
+    h+='<div id="sec-team" class="section-title"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Team Response — This Month</div>';
+    h+='<table class="resp-table"><thead><tr><th>Person</th><th>Location</th><th>Alerts</th><th>Ack\'d</th><th>Avg Time</th><th>Escalated</th><th>Snoozed</th></tr></thead><tbody>';
+    TEAM_RESP[curRole].forEach(function(t){
+      var avgClass=parseFloat(t.avg)<=4?'good':parseFloat(t.avg)<=5.5?'warn':'bad';
+      var escClass=t.esc===0?'good':t.esc<=2?'warn':'bad';
+      h+='<tr><td><div class="name-cell"><div class="avatar" style="background:'+t.color+'">'+t.init+'</div>'+t.name+'</div></td><td>'+t.loc+'</td><td>'+t.alerts+'</td><td>'+t.ack+'</td><td class="'+avgClass+'">'+t.avg+' min</td><td class="'+escClass+'">'+t.esc+'</td><td>'+t.snz+'</td></tr>';
+    });
+    h+='</tbody></table>';
+
+    // AI coaching suggestion
+    var worst=TEAM_RESP[curRole].reduce(function(a,b){return parseFloat(a.avg)>parseFloat(b.avg)?a:b;});
+    if(parseFloat(worst.avg)>5){
+      h+='<div class="ai-card" style="margin-top:.5rem"><div class="ai-card-header">'+AI_ICON+'<span class="ai-card-label">Coaching Suggestion</span></div><div class="ai-card-body">';
+      h+='<div class="ai-card-insight">'+worst.name+' may need support at '+worst.loc+'</div>';
+      h+='<div class="ai-card-evidence"><span class="ai-card-stat warn">'+worst.avg+' min avg (team: 4.2)</span><span class="ai-card-stat warn">'+worst.esc+' escalations</span><span class="ai-card-stat">'+worst.snz+' snoozes</span></div>';
+      h+='<div class="ai-card-explanation">The Feb 20 equipment issue at Westside escalated through all 3 levels before resolution (42 min total). '+worst.name+'\'s alerts consistently take longer during afternoon shifts (2–6 PM). This suggests alerts may not be reaching him quickly enough rather than being ignored — check notification delivery or workload during those hours.</div>';
+      h+='</div></div>';
+    }
+  }else{
+    // Site manager: own stats
+    h+='<div class="section-title"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Your Response Record — This Month</div>';
+    h+='<table class="resp-table"><thead><tr><th>Metric</th><th>Your Performance</th><th>Team Average</th></tr></thead><tbody>';
+    h+='<tr><td style="font-weight:600">Alerts Received</td><td>31</td><td>25</td></tr>';
+    h+='<tr><td style="font-weight:600">Acknowledged</td><td class="good">30 (97%)</td><td>88%</td></tr>';
+    h+='<tr><td style="font-weight:600">Avg Response Time</td><td class="good">3.1 min</td><td>4.2 min</td></tr>';
+    h+='<tr><td style="font-weight:600">Escalated</td><td class="good">1</td><td>2.4</td></tr>';
+    h+='<tr><td style="font-weight:600">Snoozed</td><td>4</td><td>3.8</td></tr>';
+    h+='</tbody></table>';
+  }
+
+  // ── SNOOZE/DISMISS PATTERNS (owner & area) ──
+  if(curRole!=='site'){
+    h+='<div id="sec-snooze" class="section-title"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Snooze Patterns — This Month</div>';
+    h+='<div class="pattern-grid">';
+    PATTERNS.forEach(function(p){
+      h+='<div class="pattern-card"><div class="pattern-name">'+p.name+'</div><div class="pattern-bar"><div class="pattern-fill" style="width:'+p.pct+'%;background:'+p.color+'"></div></div><div class="pattern-stat">'+p.snoozed+' of '+p.total+' snoozed ('+p.pct+'%)'+(p.pct>=60?' — consider adjusting threshold':'')+'</div></div>';
+    });
+    h+='</div>';
+
+    // AI snooze recommendation
+    h+='<div class="ai-card" style="margin-top:.5rem"><div class="ai-card-header">'+AI_ICON+'<span class="ai-card-label">Threshold Recommendations</span></div><div class="ai-card-body">';
+    h+='<div class="ai-card-insight">2 alerts are generating noise without value</div>';
+    h+='<div style="margin-bottom:.75rem"><div style="font-weight:600;font-size:.875rem;margin-bottom:.25rem">Early Clock-In — 75% snoozed</div>';
+    h+='<div class="ai-card-evidence"><span class="ai-card-stat warn">9 of 12 snoozed or dismissed</span><span class="ai-card-stat">Avg early arrival: 14 min</span></div>';
+    h+='<div style="font-size:.8125rem;color:#00805A;margin-top:.25rem">→ Move threshold from 7:00 AM to 6:45 AM, or downgrade to info-level. The 3 genuine violations were all 30+ minutes early — a 6:45 threshold would still catch those.</div>';
+    h+='<a class="ai-action-link" onclick="toast(\'Opening Early Clock-In config...\')">⚙️ Open Early Clock-In Setting</a></div>';
+    h+='<div><div style="font-weight:600;font-size:.875rem;margin-bottom:.25rem">Rain / Weather — 88% snoozed</div>';
+    h+='<div class="ai-card-evidence"><span class="ai-card-stat warn">7 of 8 snoozed</span><span class="ai-card-stat">Already auto-downgrades to info</span></div>';
+    h+='<div style="font-size:.8125rem;color:#00805A;margin-top:.25rem">→ Consider auto-suppressing rain alerts entirely and logging them silently. Every manager snoozes these immediately — they add no decision value in the current form.</div>';
+    h+='<a class="ai-action-link" onclick="toast(\'Opening Rain alert config...\')">⚙️ Open Rain Alert Setting</a></div>';
+    h+='<div class="ai-confidence high">Based on 30 days of snooze data across all locations</div>';
+    h+='</div></div>';
+  }
+
+  // ── TIMELINE ──
+  h+='<div id="sec-timeline" class="section-title"><svg viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="4"/><polyline points="6 10 12 4 18 10"/></svg>Alert Timeline</div>';
+  h+='<div class="timeline">';
+  var visTL=TIMELINE;
+  if(curRole==='area')visTL=TIMELINE.filter(function(t){return t.title.indexOf('Northgate')!==-1||t.title.indexOf('Riverside')!==-1||t.title.indexOf('Lakefront')!==-1||t.title.indexOf('Region North')!==-1||t.title.indexOf('Sarah Chen')!==-1||t.sev==='config';});
+  if(curRole==='site')visTL=TIMELINE.filter(function(t){return t.title.indexOf('Downtown')!==-1||t.title.indexOf('Mike Torres')!==-1;});
+  visTL.forEach(function(t){
+    h+='<div class="tl-item"><div class="tl-time">'+t.time+'</div><div class="tl-dot" style="background:'+t.dot+'"></div><div class="tl-body"><div class="tl-title">'+t.title+'</div><div class="tl-detail">'+t.detail+'</div>';
+    if(t.steps.length>1||t.status!=='config'){
+      h+='<div class="tl-lifecycle">';
+      t.steps.forEach(function(s,i){
+        var cls='resolved';
+        if(s.indexOf('Fired')!==-1)cls='fired';
+        else if(s.indexOf('Escalat')!==-1)cls='escalated';
+        else if(s.indexOf('Acknowledg')!==-1||s.indexOf('Reviewed')!==-1||s.indexOf('Approved')!==-1||s.indexOf('Celebrat')!==-1)cls='acked';
+        else if(s.indexOf('Snoozed')!==-1)cls='snoozed';
+        else if(s.indexOf('Awaiting')!==-1)cls='escalated';
+        h+='<span class="tl-step '+cls+'">'+s+'</span>';
+        if(i<t.steps.length-1)h+='<span class="tl-arrow">→</span>';
+      });
+      h+='</div>';
+    }
+    if(t.aiFlag){
+      h+='<div class="tl-ai-flag">'+AI_ICON+'<span>'+t.aiFlag+'</span></div>';
+    }
+    h+='</div></div>';
+  });
+  h+='</div>';
+
+  // ── AI: CAUSE-EFFECT FOR CONFIG CHANGES (owner only) ──
+  if(curRole==='owner'){
+    h+='<div class="ai-card"><div class="ai-card-header">'+AI_ICON+'<span class="ai-card-label">Config Impact Analysis</span></div><div class="ai-card-body">';
+    h+='<div class="ai-card-insight">How recent changes affected operations</div>';
+    h+='<div style="margin-bottom:.75rem"><div style="font-weight:600;font-size:.875rem;margin-bottom:.25rem">Northgate "No Cars" threshold: 15 → 20 min <span style="font-size:.75rem;color:var(--gray);font-weight:400">(Feb 19, by Sarah Chen)</span></div>';
+    h+='<div class="ai-card-evidence"><span class="ai-card-stat">False positives: 6/week → 2/week</span><span class="ai-card-stat">Real issues caught: 100% (no misses)</span><span class="ai-card-stat">Net: -4 unnecessary alerts/week</span></div></div>';
+    h+='<div style="margin-bottom:.75rem"><div style="font-weight:600;font-size:.875rem;margin-bottom:.25rem">Locked "Early Clock-In" threshold <span style="font-size:.75rem;color:var(--gray);font-weight:400">(Today, by Jake Dawson)</span></div>';
+    h+='<div class="ai-card-evidence"><span class="ai-card-stat warn">Too early to measure impact</span><span class="ai-card-stat">Prior: 75% snooze rate on these alerts</span></div></div>';
+    h+='<div class="ai-card-explanation">Recommendation: Based on snooze patterns, Early Clock-In threshold should be moved to 6:45 AM rather than locked at 7:00 AM. Locking a threshold that gets snoozed 75% of the time preserves an unproductive alert — adjusting it would be more effective.</div>';
+    h+='<div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem"><a class="ai-action-link" onclick="toast(\'Opening Early Clock-In config...\')">⚙️ Unlock &amp; Adjust Early Clock-In</a><a class="ai-action-link" onclick="toast(\'Opening Northgate No Cars config...\')">⚙️ View Northgate Threshold</a></div>';
+    h+='<div class="ai-confidence high">Based on 30 days of alert data + config audit log</div>';
+    h+='</div></div>';
+  }
+
+  document.getElementById('history-content').innerHTML=h;
+
+  // Build section nav
+  var nav='';
+  var sections=[{id:'sec-metrics',label:'Metrics'}];
+  if(curRole!=='site')sections.push({id:'sec-team',label:'Team'},{id:'sec-snooze',label:'Patterns'});
+  sections.push({id:'sec-timeline',label:'Timeline'});
+  sections.forEach(function(s){nav+='<button class="section-nav-btn" onclick="scrollToSection(\''+s.id+'\')">'+s.label+'</button>';});
+  document.getElementById('section-nav').innerHTML=nav;
+}
+function scrollToSection(id){var el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
+render();
+</script>
+</body>
+</html>

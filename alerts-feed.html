@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alert Feed — WashIQ</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#0066FF;--green:#00D084;--orange:#FF6B35;--dark:#1a1a1a;--gray:#666;--gray-light:#f5f5f5;--border:#e0e0e0;--red:#EF4444}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{overflow-x:hidden}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.6;color:var(--dark);background:#fff;-webkit-font-smoothing:antialiased}
+.app{display:flex;min-height:100vh}
+.sidebar{width:248px;background:#fff;border-right:1px solid var(--border);position:fixed;top:0;left:0;bottom:0;display:flex;flex-direction:column;z-index:200;overflow-y:auto}
+.sidebar-backdrop{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.4);z-index:199}
+.hamburger{display:none;background:none;border:none;padding:.25rem;cursor:pointer}
+.hamburger svg{width:24px;height:24px;stroke:var(--dark);stroke-width:2}
+.sidebar-logo{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem;text-decoration:none;color:var(--dark)}
+.sidebar-logo span{font-size:1.5rem;font-weight:700;letter-spacing:-.02em}
+.sidebar-nav{flex:1;padding:1rem .75rem}
+.sidebar-section{margin-bottom:1.5rem}
+.sidebar-section-label{font-size:.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#999;padding:0 .75rem;margin-bottom:.375rem}
+.sidebar-link{display:flex;align-items:center;gap:.75rem;padding:.5rem .75rem;border-radius:6px;color:var(--gray);font-size:.9375rem;font-weight:500;text-decoration:none;transition:all .2s;margin-bottom:2px}
+.sidebar-link:hover{background:var(--gray-light);color:var(--dark)}
+.sidebar-link.active{background:var(--gray-light);color:var(--dark);font-weight:600}
+.sidebar-link svg{width:20px;height:20px;flex-shrink:0;stroke:currentColor}
+.sidebar-badge{margin-left:auto;background:var(--orange);color:#fff;font-size:.75rem;font-weight:700;padding:0 6px;border-radius:10px;min-width:20px;text-align:center;line-height:1.6}
+.role-switcher{padding:.75rem;border-top:1px solid var(--border)}
+.role-switcher-label{font-size:.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#999;margin-bottom:.375rem;padding-left:.25rem}
+.role-btn{display:flex;align-items:center;gap:.5rem;width:100%;padding:.375rem .5rem;border:none;background:transparent;border-radius:6px;cursor:pointer;font-family:inherit;font-size:.8125rem;color:var(--gray);transition:all .15s;text-align:left;margin-bottom:1px}
+.role-btn:hover{background:var(--gray-light);color:var(--dark)}
+.role-btn.active{background:var(--dark);color:#fff}
+.role-btn .ra{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.5625rem;font-weight:700;color:#fff;flex-shrink:0}
+.role-btn .rn{font-weight:600;line-height:1.2}
+.role-btn .rt{font-size:.625rem;opacity:.7}
+.main{flex:1;margin-left:248px}
+.page-header{padding:1.25rem 2.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);position:sticky;top:0;z-index:100}
+.page-header h1{font-size:1.5rem;font-weight:800;letter-spacing:-.02em}
+.page-header-actions{display:flex;align-items:center;gap:.75rem}
+/* ── Tabs ── */
+.tab-bar{display:flex;gap:0;padding:0 2.5rem;border-bottom:1px solid var(--border);background:#fff;position:sticky;top:57px;z-index:99}
+.tab-btn{padding:.875rem 1.5rem;font-size:.9375rem;font-weight:600;color:var(--gray);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:inherit;transition:all .15s;display:flex;align-items:center;gap:.5rem}
+.tab-btn:hover{color:var(--dark)}
+.tab-btn.active{color:var(--dark);border-bottom-color:var(--dark)}
+.tab-btn .tab-count{font-size:.75rem;font-weight:700;padding:0 6px;border-radius:10px;line-height:1.6}
+.tab-btn .tab-count.alert-count{background:var(--orange);color:#fff}
+.tab-btn .tab-count.report-count{background:var(--gray-light);color:var(--gray);border:1px solid var(--border)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.page-content{padding:1.5rem 2.5rem 4rem}
+.critical-banner{background:linear-gradient(135deg,#FEF2F2,#FFF);border:2px solid var(--red);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:1rem}
+.critical-banner-icon{width:44px;height:44px;border-radius:50%;background:#FEF2F2;display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;border:2px solid var(--red)}
+.critical-banner-content{flex:1}
+.critical-banner-title{font-size:1.125rem;font-weight:700;color:#DC2626;margin-bottom:.125rem}
+.critical-banner-sub{font-size:.9375rem;color:var(--gray)}
+.critical-banner .action-primary{background:#DC2626;margin-left:auto;flex-shrink:0}
+.critical-banner .action-primary:hover{background:#B91C1C}
+.status-bar{display:flex;gap:.75rem;margin-bottom:1.25rem;flex-wrap:wrap}
+.status-pill{display:flex;align-items:center;gap:.375rem;padding:.375rem .875rem;border-radius:20px;font-size:.8125rem;font-weight:600;border:1px solid var(--border);background:#fff}
+.status-pill.green{border-color:#00D084;color:#059669;background:#F0FDF9}
+.status-pill.yellow{border-color:#F59E0B;color:#92400E;background:#FFFBEB}
+.status-pill.red{border-color:var(--red);color:#DC2626;background:#FEF2F2}
+.status-pill .dot{width:6px;height:6px;border-radius:50%}
+.status-pill.green .dot{background:#00D084}.status-pill.yellow .dot{background:#F59E0B}.status-pill.red .dot{background:var(--red)}
+.feed-section{margin-bottom:1.5rem}
+.feed-section-label{font-size:.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#999;margin-bottom:.625rem;display:flex;align-items:center;gap:.5rem}
+.feed-section-label .count{background:var(--gray-light);padding:0 8px;border-radius:10px;font-size:.75rem;color:var(--gray);border:1px solid var(--border)}
+.feed-section-toggle{margin-left:auto;background:none;border:none;font-size:.8125rem;font-weight:600;color:var(--primary);cursor:pointer;font-family:inherit}
+.alert-feed{background:#fff;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.08);overflow:visible}
+.feed-filter{background:#fff;border:1px solid var(--border);padding:.5rem 1rem;border-radius:6px;font-size:.9375rem;font-weight:500;cursor:pointer;transition:all .2s;font-family:inherit;color:var(--dark)}
+.feed-filter:hover{border-color:var(--primary);color:#00D084}
+.feed-search{display:flex;align-items:center;gap:.5rem;background:#fff;border:1px solid var(--border);padding:.5rem 1rem;border-radius:6px;transition:border-color .2s}
+.feed-search:focus-within{border-color:#00D084}
+.feed-search input{border:none;outline:none;font-size:.9375rem;font-family:inherit;color:var(--dark);width:180px;background:transparent}
+.feed-search input::placeholder{color:#aaa}
+.alert-item{display:flex;gap:1.5rem;padding:2rem;border-bottom:1px solid var(--border);transition:all .2s;position:relative}
+.alert-item:last-child{border-bottom:none}
+.alert-item:hover{background:#FAFAFA}
+.alert-item.resolved{opacity:.6}.alert-item.resolved:hover{opacity:1}
+.alert-item.hiding{opacity:0;transform:translateX(30px);max-height:0;padding:0 2rem;overflow:hidden;transition:all .4s}
+.alert-status{font-size:.875rem;font-weight:700;white-space:nowrap;min-width:130px}
+.alert-content{flex:1;min-width:0}
+.alert-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+.alert-location{font-weight:700;font-size:1rem;color:var(--dark)}
+.alert-time{font-size:.875rem;color:var(--gray)}
+.alert-message{font-size:1.125rem;font-weight:600;color:var(--dark);margin-bottom:.75rem;line-height:1.4}
+.alert-details{display:flex;gap:1rem;flex-wrap:wrap;font-size:.9375rem;color:var(--gray);margin-bottom:1rem}
+.alert-details .separator{color:var(--border)}
+.trend-down{color:#FF6B35;font-weight:600}
+.trend-up{color:#00D084;font-weight:600}
+.impact-positive{color:#00D084;font-weight:600}
+.escalation{margin:.75rem 0;padding:.75rem 1rem;background:#FAFAFA;border-radius:8px;border-left:3px solid var(--border);font-size:.8125rem}
+.escalation.active{border-left-color:var(--red)}.escalation.ack{border-left-color:var(--green)}
+.esc-step{display:flex;align-items:center;gap:.5rem;padding:.25rem 0;color:var(--gray)}
+.esc-step .ei{width:16px;text-align:center;flex-shrink:0;font-size:.75rem}
+.esc-step.done .ei{color:var(--green)}.esc-step.waiting .ei{color:var(--orange)}.esc-step.escalated .ei{color:var(--red)}
+.esc-step strong{color:var(--dark);font-weight:600}
+.weather-bar{display:flex;align-items:center;gap:.5rem;margin:.5rem 0 .75rem;padding:.5rem .875rem;border-radius:8px;font-size:.8125rem;font-weight:600;background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE}
+.weather-bar svg{flex-shrink:0}
+.grouped-locations{margin:.5rem 0 1rem;font-size:.875rem}
+.grouped-loc-row{display:flex;justify-content:space-between;padding:.375rem 0;border-bottom:1px solid #f0f0f0;flex-wrap:wrap;cursor:pointer;transition:background .15s}
+.grouped-loc-row:last-child{border-bottom:none}
+.grouped-loc-row:hover{background:#F8FAFF}
+.grouped-loc-name{font-weight:500;display:flex;align-items:center;gap:.375rem}
+.grouped-loc-name .expand-arrow{font-size:.625rem;color:var(--gray);transition:transform .2s}
+.grouped-loc-row.open .expand-arrow{transform:rotate(90deg)}
+.grouped-loc-time{color:var(--gray);font-size:.8125rem}
+.loc-forecast{display:none;width:100%;padding:.5rem 0 .25rem;font-size:.8125rem}
+.grouped-loc-row.open .loc-forecast{display:block}
+.forecast-hours{display:flex;gap:0;overflow-x:auto;padding-bottom:.25rem}
+.forecast-hour{display:flex;flex-direction:column;align-items:center;gap:.125rem;min-width:52px;padding:.375rem .25rem;border-right:1px solid #f0f0f0;font-size:.75rem;color:var(--gray)}
+.forecast-hour:last-child{border-right:none}
+.forecast-hour .fh-time{font-weight:600;color:var(--dark)}
+.forecast-hour .fh-icon{font-size:.875rem}
+.forecast-hour .fh-temp{font-weight:500}
+.forecast-hour.rain{background:#EFF6FF;border-radius:4px}
+.forecast-hour.clear{color:var(--green)}
+.alert-actions-context{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center;margin-bottom:.5rem}
+.alert-actions-system{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;padding-top:.5rem;border-top:1px solid #f0f0f0}
+.alert-actions-row{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center}
+.action-primary{background:var(--dark);color:#fff;border:none;padding:.625rem 1.25rem;border-radius:6px;font-weight:600;font-size:.875rem;cursor:pointer;transition:all .2s;font-family:inherit}
+.action-primary:hover{background:#333;transform:translateY(-1px)}
+.action-secondary{background:#fff;color:var(--dark);border:1px solid var(--border);padding:.625rem 1.25rem;border-radius:6px;font-weight:600;font-size:.875rem;cursor:pointer;transition:all .2s;font-family:inherit}
+.action-secondary:hover{border-color:var(--dark);background:#FAFAFA}
+.action-text{background:transparent;color:var(--gray);border:none;padding:.625rem 1.25rem;font-weight:600;font-size:.875rem;cursor:pointer;transition:all .2s;font-family:inherit}
+.action-text:hover{color:var(--dark)}
+.action-system{background:transparent;color:var(--gray);border:1px solid var(--border);padding:.375rem .875rem;border-radius:5px;font-weight:500;font-size:.8125rem;cursor:pointer;transition:all .15s;font-family:inherit;display:inline-flex;align-items:center;gap:.25rem}
+.action-system:hover{border-color:var(--dark);color:var(--dark);background:#FAFAFA}
+.action-system svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+/* ── Report Time Groups ── */
+.report-time-group{margin-bottom:1.5rem}
+.report-time-label{font-size:.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#999;margin-bottom:.625rem;display:flex;align-items:center;gap:.5rem}
+.report-time-label .rtl-count{background:var(--gray-light);padding:0 8px;border-radius:10px;font-size:.75rem;color:var(--gray);border:1px solid var(--border)}
+/* ── Dropdowns ── */
+.loc-dropdown{position:relative;display:inline-block}
+.loc-dropdown-menu{position:absolute;top:calc(100% + 4px);left:0;background:#fff;border:1px solid var(--border);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.1);min-width:260px;overflow:hidden;z-index:300;display:none;max-height:360px;overflow-y:auto}
+.loc-dropdown.open .loc-dropdown-menu{display:block}
+.loc-group-label{font-size:.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#999;padding:.625rem 1rem .25rem;background:#FAFAFA}
+.loc-option{display:flex;align-items:center;gap:.625rem;width:100%;padding:.5rem 1rem;border:none;background:#fff;font-size:.9375rem;font-family:inherit;color:var(--dark);cursor:pointer;transition:background .15s;text-align:left}
+.loc-option:hover{background:#FAFAFA}
+.loc-option.indented{padding-left:2.25rem;font-size:.875rem}
+.loc-option .cb{width:16px;height:16px;border:2px solid var(--border);border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;font-size:.625rem;color:#fff}
+.loc-option .cb.checked{background:var(--dark);border-color:var(--dark)}
+.loc-option .cb.partial{background:#999;border-color:#999}
+.dropdown{position:relative;display:inline-block}
+.dropdown-menu{position:absolute;top:calc(100% + 4px);left:0;background:#fff;border:1px solid var(--border);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.1);min-width:180px;overflow:hidden;z-index:300;display:none}
+.dropdown.open .dropdown-menu{display:block}
+.dropdown-item{display:block;width:100%;text-align:left;padding:.625rem 1rem;border:none;background:#fff;font-size:.9375rem;font-family:inherit;color:var(--dark);cursor:pointer;transition:background .15s}
+.dropdown-item:hover{background:#FAFAFA}.dropdown-item.active{font-weight:600;background:#FAFAFA}
+.assign-dd{position:relative;display:inline-block}
+.assign-dd-menu{position:absolute;top:calc(100% + 4px);left:0;background:#fff;border:1px solid var(--border);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.12);min-width:220px;overflow:hidden;z-index:300;display:none}
+.assign-dd.open .assign-dd-menu{display:block}
+.assign-option{display:flex;align-items:center;gap:.5rem;width:100%;padding:.5rem 1rem;border:none;background:#fff;font-size:.875rem;font-family:inherit;color:var(--dark);cursor:pointer;transition:background .15s;text-align:left}
+.assign-option:hover{background:#FAFAFA}
+.assign-option .aa{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.5625rem;font-weight:700;color:#fff;flex-shrink:0}
+.snooze-dd{position:relative;display:inline-block}
+.snooze-dd-menu{position:absolute;top:calc(100% + 4px);left:0;background:#fff;border:1px solid var(--border);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.12);min-width:240px;overflow:hidden;z-index:300;display:none;padding:.5rem 0}
+.snooze-dd.open .snooze-dd-menu{display:block}
+.snooze-option{display:block;width:100%;padding:.5rem 1rem;border:none;background:#fff;font-size:.875rem;font-family:inherit;color:var(--dark);cursor:pointer;text-align:left;transition:background .15s}
+.snooze-option:hover{background:#FAFAFA}
+.snooze-div{border-top:1px solid var(--border);margin:.375rem 0}
+.snooze-check{display:flex;align-items:center;gap:.5rem;padding:.5rem 1rem;font-size:.8125rem;color:var(--gray)}
+.snooze-check input{accent-color:var(--dark)}
+
+/* ── AI Design Language ── */
+.ai-icon{display:inline-flex;align-items:center;flex-shrink:0}
+.ai-icon svg{fill:#00D084;stroke:none}
+
+/* Snooze: AI suggestion as first clickable option */
+.ai-snooze{display:flex;align-items:center;gap:.5rem;padding:.625rem .75rem;background:linear-gradient(135deg,#EDFCF5 0%,#D6F5E8 100%);border-bottom:1px solid #A8DBC4;cursor:pointer;transition:background .15s}
+.ai-snooze:hover{background:#D6F5E8}
+.ai-snooze .ai-icon svg{width:18px;height:18px}
+.ai-snooze-body{flex:1}
+.ai-snooze-val{font-weight:700;font-size:.875rem;color:#00A86B}
+.ai-snooze-reason{font-size:.75rem;color:#5588BB;margin-top:.0625rem}
+
+/* Assign: recommended person pulled above list */
+.assign-hero{padding:.75rem;background:linear-gradient(135deg,#EDFCF5 0%,#D6F5E8 100%);border-bottom:1px solid #A8DBC4;display:flex;align-items:center;gap:.5rem;cursor:pointer;transition:background .15s}
+.assign-hero:hover{background:#D6F5E8}
+.assign-hero .ai-icon svg{width:16px;height:16px}
+.assign-hero-info{flex:1}
+.assign-hero-name{font-weight:700;font-size:.875rem;color:#00A86B}
+.assign-hero-why{font-size:.75rem;color:#33B88A}
+.assign-hero .aa{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.625rem;font-weight:700;color:#fff;flex-shrink:0}
+.assign-divider{padding:.25rem .75rem;font-size:.625rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#999;background:#fafafa;border-bottom:1px solid #f0f0f0}
+
+/* Trend/Insight Cards — distinct AI container */
+.ai-card{background:linear-gradient(135deg,#F0FDF6 0%,#EDFCF5 100%);border:1px solid #B0E0CC;border-radius:12px;margin-bottom:.75rem;overflow:visible;position:relative;z-index:1}
+.ai-card-header{display:flex;align-items:center;gap:.625rem;padding:1rem 1.25rem .75rem}
+.ai-card-header .ai-icon svg{width:22px;height:22px}
+.ai-card-label{font-size:.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#00D084}
+.ai-card-location{font-size:.8125rem;color:var(--gray);margin-left:auto}
+.ai-card-body{padding:0 1.25rem 1rem}
+.ai-card-insight{font-size:1rem;font-weight:600;color:#002D66;line-height:1.45;margin-bottom:.625rem}
+.ai-card-evidence{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.75rem}
+.ai-card-stat{font-size:.8125rem;padding:.25rem .625rem;background:rgba(0,208,132,.08);border-radius:5px;color:#0052CC;font-weight:500}
+.ai-card-stat.warn{background:rgba(255,107,53,.08);color:var(--orange)}
+.ai-card-explanation{font-size:.8125rem;color:#335C85;line-height:1.55;padding:.75rem;background:rgba(0,208,132,.04);border-radius:8px;border-left:3px solid #90CDAA;margin-bottom:.75rem}
+.ai-card-actions{padding:0 1.25rem 1.25rem;display:flex;gap:.5rem;flex-wrap:wrap}
+
+/* Weekly Digest — structured briefing */
+.digest-card{background:linear-gradient(135deg,#F0FDF6 0%,#EDFCF5 100%);border:1px solid #B0E0CC;border-radius:12px;overflow:hidden;margin-bottom:.75rem}
+.digest-header{display:flex;align-items:center;gap:.625rem;padding:1rem 1.25rem .5rem}
+.digest-header .ai-icon svg{width:22px;height:22px}
+.digest-title{font-weight:700;font-size:1rem;color:#006040}
+.digest-subtitle{font-size:.8125rem;color:var(--gray);margin-left:auto}
+.digest-body{padding:0 1.25rem 1.25rem}
+.digest-item{display:flex;gap:.625rem;padding:.625rem 0;border-bottom:1px solid rgba(0,208,132,.1)}
+.digest-item:last-child{border-bottom:none}
+.digest-indicator{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;margin-top:.125rem}
+.di-good{background:#F0FDF9;color:var(--green)}
+.di-warn{background:#FFF7ED;color:var(--orange)}
+.di-info{background:#EDFCF5;color:#1a1a1a}
+.di-action{background:#EFF6FF;color:#00D084}
+.digest-text{font-size:.875rem;line-height:1.5;color:var(--dark)}
+.digest-text strong{font-weight:600}
+.digest-actions{padding:0 1.25rem 1.25rem;display:flex;gap:.5rem}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--dark);color:#fff;padding:.875rem 1.5rem;border-radius:8px;font-size:.9375rem;font-weight:600;box-shadow:0 8px 30px rgba(0,0,0,.2);display:flex;align-items:center;gap:.5rem;opacity:0;animation:toastIn .3s ease forwards;z-index:9999}
+.toast-undo{background:none;border:1px solid rgba(255,255,255,.3);color:#fff;padding:.25rem .75rem;border-radius:4px;font-family:inherit;font-size:.8125rem;font-weight:600;cursor:pointer;margin-left:.5rem;white-space:nowrap}
+.toast-undo:hover{background:rgba(255,255,255,.15)}
+.toast-timer{width:100%;height:2px;background:rgba(255,255,255,.15);position:absolute;bottom:0;left:0;border-radius:0 0 8px 8px;overflow:hidden}
+.toast-timer-bar{height:100%;background:var(--green);animation:timerShrink 4s linear forwards}
+@keyframes timerShrink{from{width:100%}to{width:0%}}
+.needs-action-btn{padding:.375rem .875rem;border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:.8125rem;font-weight:600;cursor:pointer;background:#fff;color:var(--dark);transition:all .15s}
+.needs-action-btn.active{background:var(--red);color:#fff;border-color:var(--red)}
+.back-to-top{position:fixed;bottom:1.5rem;right:1.5rem;width:40px;height:40px;border-radius:50%;background:var(--dark);color:#fff;border:none;font-size:1.25rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2);display:none;align-items:center;justify-content:center;z-index:500;transition:opacity .2s}
+.back-to-top.visible{display:flex}
+@keyframes toastIn{to{opacity:1;transform:translateX(-50%) translateY(0)}}
+@media(max-width:768px){
+.sidebar{display:none;transform:translateX(-100%);transition:transform .25s ease}
+.sidebar.open{display:flex;transform:translateX(0)}
+.sidebar-backdrop.open{display:block}
+.hamburger{display:flex}
+.main{margin-left:0}
+.page-header{padding:1rem;flex-wrap:wrap;gap:.5rem;position:sticky;top:0;z-index:100}
+.page-header h1{width:100%;font-size:1.25rem}
+.page-header-actions{width:100%;display:flex;flex-wrap:nowrap;gap:.5rem}
+.feed-search{flex:1;min-width:0}
+.feed-search input{width:100%}
+.feed-filter{font-size:.8125rem;padding:.5rem .625rem;white-space:nowrap}
+.page-content{padding:1rem}
+.alert-feed{border-radius:8px}
+.alert-item{flex-direction:column;gap:.5rem;padding:1.25rem}
+.alert-status{min-width:auto}
+.alert-header{flex-wrap:wrap;gap:.25rem}
+.alert-message{font-size:1rem}
+.alert-details{font-size:.8125rem;gap:.5rem;overflow-x:auto}
+.alert-details table{min-width:340px}
+.action-primary,.action-secondary,.action-text{padding:.5rem .875rem;font-size:.8125rem}
+.action-system{font-size:.75rem;padding:.25rem .625rem}
+.dropdown-menu,.loc-dropdown-menu{position:fixed;top:40%;left:50%;transform:translate(-50%,0);border-radius:12px;min-width:280px;width:calc(100% - 2rem);max-width:320px;max-height:50vh;overflow-y:auto;box-shadow:0 8px 30px rgba(0,0,0,.2);z-index:9000;padding:.5rem 0}
+.dropdown-menu .dropdown-item,.loc-dropdown-menu .loc-option{padding:.875rem 1.25rem;font-size:1rem}
+.dropdown.open::before,.loc-dropdown.open::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.3);z-index:8999}
+.critical-banner{flex-direction:column;text-align:center}
+.critical-banner .action-primary{margin-left:0;margin-top:.5rem}
+.status-bar{gap:.5rem}
+.status-pill{font-size:.75rem;padding:.25rem .625rem}
+.assign-dd-menu,.snooze-dd-menu{bottom:auto;top:calc(100% + 4px);z-index:9000}
+.tab-bar{padding:0 1rem;overflow-x:auto;-webkit-overflow-scrolling:touch;position:sticky;top:90px;z-index:99}
+.tab-btn{padding:.75rem 1rem;font-size:.875rem;white-space:nowrap}
+.alert-actions-context,.alert-actions-system,.alert-actions-row{gap:.375rem}
+.report-time-label{font-size:.75rem}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <a href="alerts-feed.html" class="sidebar-logo"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="4" y="14" width="3" height="6" rx="1" fill="#00D084"/><rect x="10.5" y="8" width="3" height="12" rx="1" fill="#00D084"/><rect x="17" y="4" width="3" height="16" rx="1" fill="#00D084"/></svg><span>WashIQ</span></a>
+  <nav class="sidebar-nav">
+    <div class="sidebar-section"><div class="sidebar-section-label">Overview</div><a href="#" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</a></div>
+    <div class="sidebar-section"><div class="sidebar-section-label">Alerts</div>
+      <a href="alerts-feed.html" class="sidebar-link active"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Alert Feed<span class="sidebar-badge" id="badge-count">4</span></a>
+      <a href="config.html" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-2.82 1.18V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.6.85 1 1.51 1H21a2 2 0 0 1 0 4h-.09c-.66.05-1.25.44-1.51 1z"/></svg>Configuration</a>
+      <a href="history.html" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>History</a>
+      <a href="#" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>Settings</a>
+    </div>
+    <div class="sidebar-section"><div class="sidebar-section-label">Coming Soon</div>
+      <a href="#" class="sidebar-link" style="opacity:.4;pointer-events:none"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Financial Integration</a>
+      <a href="#" class="sidebar-link" style="opacity:.4;pointer-events:none"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>CRM &amp; Marketing</a>
+    </div>
+  </nav>
+  <div class="role-switcher">
+    <div class="role-switcher-label">Switch Persona</div>
+    <button class="role-btn active" onclick="switchRole('owner')"><div class="ra" style="background:var(--dark)">JD</div><div><div class="rn">Jake Dawson</div><div class="rt">Owner · All Locations</div></div></button>
+    <button class="role-btn" onclick="switchRole('area')"><div class="ra" style="background:var(--orange)">SC</div><div><div class="rn">Sarah Chen</div><div class="rt">Area Mgr · Region North</div></div></button>
+    <button class="role-btn" onclick="switchRole('site')"><div class="ra" style="background:var(--green)">MT</div><div><div class="rn">Mike Torres</div><div class="rt">Site Mgr · Downtown</div></div></button>
+  </div>
+</aside>
+<div class="sidebar-backdrop" id="sidebar-backdrop" onclick="closeSidebar()"></div>
+<main class="main">
+  <header class="page-header">
+    <div style="display:flex;align-items:center;gap:.75rem">
+      <button class="hamburger" onclick="openSidebar()"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      <h1>Alert Feed</h1>
+    </div>
+    <div class="page-header-actions">
+      <div class="feed-search"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="Search alerts..." id="search-input" oninput="filterFeed()"></div>
+      <div class="dropdown" id="type-dd"><button class="feed-filter" onclick="toggleDD('type-dd')" id="type-trigger">All Types ▼</button><div class="dropdown-menu"><button class="dropdown-item active" onclick="pickType('all',this)">All Types</button><button class="dropdown-item" onclick="pickType('critical',this)">🔴 Critical</button><button class="dropdown-item" onclick="pickType('warning',this)">🟡 Warning</button><button class="dropdown-item" onclick="pickType('info',this)">🔵 Info</button><button class="dropdown-item" onclick="pickType('success',this)">🟢 Milestone</button><button class="dropdown-item" onclick="pickType('resolved',this)">✓ Resolved</button></div></div>
+      <div class="loc-dropdown" id="loc-dd"><button class="feed-filter" onclick="toggleLocDD()" id="loc-trigger">All Locations ▼</button><div class="loc-dropdown-menu" id="loc-menu"></div></div>
+    </div>
+  </header>
+  <!-- ═══ TABS ═══ -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('alerts')">Alerts <span class="tab-count alert-count" id="tab-alert-count">4</span></button>
+    <button class="tab-btn" onclick="switchTab('reports')">Reports <span class="tab-count report-count" id="tab-report-count">7</span></button>
+    <button class="needs-action-btn" id="needs-action-btn" onclick="toggleNeedsAction(this)">⚡ Needs Action</button>
+  </div>
+  <!-- ═══════════════════════════════════ -->
+  <!-- TAB 1: ALERTS                      -->
+  <!-- ═══════════════════════════════════ -->
+  <div class="tab-panel active" id="panel-alerts">
+    <div class="page-content">
+      <div id="critical-banner-area"></div>
+      <div id="status-bar-area"></div>
+      <div class="alert-feed"><div id="alert-items">
+        <div class="alert-item" data-type="critical" data-locs="downtown" data-id="a1" data-tab="alerts" data-severity="critical">
+          <div class="alert-status">🔴 CRITICAL</div>
+          <div class="alert-content">
+            <div class="alert-header"><span class="alert-location">Location A - Downtown</span><span class="alert-time">2 min ago</span></div>
+            <div class="alert-message">No vehicles processed in 15 minutes</div>
+            <div class="alert-details"><span>Last Car: 2:28 PM</span><span class="separator">|</span><span>Threshold: 15 min</span><span class="separator">|</span><span class="trend-down">⚠️ Check equipment</span></div>
+            <div class="escalation active" id="esc-a1">
+              <div class="esc-step done"><span class="ei">✓</span> Sent to site manager <strong>Mike Torres</strong> — 2:28 PM</div>
+              <div class="esc-step waiting"><span class="ei">⏱</span> Awaiting response — escalates to area manager in <strong>13 min</strong></div>
+            </div>
+            <div id="actions-a1"></div>
+          </div>
+        </div>
+        <div class="alert-item" data-type="info" data-locs="northgate,riverside,lakefront" data-id="a-rain" data-tab="alerts" data-severity="info">
+          <div class="alert-status">🔵 INFO<div style="font-size:.7rem;font-weight:500;color:var(--gray);margin-top:2px">Weather</div></div>
+          <div class="alert-content">
+            <div class="alert-header"><span class="alert-location">Region North — 3 Locations</span><span class="alert-time">8 min ago</span></div>
+            <div class="alert-message">No vehicles processed — Rain detected</div>
+            <div class="weather-bar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"/><line x1="8" y1="16" x2="8" y2="20"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="16" y1="16" x2="16" y2="20"/></svg> Rain detected since 2:15 PM — likely weather-related</div>
+            <div class="grouped-locations">
+              <div class="grouped-loc-row" onclick="this.classList.toggle('open')"><span class="grouped-loc-name"><span class="expand-arrow">▶</span> Northgate</span><span class="grouped-loc-time">Last car: 2:22 PM</span><div class="loc-forecast"><div class="forecast-hours"><div class="forecast-hour rain"><div class="fh-time">2PM</div><div class="fh-icon">🌧</div><div class="fh-temp">62°</div></div><div class="forecast-hour rain"><div class="fh-time">3PM</div><div class="fh-icon">🌧</div><div class="fh-temp">61°</div></div><div class="forecast-hour rain"><div class="fh-time">4PM</div><div class="fh-icon">🌦</div><div class="fh-temp">63°</div></div><div class="forecast-hour clear"><div class="fh-time">5PM</div><div class="fh-icon">⛅</div><div class="fh-temp">65°</div></div><div class="forecast-hour clear"><div class="fh-time">6PM</div><div class="fh-icon">☀️</div><div class="fh-temp">64°</div></div></div></div></div>
+              <div class="grouped-loc-row" onclick="this.classList.toggle('open')"><span class="grouped-loc-name"><span class="expand-arrow">▶</span> Riverside</span><span class="grouped-loc-time">Last car: 2:15 PM</span><div class="loc-forecast"><div class="forecast-hours"><div class="forecast-hour rain"><div class="fh-time">2PM</div><div class="fh-icon">🌧</div><div class="fh-temp">60°</div></div><div class="forecast-hour rain"><div class="fh-time">3PM</div><div class="fh-icon">🌧</div><div class="fh-temp">59°</div></div><div class="forecast-hour clear"><div class="fh-time">4PM</div><div class="fh-icon">🌦</div><div class="fh-temp">62°</div></div><div class="forecast-hour clear"><div class="fh-time">5PM</div><div class="fh-icon">⛅</div><div class="fh-temp">64°</div></div><div class="forecast-hour clear"><div class="fh-time">6PM</div><div class="fh-icon">☀️</div><div class="fh-temp">63°</div></div></div></div></div>
+              <div class="grouped-loc-row" onclick="this.classList.toggle('open')"><span class="grouped-loc-name"><span class="expand-arrow">▶</span> Lakefront</span><span class="grouped-loc-time">Last car: 2:31 PM</span><div class="loc-forecast"><div class="forecast-hours"><div class="forecast-hour rain"><div class="fh-time">2PM</div><div class="fh-icon">🌧</div><div class="fh-temp">61°</div></div><div class="forecast-hour rain"><div class="fh-time">3PM</div><div class="fh-icon">🌧</div><div class="fh-temp">60°</div></div><div class="forecast-hour rain"><div class="fh-time">4PM</div><div class="fh-icon">🌧</div><div class="fh-temp">61°</div></div><div class="forecast-hour rain"><div class="fh-time">5PM</div><div class="fh-icon">🌦</div><div class="fh-temp">63°</div></div><div class="forecast-hour clear"><div class="fh-time">6PM</div><div class="fh-icon">⛅</div><div class="fh-temp">64°</div></div></div></div></div>
+            </div>
+            <div style="font-size:.8125rem;color:var(--gray);margin-bottom:.75rem;">Auto-grouped — 3 locations within 10 min</div>
+            <div id="actions-a-rain"></div>
+          </div>
+        </div>
+        <div class="alert-item" data-type="warning" data-locs="westside" data-id="a2" data-tab="alerts" data-severity="warning">
+          <div class="alert-status">🟡 WARNING</div>
+          <div class="alert-content">
+            <div class="alert-header"><span class="alert-location">Location B - Westside</span><span class="alert-time">18 min ago</span></div>
+            <div class="alert-message">Employee clocked out later than threshold</div>
+            <div class="alert-details"><span>Michael Torres</span><span class="separator">|</span><span>Scheduled: 9:30 PM</span><span class="separator">|</span><span class="trend-down">Actual: 10:12 PM</span></div>
+            <div id="actions-a2"></div>
+          </div>
+        </div>
+        <div class="alert-item" data-type="warning" data-locs="northgate" data-id="a4" data-tab="alerts" data-severity="warning">
+          <div class="alert-status">🟡 WARNING<div style="font-size:.7rem;font-weight:500;color:var(--gray);margin-top:2px">Performance</div></div>
+          <div class="alert-content">
+            <div class="alert-header"><span class="alert-location">Location C - Northgate</span><span class="alert-time">3 hours ago</span></div>
+            <div class="alert-message">Productivity fell below threshold</div>
+            <div class="alert-details"><span>Current: 6.2 cars/labor hour</span><span class="separator">|</span><span>Threshold: 8.0 cars/labor hour</span><span class="separator">|</span><span class="trend-down">↓ 23% below</span></div>
+            <div id="actions-a4"></div>
+          </div>
+        </div>
+        <div class="alert-item" data-type="warning" data-locs="westside" data-id="a-early" data-tab="alerts" data-severity="warning">
+          <div class="alert-status">🟡 WARNING<div style="font-size:.7rem;font-weight:500;color:var(--gray);margin-top:2px">Time Clock</div></div>
+          <div class="alert-content">
+            <div class="alert-header"><span class="alert-location">Location B - Westside</span><span class="alert-time">6:43 AM</span></div>
+            <div class="alert-message">Early clock-in before threshold</div>
+            <div class="alert-details"><span>Jessica Chen</span><span class="separator">|</span><span>Threshold: 7:00 AM</span><span class="separator">|</span><span class="trend-down">Clocked In: 6:43 AM</span></div>
+            <div id="actions-a-early"></div>
+          </div>
+        </div>
+        <div class="alert-item" data-type="warning" data-locs="downtown,westside,northgate" data-id="a-clockreminder" data-tab="alerts" data-severity="warning">
+          <div class="alert-status">🟡 WARNING<div style="font-size:.7rem;font-weight:500;color:var(--gray);margin-top:2px">Reminder</div></div>
+          <div class="alert-content">
+            <div class="alert-header"><span class="alert-location">3 Locations</span><span class="alert-time">9:45 PM</span></div>
+            <div class="alert-message">Late clock-out reminder — 4 employees still clocked in</div>
+            <div class="grouped-locations">
+              <div class="grouped-loc-row"><span class="grouped-loc-name">Downtown</span><span class="grouped-loc-time">Michael Torres (Sched: 9:30 PM)</span></div>
+              <div class="grouped-loc-row"><span class="grouped-loc-name">Westside</span><span class="grouped-loc-time">Jessica Chen (Sched: 9:30 PM)</span></div>
+              <div class="grouped-loc-row"><span class="grouped-loc-name">Westside</span><span class="grouped-loc-time">David Park (Sched: 9:30 PM)</span></div>
+              <div class="grouped-loc-row"><span class="grouped-loc-name">Northgate</span><span class="grouped-loc-time">Lisa Wang (Sched: 9:30 PM)</span></div>
+            </div>
+            <div style="font-size:.8125rem;color:var(--orange);margin-bottom:.75rem;">⏱ Repeats every 15 min until 11 PM or all employees clock out</div>
+            <div id="actions-a-clockreminder"></div>
+          </div>
+        </div>
+        <div class="ai-card" data-type="info" data-locs="westside" data-id="a-trend1" data-tab="alerts" data-severity="info">
+          <div class="ai-card-header"><span class="ai-icon"><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><rect x="1" y="8" width="20" height="20" rx="4" fill="#1a1a1a"/><foreignObject x="1" y="8" width="20" height="20"><div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-family:Inter,sans-serif;font-weight:900;font-size:12px;color:#00D084;line-height:1;letter-spacing:0.5px">AI</div></foreignObject><path d="M25 1C25 1 27 5.5 30 5.5C27 5.5 25 10 25 10C25 10 23 5.5 20 5.5C23 5.5 25 1 25 1Z" fill="#00D084"/><path d="M29.5 10.5C29.5 10.5 30.2 12 31.2 12C30.2 12 29.5 13.5 29.5 13.5C29.5 13.5 28.8 12 27.8 12C28.8 12 29.5 10.5 29.5 10.5Z" fill="#00D084" opacity="0.4"/></svg></span><span class="ai-card-label">Pattern Detected</span><span class="ai-card-location">Westside · Detected today</span></div>
+          <div class="ai-card-body">
+            <div class="ai-card-insight">Conversion rate declining steadily at Westside</div>
+            <div class="ai-card-evidence"><span class="ai-card-stat">↓ 0.4% per week</span><span class="ai-card-stat">6 weeks</span><span class="ai-card-stat">Current: 18.7%</span><span class="ai-card-stat warn">Was: 21.1%</span></div>
+            <div class="ai-card-explanation">No single day triggers the low-conversion flag, but the trend suggests a developing issue. Review staffing, training, or site conditions.</div>
+          </div>
+          <div class="ai-card-actions" id="actions-a-trend1"></div>
+        </div>
+        <div class="ai-card" data-type="info" data-locs="downtown" data-id="a-trend2" data-tab="alerts" data-severity="info">
+          <div class="ai-card-header"><span class="ai-icon"><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><rect x="1" y="8" width="20" height="20" rx="4" fill="#1a1a1a"/><foreignObject x="1" y="8" width="20" height="20"><div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-family:Inter,sans-serif;font-weight:900;font-size:12px;color:#00D084;line-height:1;letter-spacing:0.5px">AI</div></foreignObject><path d="M25 1C25 1 27 5.5 30 5.5C27 5.5 25 10 25 10C25 10 23 5.5 20 5.5C23 5.5 25 1 25 1Z" fill="#00D084"/><path d="M29.5 10.5C29.5 10.5 30.2 12 31.2 12C30.2 12 29.5 13.5 29.5 13.5C29.5 13.5 28.8 12 27.8 12C28.8 12 29.5 10.5 29.5 10.5Z" fill="#00D084" opacity="0.4"/></svg></span><span class="ai-card-label">Pattern Detected</span><span class="ai-card-location">Downtown · Detected today</span></div>
+          <div class="ai-card-body">
+            <div class="ai-card-insight">3 employees with late clock-outs this week — unusual clustering</div>
+            <div class="ai-card-evidence"><span class="ai-card-stat">Normal: 0.5/week</span><span class="ai-card-stat warn">This week: 3 (6× above normal)</span><span class="ai-card-stat">No pattern in 90 days</span></div>
+            <div class="ai-card-explanation">This clustering hasn't occurred in 90 days. May indicate a scheduling issue or shift handoff problem.</div>
+          </div>
+          <div class="ai-card-actions" id="actions-a-trend2"></div>
+        </div>
+        <div class="alert-item resolved" data-type="resolved" data-locs="westside" data-id="a6" data-tab="alerts">
+          <div class="alert-status">✓ RESOLVED</div>
+          <div class="alert-content">
+            <div class="alert-header"><span class="alert-location">Location B - Westside</span><span class="alert-time">Yesterday 6:43 AM</span></div>
+            <div class="alert-message">Early clock-in reviewed and approved</div>
+            <div class="alert-details"><span>Jessica Chen</span><span class="separator">|</span><span>Scheduled: 7:00 AM</span><span class="separator">|</span><span class="impact-positive">Clocked In: 6:43 AM · Approved</span></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+  <!-- ═══════════════════════════════════ -->
+  <!-- TAB 2: REPORTS                     -->
+  <!-- ═══════════════════════════════════ -->
+  <div class="tab-panel" id="panel-reports">
+    <div class="page-content">
+      <div class="report-time-group">
+        <div class="report-time-label">This Hour (10:00 AM – 11:00 AM) <span class="rtl-count">4</span></div>
+        <div class="alert-feed" id="rpt-hour"></div>
+      </div>
+      <div class="report-time-group">
+        <div class="report-time-label">Today <span class="rtl-count">4</span></div>
+        <div class="alert-feed" id="rpt-day"></div>
+      </div>
+      <div class="report-time-group">
+        <div class="report-time-label">This Month (February) <span class="rtl-count">3</span></div>
+        <div class="alert-feed" id="rpt-month"></div>
+      </div>
+      <div class="report-time-group">
+        <div class="report-time-label">This Week (Feb 16–22) <span class="rtl-count">1</span></div>
+        <div class="alert-feed" id="rpt-week"></div>
+      </div>
+    </div>
+  </div>
+<button class="back-to-top" id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+</main>
+</div>
+<script>
+var REGIONS=[{id:'north',name:'Region North',sites:['northgate','riverside','lakefront']},{id:'south',name:'Region South',sites:['downtown','westside']}];
+var SITES=[{id:'downtown',name:'Downtown',region:'south'},{id:'westside',name:'Westside',region:'south'},{id:'northgate',name:'Northgate',region:'north'},{id:'riverside',name:'Riverside',region:'north'},{id:'lakefront',name:'Lakefront',region:'north'}];
+var USERS={owner:{name:'Jake Dawson',initials:'JD',role:'Owner',sites:SITES.map(function(s){return s.id}),regions:['north','south']},area:{name:'Sarah Chen',initials:'SC',role:'Area Manager',sites:['northgate','riverside','lakefront'],regions:['north']},site:{name:'Mike Torres',initials:'MT',role:'Site Manager',sites:['downtown'],regions:[]}};
+var TEAM=[{id:'jd',name:'Jake Dawson',role:'Owner',initials:'JD',color:'var(--dark)'},{id:'sc',name:'Sarah Chen',role:'Area Mgr · North',initials:'SC',color:'var(--orange)'},{id:'mt',name:'Mike Torres',role:'Site Mgr · Downtown',initials:'MT',color:'var(--green)'},{id:'dp',name:'David Park',role:'Site Mgr · Westside',initials:'DP',color:'var(--primary)'},{id:'lw',name:'Lisa Wang',role:'Site Mgr · Northgate',initials:'LW',color:'#8B5CF6'}];
+var SITE_STATUS={northgate:{status:'yellow',label:'Rain — No Cars'},riverside:{status:'yellow',label:'Rain — No Cars'},lakefront:{status:'yellow',label:'Rain — No Cars'},downtown:{status:'red',label:'No Cars 15min'},westside:{status:'green',label:'Normal'}};
+var CTX_ACTIONS={
+  a1:{owner:[{t:'Message Area Manager',c:'primary'}],area:[{t:'Call Site Manager',c:'primary'}],site:[{t:'Check Equipment',c:'primary'},{t:'Report Status',c:'secondary'},{t:'Request Maintenance',c:'text'}]},
+  'a-rain':{owner:[{t:'Suppress until rain stops',c:'primary',fn:'suppressWeather'}],area:[{t:'Suppress until rain stops',c:'primary',fn:'suppressWeather'}],site:[]},
+  a2:{owner:[{t:'View Pattern',c:'primary'},{t:'View Overtime Cost',c:'secondary'}],area:[{t:'Review Timecard',c:'primary'},{t:'Message Site Manager',c:'secondary'}],site:[{t:'Review Timecard',c:'primary'},{t:'Approve Overtime',c:'secondary'}]},
+  a4:{owner:[{t:'View Trends',c:'primary'}],area:[{t:'Message Site Manager',c:'primary'},{t:'Compare Locations',c:'secondary'}],site:[{t:'Adjust Staffing',c:'primary'},{t:'View Employee Stats',c:'secondary'}]},
+  'a-early':{owner:[{t:'View Pattern',c:'primary'}],area:[{t:'Review Timecard',c:'primary'},{t:'Message Site Manager',c:'secondary'}],site:[{t:'Review Timecard',c:'primary'},{t:'Approve Early Start',c:'secondary'}]},
+  'a-clockreminder':{owner:[{t:'Message Area Managers',c:'primary'}],area:[{t:'Message Employees',c:'primary'},{t:'Message Site Managers',c:'secondary'}],site:[{t:'Message Employees',c:'primary'},{t:'Approve Overtime',c:'secondary'}]},
+  'a-trend1':{owner:[{t:'View Westside Details',c:'primary'},{t:'Schedule Review',c:'secondary'}],area:[{t:'View Westside Details',c:'primary'}],site:[{t:'View Details',c:'secondary'}]},
+  'a-trend2':{owner:[{t:'View Timecards',c:'primary'},{t:'Message Site Manager',c:'secondary'}],area:[{t:'View Timecards',c:'primary'}],site:[{t:'View My Timecards',c:'secondary'}]},
+  a6:{owner:[],area:[],site:[]},
+  // Reports — simple actions
+  'r-hsales':{owner:[{t:'View Full Report',c:'secondary'},{t:'Share',c:'text'}],area:[{t:'View Full Report',c:'secondary'}],site:[{t:'View My Location',c:'secondary'}]},
+  'r-hmix':{owner:[{t:'View Full Report',c:'secondary'},{t:'Share',c:'text'}],area:[{t:'View Full Report',c:'secondary'}],site:[{t:'View My Location',c:'secondary'}]},
+  'r-hsiteboard':{owner:[{t:'View Full Leaderboard',c:'secondary'},{t:'Share with All',c:'text'}],area:[{t:'View Full Leaderboard',c:'secondary'}],site:[{t:'View My Ranking',c:'secondary'}]},
+  'r-hindboard':{owner:[{t:'View Full Rankings',c:'secondary'},{t:'Send Recognition',c:'text'}],area:[{t:'View Full Rankings',c:'secondary'},{t:'Send Congrats',c:'text'}],site:[{t:'View My Team',c:'secondary'}]},
+  'r-dsales':{owner:[{t:'View Full Report',c:'secondary'},{t:'Share',c:'text'}],area:[{t:'View Full Report',c:'secondary'}],site:[{t:'View My Location',c:'secondary'}]},
+  'r-dmix':{owner:[{t:'View Full Report',c:'secondary'},{t:'Share',c:'text'}],area:[{t:'View Full Report',c:'secondary'}],site:[{t:'View My Location',c:'secondary'}]},
+  'r-dsiteboard':{owner:[{t:'View Full Leaderboard',c:'secondary'},{t:'Share with All',c:'text'}],area:[{t:'View Full Leaderboard',c:'secondary'}],site:[{t:'View My Ranking',c:'secondary'}]},
+  'r-dindboard':{owner:[{t:'View Full Rankings',c:'secondary'},{t:'Send Recognition',c:'text'}],area:[{t:'View Full Rankings',c:'secondary'},{t:'Send Congrats',c:'text'}],site:[{t:'View My Team',c:'secondary'}]},
+  'r-milestone':{owner:[{t:'Share with All Locations',c:'primary'}],area:[{t:'Send Congrats',c:'primary'}],site:[{t:'Recognize Employee',c:'primary'}]},
+  'r-msales':{owner:[{t:'View Full Report',c:'secondary'},{t:'Export',c:'text'}],area:[{t:'View Full Report',c:'secondary'}],site:[{t:'View My Location',c:'secondary'}]},
+  'r-mmix':{owner:[{t:'View Full Report',c:'secondary'},{t:'Export',c:'text'}],area:[{t:'View Full Report',c:'secondary'}],site:[{t:'View My Location',c:'secondary'}]},
+  'r-mindboard':{owner:[{t:'View Full Rankings',c:'secondary'},{t:'Export',c:'text'}],area:[{t:'View Full Rankings',c:'secondary'}],site:[{t:'View My Team',c:'secondary'}]},
+  'r-digest':{owner:[{t:'View Full Report',c:'secondary'},{t:'Share with Team',c:'text'}],area:[{t:'View Full Report',c:'secondary'}],site:[{t:'View Report',c:'secondary'}]}
+};
+var REPORT_DATA={
+  sales:[{loc:'Downtown',rec:'$312',ret:'$487',conv:'21.4%',t2p:'45.2%',convC:''},{loc:'Westside',rec:'$198',ret:'$392',conv:'18.7%',t2p:'38.9%',convC:'var(--orange)'},{loc:'Northgate',rec:'$468',ret:'$521',conv:'23.1%',t2p:'51.3%',convC:'var(--green)'},{loc:'Riverside',rec:'$234',ret:'$412',conv:'19.8%',t2p:'42.1%',convC:''},{loc:'Lakefront',rec:'$273',ret:'$456',conv:'20.6%',t2p:'47.8%',convC:''}],
+  salesTot:{rec:'$1,485',ret:'$2,268',conv:'20.7%',t2p:'44.6%'},
+  mix:[{loc:'Downtown',tot:47,prem:21,pct:'44.7%',pctC:''},{loc:'Westside',tot:38,prem:15,pct:'39.5%',pctC:'var(--orange)'},{loc:'Northgate',tot:52,prem:27,pct:'51.9%',pctC:'var(--green)'},{loc:'Riverside',tot:41,prem:17,pct:'41.5%',pctC:''},{loc:'Lakefront',tot:45,prem:22,pct:'48.9%',pctC:''}],
+  siteboard:[{r:'🥇',loc:'Northgate',conv:'23.1%',pm:'51.3%',bg:'#FFFBEB',convC:'var(--green)',w:1},{r:'🥈',loc:'Downtown',conv:'21.4%',pm:'45.2%',bg:'',convC:'',w:1},{r:'🥉',loc:'Lakefront',conv:'20.6%',pm:'47.8%',bg:'',convC:'',w:1},{r:'4',loc:'Riverside',conv:'19.8%',pm:'42.1%',bg:'',convC:'',w:0},{r:'5',loc:'Westside',conv:'18.7%',pm:'38.9%',bg:'#FEF2F2',convC:'var(--orange)',w:0,warn:1}],
+  indboard:[{r:'🥇',emp:'Sarah Martinez',loc:'Northgate',subs:12,t2p:'66.7%',mrr:'$468',bg:'#FFFBEB',subC:'var(--green)',w:1},{r:'🥈',emp:'David Park',loc:'Downtown',subs:8,t2p:'62.5%',mrr:'$312',bg:'',subC:'',w:1},{r:'🥉',emp:'Jessica Chen',loc:'Westside',subs:7,t2p:'57.1%',mrr:'$273',bg:'',subC:'',w:1},{r:'4',emp:'Lisa Wang',loc:'Northgate',subs:6,t2p:'50.0%',mrr:'$234',bg:'',subC:'',w:0},{r:'5',emp:'Mike Torres',loc:'Downtown',subs:5,t2p:'40.0%',mrr:'$195',bg:'',subC:'',w:0},{r:'6',emp:'Carlos Ruiz',loc:'Lakefront',subs:5,t2p:'60.0%',mrr:'$195',bg:'',subC:'',w:0},{r:'7',emp:'Amy Foster',loc:'Riverside',subs:4,t2p:'50.0%',mrr:'$156',bg:'',subC:'',w:0},{r:'8',emp:'Kevin Tran',loc:'Westside',subs:3,t2p:'33.3%',mrr:'$117',bg:'',subC:'',w:0}]
+};
+function T(s){return '<th style="text-align:'+(s.a||'right')+';padding:8px 4px;font-weight:600;">'+s.t+'</th>';}
+function D(v,a,c,w){var s='text-align:'+(a||'right')+';padding:6px 4px;';if(c)s+='color:'+c+';font-weight:600;';if(w)s+='font-weight:600;';return '<td style="'+s+'">'+v+'</td>';}
+function renderReports(){
+  var o=curRole==='owner';
+  // HOURLY
+  var h='';
+  // Sales
+  h+=rptCard('r-hsales','📊 SALES','5 Locations','10:00 AM','Hourly Sales Report',buildSalesTable(REPORT_DATA.sales,REPORT_DATA.salesTot,o));
+  // Pkg Mix
+  h+=rptCard('r-hmix','📦 PKG MIX','5 Locations','10:00 AM','Hourly Package Mix',buildMixTable(REPORT_DATA.mix));
+  // Site Leaderboard
+  h+=rptCard('r-hsiteboard','🏆 SITES','All Locations','10:00 AM','Site Leaderboard',buildSiteboardTable(REPORT_DATA.siteboard));
+  // Individual Leaderboard
+  h+=rptCard('r-hindboard','👤 TOP 20','All Locations','10:00 AM','Individual Leaderboard',buildIndboardTable(REPORT_DATA.indboard,o));
+  document.getElementById('rpt-hour').innerHTML=h;
+  // DAILY
+  var d='';
+  d+=rptCard('r-dsales','📊 DAILY','5 Locations','End of day','Daily Sales Report',buildSalesTable(REPORT_DATA.sales,REPORT_DATA.salesTot,o));
+  d+=rptCard('r-dmix','📦 DAILY MIX','5 Locations','End of day','Daily Package Mix',buildMixTable(REPORT_DATA.mix));
+  d+=rptCard('r-dindboard','👤 DAILY TOP 20','All Locations','End of day','Daily Individual Leaderboard',buildIndboardTable(REPORT_DATA.indboard,o));
+  d+=rptCardSimple('r-milestone','🟢 MILESTONE','Location C - Northgate','Today','Sarah Martinez set a personal best — 12 subscriptions 🎉','<span>Previous best: 10</span><span class="separator">|</span><span class="trend-up">↑ 20% improvement</span>');
+  document.getElementById('rpt-day').innerHTML=d;
+  // MONTHLY
+  var m='';
+  m+=rptCard('r-msales','📊 MTD','5 Locations','Feb 1–22','Month-to-Date Sales Report',buildSalesTable(REPORT_DATA.sales,REPORT_DATA.salesTot,o));
+  m+=rptCard('r-mmix','📦 MTD MIX','5 Locations','Feb 1–22','Month-to-Date Package Mix',buildMixTable(REPORT_DATA.mix));
+  m+=rptCard('r-mindboard','👤 MTD TOP 20','All Locations','Feb 1–22','Month-to-Date Individual Leaderboard',buildIndboardTable(REPORT_DATA.indboard,o));
+  document.getElementById('rpt-month').innerHTML=m;
+  // WEEKLY DIGEST — structured AI briefing, role-aware
+  var w='<div class="digest-card" data-type="info" data-locs="downtown,westside,northgate,riverside,lakefront" data-id="r-digest" data-tab="reports">';
+  w+='<div class="digest-header">'+ICO.ai+'<div class="digest-title">'+(curRole==='site'?'Your Weekly Summary':'Weekly Briefing')+'</div><div class="digest-subtitle">Feb 16–22</div></div>';
+  w+='<div class="digest-body">';
+  if(curRole==='site'){
+    w+='<div class="digest-item"><div class="digest-indicator di-good">✓</div><div class="digest-text"><strong>Your response time improved.</strong> 3.1 min avg this week, down from 3.6 last week. 100% acknowledged before escalation.</div></div>';
+    w+='<div class="digest-item"><div class="digest-indicator di-warn">↓</div><div class="digest-text"><strong>3 late clock-outs at Downtown this week</strong> — unusual for your location. Worth reviewing the Tuesday evening shift schedule.</div></div>';
+    w+='<div class="digest-item"><div class="digest-indicator di-good">↑</div><div class="digest-text"><strong>Downtown conversion up 0.8%</strong> this week. Your team moved 4 more customers to premium packages vs last week.</div></div>';
+  }else{
+    w+='<div class="digest-item"><div class="digest-indicator di-good">✓</div><div class="digest-text"><strong>Alert response improved.</strong> 47 alerts, 89% acknowledged within SLA. Response time down to 4.2 min from 5.1 last week.</div></div>';
+    w+='<div class="digest-item"><div class="digest-indicator di-good">↑</div><div class="digest-text"><strong>Northgate conversion up 2.1%</strong> after '+(curRole==='owner'?'you adjusted':'the') +' premium mix threshold last Tuesday. Sarah Martinez extended her personal best to 12 subscriptions.</div></div>';
+    w+='<div class="digest-item"><div class="digest-indicator di-warn">↓</div><div class="digest-text"><strong>Westside conversion declining 6 weeks straight</strong> (21.1% → 18.7%). Three late clock-outs at Downtown — unusual clustering worth reviewing.</div></div>';
+    if(o) w+='<div class="digest-item"><div class="digest-indicator di-good">$</div><div class="digest-text"><strong>Recurring revenue up 3.2%</strong> vs prior week. Lakefront MRR trending above monthly target.</div></div>';
+    w+='<div class="digest-item"><div class="digest-indicator di-action">→</div><div class="digest-text"><strong>Recommendation:</strong> "Low Daily Subscriptions" fired 47 times — consider raising threshold from 5 to 7 to reduce noise.</div></div>';
+  }
+  w+='</div>';
+  w+='<div class="digest-actions" id="actions-r-digest"></div></div>';
+  document.getElementById('rpt-week').innerHTML=w;
+}
+function rptCard(id,status,loc,time,msg,tableHtml){
+  return '<div class="alert-item" data-type="info" data-locs="downtown,westside,northgate,riverside,lakefront" data-id="'+id+'" data-tab="reports"><div class="alert-status">'+status+'</div><div class="alert-content"><div class="alert-header"><span class="alert-location">'+loc+'</span><span class="alert-time">'+time+'</span></div><div class="alert-message">'+msg+'</div><div class="alert-details" style="display:block;margin-top:12px;">'+tableHtml+'</div><div style="margin-top:12px;" id="actions-'+id+'"></div></div></div>';
+}
+function rptCardSimple(id,status,loc,time,msg,details){
+  return '<div class="alert-item" data-type="success" data-locs="northgate" data-id="'+id+'" data-tab="reports"><div class="alert-status">'+status+'</div><div class="alert-content"><div class="alert-header"><span class="alert-location">'+loc+'</span><span class="alert-time">'+time+'</span></div><div class="alert-message">'+msg+'</div><div class="alert-details">'+details+'</div><div id="actions-'+id+'"></div></div></div>';
+}
+function buildSalesTable(data,tot,showFin){
+  var cols=[{t:'Location',a:'left'}];if(showFin)cols.push({t:'Recurring'});if(showFin)cols.push({t:'Retail'});cols.push({t:'Conv %'});cols.push({t:'Top 2 Pkg'});
+  var h='<table style="width:100%;font-size:.875rem;border-collapse:collapse;"><thead><tr style="border-bottom:2px solid #e0e0e0;">'+cols.map(T).join('')+'</tr></thead><tbody>';
+  data.forEach(function(r,i){var bdr=i<data.length-1?'border-bottom:1px solid #f0f0f0;':'border-bottom:2px solid #e0e0e0;';h+='<tr style="'+bdr+'">';h+=D(r.loc,'left');if(showFin){h+=D(r.rec);h+=D(r.ret);}h+=D(r.conv,'right',r.convC);h+=D(r.t2p);h+='</tr>';});
+  h+='<tr style="font-weight:600;background:#f8f9fa;">';h+=D('Total','left','',1);if(showFin){h+=D(tot.rec,'right','',1);h+=D(tot.ret,'right','',1);}h+=D(tot.conv,'right','',1);h+=D(tot.t2p,'right','',1);h+='</tr></tbody></table>';
+  return h;
+}
+function buildMixTable(data){
+  var h='<table style="width:100%;font-size:.875rem;border-collapse:collapse;"><thead><tr style="border-bottom:2px solid #e0e0e0;">'+[{t:'Location',a:'left'},{t:'Total Retail'},{t:'Prem Pkg'},{t:'Prem %'}].map(T).join('')+'</tr></thead><tbody>';
+  data.forEach(function(r,i){var bdr=i<data.length-1?'border-bottom:1px solid #f0f0f0;':'border-bottom:2px solid #e0e0e0;';h+='<tr style="'+bdr+'">'+D(r.loc,'left')+D(r.tot)+D(r.prem)+D(r.pct,'right',r.pctC)+'</tr>';});
+  return h+'</tbody></table>';
+}
+function buildSiteboardTable(data){
+  var h='<table style="width:100%;font-size:.875rem;border-collapse:collapse;"><thead><tr style="border-bottom:2px solid #e0e0e0;">'+[{t:'Rank',a:'left'},{t:'Location',a:'left'},{t:'Conv %'},{t:'Premium Mix'}].map(T).join('')+'</tr></thead><tbody>';
+  data.forEach(function(r,i){var bdr=i<data.length-1?'border-bottom:1px solid #f0f0f0;':'';var bg=r.bg?'background:'+r.bg+';':'';h+='<tr style="'+bdr+bg+'">';h+=D(r.r,'left');var ln=r.warn?'<span style="color:var(--orange);font-weight:600;">⚠ '+r.loc+'</span>':('<span'+(r.w?' style="font-weight:600"':'')+'>'+r.loc+'</span>');h+='<td style="padding:6px 4px;">'+ln+'</td>';h+=D(r.conv,'right',r.convC,r.w);h+=D(r.pm,'right','',r.w);h+='</tr>';});
+  return h+'</tbody></table>';
+}
+function buildIndboardTable(data,showFin){
+  var cols=[{t:'#',a:'left'},{t:'Employee',a:'left'},{t:'Location',a:'left'},{t:'Subs'}];cols.push({t:'Top 2 Pkg'});if(showFin)cols.push({t:'MRR'});
+  var h='<table style="width:100%;font-size:.875rem;border-collapse:collapse;"><thead><tr style="border-bottom:2px solid #e0e0e0;">'+cols.map(T).join('')+'</tr></thead><tbody>';
+  data.forEach(function(r,i){var bdr=i<data.length-1?'border-bottom:1px solid #f0f0f0;':'';var bg=r.bg?'background:'+r.bg+';':'';h+='<tr style="'+bdr+bg+'">';h+=D(r.r,'left');h+=D('<span'+(r.w?' style="font-weight:600"':'')+'>'+r.emp+'</span>','left');h+=D(r.loc,'left');h+=D(r.subs,'right',r.subC,r.w);h+=D(r.t2p);if(showFin)h+=D(r.mrr,'right','',r.w);h+='</tr>';});
+  return h+'</tbody></table>';
+};
+var ICO={ack:'<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',snooze:'<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',assign:'<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>',ai:'<span class="ai-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="#00D084"><path d="M10 1C10 1 12.5 7 16 7C12.5 7 10 13 10 13C10 13 7.5 7 4 7C7.5 7 10 1 10 1Z"/><path d="M19 11C19 11 20.2 14 22 14C20.2 14 19 17 19 17C19 17 17.8 14 16 14C17.8 14 19 11 19 11Z" opacity="0.5"/></svg></span>'};
+var curRole='owner',curType='all',curTab='alerts',selectedSites=[],needsAction=false;
+
+function toggleNeedsAction(btn){needsAction=!needsAction;btn.classList.toggle('active',needsAction);if(needsAction){switchTab('alerts');}filterFeed();updateCounts();}
+function switchTab(tab){curTab=tab;document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});document.querySelector('[onclick="switchTab(\''+tab+'\')"]').classList.add('active');document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active');});document.getElementById('panel-'+tab).classList.add('active');}
+function switchRole(role){curRole=role;selectedSites=[];curType='all';needsAction=false;var nab=document.getElementById('needs-action-btn');if(nab)nab.classList.remove('active');document.querySelectorAll('.role-btn').forEach(function(b){b.classList.remove('active');});document.querySelector('[onclick="switchRole(\''+role+'\')"]').classList.add('active');var tt=document.getElementById('type-trigger');tt.textContent='All Types ▼';tt.style.cssText='';document.querySelectorAll('#type-dd .dropdown-item').forEach(function(el){el.classList.remove('active');});document.querySelector('#type-dd .dropdown-item').classList.add('active');buildLocDropdown();renderReports();renderActions();renderBanner();renderStatusBar();filterFeed();updateCounts();}
+function renderActions(){document.querySelectorAll('[data-id]').forEach(function(item){var id=item.getAttribute('data-id'),tab=item.getAttribute('data-tab'),severity=item.getAttribute('data-severity'),acts=CTX_ACTIONS[id]?CTX_ACTIONS[id][curRole]||[]:[];var container=document.getElementById('actions-'+id);if(!container)return;var ctxHtml=acts.map(function(a){var fn=a.fn?a.fn+'(this)':'toast(\''+a.t.replace(/'/g,"\\'")+'\')';return '<button class="action-'+a.c+'" onclick="'+fn+'">'+a.t+'</button>';}).join('');var sysHtml='';if(tab==='alerts'&&severity&&acts.length>0){var sysBtns=[];if(curRole!=='owner')sysBtns.push('<button class="action-system" onclick="ackAlert(\''+id+'\',this)">'+ICO.ack+' Acknowledge</button>');if(severity==='warning'||(severity==='critical'&&curRole==='owner'))sysBtns.push(buildSnoozeBtn(id));if(curRole!=='site')sysBtns.push(buildAssignBtn(id));sysHtml='<div class="alert-actions-system">'+sysBtns.join('')+'</div>';}if(sysHtml)container.innerHTML='<div class="alert-actions-context">'+ctxHtml+'</div>'+sysHtml;else container.innerHTML='<div class="alert-actions-row">'+ctxHtml+'</div>';});}
+function buildAssignBtn(id){
+  var recMap={'a1':['Mike Torres','On-site now · 3 min avg response'],'a-rain':['Lisa Wang','On-site · closest to issue'],'a2':['David Park','On-site now · 0 pending alerts'],'a4':['Lisa Wang','On-site · fastest response time'],'a-early':['David Park','Site manager · Westside'],'a-clockreminder':['Mike Torres','On-site now · responsible for shift']};
+  var rec=recMap[id];
+  var heroHtml='';
+  if(rec){var rp=TEAM.find(function(t){return t.name===rec[0];});if(rp)heroHtml='<div class="assign-hero" onclick="assignTo(\''+id+'\',\''+rec[0]+'\',this)">'+ICO.ai+'<div class="aa" style="background:'+rp.color+'">'+rp.initials+'</div><div class="assign-hero-info"><div class="assign-hero-name">'+rec[0]+'</div><div class="assign-hero-why">'+rec[1]+'</div></div></div><div class="assign-divider">Others</div>';}
+  var opts=TEAM.filter(function(p){return !rec||p.name!==rec[0];}).map(function(p){return '<button class="assign-option" onclick="assignTo(\''+id+'\',\''+p.name+'\',this)"><div class="aa" style="background:'+p.color+'">'+p.initials+'</div><div><div style="font-weight:600">'+p.name+'</div><div style="font-size:.75rem;color:var(--gray)">'+p.role+'</div></div></button>';}).join('');
+  return '<div class="assign-dd"><button class="action-system" onclick="this.parentElement.classList.toggle(\'open\');event.stopPropagation()">'+ICO.assign+' Assign ▼</button><div class="assign-dd-menu">'+heroHtml+opts+'</div></div>';}
+function buildSnoozeBtn(id){
+  var sg={"a-rain":{v:"Until 3 PM",w:"Rain clearing by 2:45 PM"},"a2":{v:"1 hour",w:"Shift ends soon"},"a4":{v:"Until 4:30 PM",w:"Northgate Tuesdays recover by 4 PM"},"a-early":{v:"End of day",w:"This employee clocks in early 3×/week"},"a-clockreminder":{v:"30 min",w:"3 of 4 usually clock out within 20 min"},"a1":{v:"30 min",w:"Downtown gaps usually resolve in 15 min"}};
+  var s=sg[id],sh=s?'<div class="ai-snooze" onclick="snoozeAlert(\''+id+'\',\''+s.v+'\',this)">'+ICO.ai+'<div class="ai-snooze-body"><div class="ai-snooze-val">'+s.v+'</div><div class="ai-snooze-reason">'+s.w+'</div></div></div>':'';
+  return '<div class="snooze-dd"><button class="action-system" onclick="this.parentElement.classList.toggle(\'open\');event.stopPropagation()">'+ICO.snooze+' Snooze ▼</button><div class="snooze-dd-menu">'+sh+'<button class="snooze-option" onclick="snoozeAlert(\''+id+'\',\'1 hour\',this)">1 hour</button><button class="snooze-option" onclick="snoozeAlert(\''+id+'\',\'4 hours\',this)">4 hours</button><button class="snooze-option" onclick="snoozeAlert(\''+id+'\',\'end of day\',this)">End of day</button><div style="border-top:1px solid var(--border);margin:.25rem 0"></div><label class="snooze-check"><input type="checkbox" id="snooze-similar-'+id+'"> Apply to similar</label></div></div>';}
+function ackAlert(id,btn){var item=document.querySelector('[data-id="'+id+'"]');var esc=item.querySelector('.escalation');if(esc){esc.className='escalation ack';esc.innerHTML='<div class="esc-step done"><span class="ei">✓</span> Sent to site manager <strong>Mike Torres</strong> — 2:28 PM</div><div class="esc-step done"><span class="ei">✓</span> <strong style="color:var(--green)">Acknowledged by '+USERS[curRole].name+' — now</strong></div>';}btn.disabled=true;btn.style.opacity='.5';btn.innerHTML=ICO.ack+' Acknowledged';toast('Acknowledged — escalation paused');}
+function assignTo(id,name,btn){btn.closest('.assign-dd').classList.remove('open');toast('Assigned to '+name);var esc=document.getElementById('esc-'+id);if(esc){var s=document.createElement('div');s.className='esc-step done';s.innerHTML='<span class="ei">✓</span> Assigned to <strong>'+name+'</strong> by '+USERS[curRole].name;esc.appendChild(s);}}
+function snoozeAlert(id,dur,btn){var sim=document.getElementById('snooze-similar-'+id);var apply=sim&&sim.checked;var dd=btn.closest('.snooze-dd');if(dd)dd.classList.remove('open');var item=document.querySelector('[data-id="'+id+'"]');item.classList.add('hiding');setTimeout(function(){item.style.display='none';updateCounts();},400);toast('Snoozed for '+dur+(apply?' (+ similar)':''),function(){item.style.display='';item.classList.remove('hiding');updateCounts();});}
+function suppressWeather(btn){var item=btn.closest('.alert-item');item.classList.add('hiding');setTimeout(function(){item.style.display='none';updateCounts();},400);toast('Weather alerts suppressed',function(){item.style.display='';item.classList.remove('hiding');updateCounts();});}
+function clearAlert(btn){var item=btn.closest('.alert-item');item.classList.add('hiding');setTimeout(function(){item.style.display='none';updateCounts();},400);toast('Alert cleared',function(){item.style.display='';item.classList.remove('hiding');updateCounts();});}
+function buildLocDropdown(){var user=USERS[curRole],menu=document.getElementById('loc-menu'),html='';html+='<button class="loc-option" onclick="toggleLocAll()"><span class="cb checked">✓</span> All '+(curRole==='site'?'Sites':'Locations')+'</button>';if(curRole==='site'){user.sites.forEach(function(sid){var s=SITES.find(function(x){return x.id===sid});html+='<button class="loc-option" onclick="toggleLocSite(\''+sid+'\')"><span class="cb">✓</span> '+s.name+'</button>';});}else{REGIONS.filter(function(r){return user.regions.indexOf(r.id)!==-1}).forEach(function(r){var rs=r.sites.filter(function(sid){return user.sites.indexOf(sid)!==-1});html+='<div class="loc-group-label">'+r.name+'</div><button class="loc-option" onclick="toggleLocRegion(\''+r.id+'\')"><span class="cb">✓</span> All '+r.name+' ('+rs.length+')</button>';rs.forEach(function(sid){var s=SITES.find(function(x){return x.id===sid});html+='<button class="loc-option indented" onclick="toggleLocSite(\''+sid+'\')"><span class="cb">✓</span> '+s.name+'</button>';});});}menu.innerHTML=html;updateLocTrigger();}
+function toggleLocAll(){selectedSites=[];refreshLocChecks();filterFeed();updateCounts();}
+function toggleLocRegion(rid){var r=REGIONS.find(function(x){return x.id===rid}),user=USERS[curRole],rs=r.sites.filter(function(s){return user.sites.indexOf(s)!==-1}),all=rs.every(function(s){return selectedSites.indexOf(s)!==-1});if(all)rs.forEach(function(s){var i=selectedSites.indexOf(s);if(i!==-1)selectedSites.splice(i,1);});else rs.forEach(function(s){if(selectedSites.indexOf(s)===-1)selectedSites.push(s);});if(selectedSites.length===user.sites.length)selectedSites=[];refreshLocChecks();filterFeed();updateCounts();}
+function toggleLocSite(sid){var user=USERS[curRole],i=selectedSites.indexOf(sid);if(i!==-1)selectedSites.splice(i,1);else selectedSites.push(sid);if(selectedSites.length===0||selectedSites.length===user.sites.length)selectedSites=[];refreshLocChecks();filterFeed();updateCounts();}
+function refreshLocChecks(){var user=USERS[curRole],eff=selectedSites.length>0?selectedSites:user.sites,allSel=selectedSites.length===0;document.querySelectorAll('#loc-menu .loc-option').forEach(function(opt){var cb=opt.querySelector('.cb'),oc=opt.getAttribute('onclick')||'';cb.className='cb';cb.textContent='✓';if(oc.indexOf('toggleLocAll')!==-1){if(allSel)cb.classList.add('checked');}else if(oc.indexOf('toggleLocRegion')!==-1){var m=oc.match(/toggleLocRegion\('(\w+)'/);if(m){var rg=REGIONS.find(function(r){return r.id===m[1]}),rs=rg.sites.filter(function(s){return user.sites.indexOf(s)!==-1}),cnt=rs.filter(function(s){return eff.indexOf(s)!==-1}).length;if(cnt===rs.length&&!allSel)cb.classList.add('checked');else if(cnt>0&&!allSel)cb.classList.add('partial');}}else if(oc.indexOf('toggleLocSite')!==-1){var m2=oc.match(/toggleLocSite\('(\w+)'/);if(m2&&!allSel&&selectedSites.indexOf(m2[1])!==-1)cb.classList.add('checked');}});updateLocTrigger();}
+function updateLocTrigger(){var t=document.getElementById('loc-trigger');if(selectedSites.length===0){t.textContent='All Locations ▼';t.style.cssText='';}else if(selectedSites.length===1){var s=SITES.find(function(x){return x.id===selectedSites[0]});t.textContent=s.name+' ▼';t.style.cssText='border-color:rgba(0,208,132,.4);color:#0066FF;background:#E8F4FF;';}else{var mr=REGIONS.find(function(r){return r.sites.length===selectedSites.length&&r.sites.every(function(s){return selectedSites.indexOf(s)!==-1})});t.textContent=(mr?mr.name:selectedSites.length+' Locations')+' ▼';t.style.cssText='border-color:rgba(0,208,132,.4);color:#0066FF;background:#E8F4FF;';}}
+function toggleLocDD(){document.getElementById('loc-dd').classList.toggle('open');}
+function toggleDD(id){var dd=document.getElementById(id),o=dd.classList.contains('open');document.querySelectorAll('.dropdown.open,.loc-dropdown.open').forEach(function(d){d.classList.remove('open');});if(!o)dd.classList.add('open');}
+function pickType(type,btn){curType=type;var labels={all:'All Types',critical:'🔴 Critical',warning:'🟡 Warning',info:'🔵 Info',success:'🟢 Milestone',resolved:'✓ Resolved'};var t=document.getElementById('type-trigger');t.textContent=(labels[type]||type)+' ▼';if(type!=='all')t.style.cssText='border-color:rgba(0,208,132,.4);color:#0066FF;background:#E8F4FF;';else t.style.cssText='';btn.closest('.dropdown-menu').querySelectorAll('.dropdown-item').forEach(function(el){el.classList.remove('active');});btn.classList.add('active');btn.closest('.dropdown').classList.remove('open');filterFeed();updateCounts();}
+document.addEventListener('click',function(e){if(!e.target.closest('.dropdown')&&!e.target.closest('.loc-dropdown')&&!e.target.closest('.assign-dd')&&!e.target.closest('.snooze-dd'))document.querySelectorAll('.dropdown.open,.loc-dropdown.open,.assign-dd.open,.snooze-dd.open').forEach(function(d){d.classList.remove('open');});});
+function renderBanner(){var area=document.getElementById('critical-banner-area');if(curRole!=='site'){area.innerHTML='';return;}var user=USERS[curRole],has=false;document.querySelectorAll('[data-type="critical"]').forEach(function(item){var locs=item.getAttribute('data-locs').split(',');if(locs.some(function(l){return user.sites.indexOf(l)!==-1})&&item.style.display!=='none')has=true;});if(has)area.innerHTML='<div class="critical-banner"><div class="critical-banner-icon">🔴</div><div class="critical-banner-content"><div class="critical-banner-title">No vehicles processed in 15 minutes — Downtown</div><div class="critical-banner-sub">Last car: 2:28 PM · Check equipment immediately</div></div><button class="action-primary" onclick="toast(\'Checking equipment\')">Check Equipment</button></div>';else area.innerHTML='';}
+function renderStatusBar(){var area=document.getElementById('status-bar-area');if(curRole!=='area'){area.innerHTML='';return;}var user=USERS[curRole];area.innerHTML='<div class="status-bar">'+user.sites.map(function(sid){var s=SITES.find(function(x){return x.id===sid}),st=SITE_STATUS[sid];return '<div class="status-pill '+st.status+'"><span class="dot"></span>'+s.name+': '+st.label+'</div>';}).join('')+'</div>';}
+function filterFeed(){var user=USERS[curRole],q=(document.getElementById('search-input').value||'').toLowerCase(),vis=selectedSites.length>0?selectedSites:user.sites;document.querySelectorAll('.alert-item[data-id],.ai-card[data-id]').forEach(function(item){var type=item.getAttribute('data-type'),locs=item.getAttribute('data-locs').split(','),sev=item.getAttribute('data-severity'),text=item.textContent.toLowerCase(),show=true;if(!locs.some(function(l){return vis.indexOf(l)!==-1}))show=false;if(curType!=='all'&&type!==curType)show=false;if(q&&!text.includes(q))show=false;if(needsAction){if(sev!=='critical'&&sev!=='warning')show=false;if(type==='resolved')show=false;}item.style.display=show?'':'none';});}
+function updateCounts(){var ac=0,rc=0;document.querySelectorAll('#alert-items .alert-item,#alert-items .ai-card').forEach(function(i){if(i.style.display!=='none')ac++;});document.querySelectorAll('#panel-reports .alert-item,#panel-reports .digest-card').forEach(function(i){if(i.style.display!=='none')rc++;});document.getElementById('tab-alert-count').textContent=ac;document.getElementById('tab-report-count').textContent=rc;var badge=document.getElementById('badge-count');var urgent=0;document.querySelectorAll('#alert-items .alert-item[data-severity],#alert-items .ai-card[data-severity]').forEach(function(i){if(i.style.display!=='none')urgent++;});badge.textContent=urgent;badge.style.display=urgent>0?'':'none';}
+var toastTimer=null;
+function toast(msg,undoFn){document.querySelectorAll('.toast').forEach(function(t){t.remove();});clearTimeout(toastTimer);var el=document.createElement('div');el.className='toast';el.style.position='relative';var inner='<span style="color:#00D084">✓</span> '+msg;if(undoFn){inner+='<button class="toast-undo" onclick="event.stopPropagation()">Undo</button><div class="toast-timer"><div class="toast-timer-bar"></div></div>';};el.innerHTML=inner;document.body.appendChild(el);if(undoFn){el.querySelector('.toast-undo').onclick=function(){undoFn();el.remove();clearTimeout(toastTimer);};toastTimer=setTimeout(function(){el.remove();},4000);}else{toastTimer=setTimeout(function(){el.remove();},3000);}}
+function openSidebar(){document.querySelector('.sidebar').classList.add('open');document.getElementById('sidebar-backdrop').classList.add('open');}
+function closeSidebar(){document.querySelector('.sidebar').classList.remove('open');document.getElementById('sidebar-backdrop').classList.remove('open');}
+buildLocDropdown();renderReports();renderActions();renderBanner();renderStatusBar();filterFeed();updateCounts();
+window.addEventListener('scroll',function(){var b=document.getElementById('btt');if(b)b.classList.toggle('visible',window.scrollY>400);});
+</script>
+</body>
+</html>

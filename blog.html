@@ -891,7 +891,7 @@
                 </div>
             </a>
 
-            <a href="/blog-post-6.html" class="post-card" data-category="ai">
+            <!-- <a href="/blog-post-6.html" class="post-card" data-category="ai">
                 <div class="post-card-image img-dark">
                     <div class="card-graphic">
                         <svg width="80" height="60" viewBox="0 0 80 60" fill="none">
@@ -919,7 +919,7 @@
                         <span>9 min</span>
                     </div>
                 </div>
-            </a>
+            </a> -->
 
             <a href="/blog-post-3.html" class="post-card" data-category="growth">
                 <div class="post-card-image img-teal">
@@ -953,7 +953,7 @@
     </div>
 
     <!-- Newsletter -->
-    <div class="newsletter-section">
+    <!-- <div class="newsletter-section">
         <div class="newsletter-inner">
             <h2>Get posts in your inbox</h2>
             <p>New articles on car wash operations, AI, and growth — a few times a month. No noise.</p>
@@ -962,7 +962,7 @@
                 <button class="newsletter-btn" type="submit">Subscribe</button>
             </form>
         </div>
-    </div>
+    </div> -->
 
     <!-- Footer -->
     <footer>
@@ -1004,6 +1004,43 @@
     </footer>
 
     <script src="/assets/js/navbar.js"></script>
+    <script>
+        function filterPosts(category, btn) {
+            // Update active button state
+            document.querySelectorAll('.filter-btn').forEach(button => {
+                button.classList.remove('active');
+            });
+            btn.classList.add('active');
+
+            // Filter featured post
+            const featuredCard = document.querySelector('.featured-card');
+            if (featuredCard) {
+                if (category === 'all' || featuredCard.getAttribute('data-category') === category) {
+                    featuredCard.style.display = 'grid';
+                } else {
+                    featuredCard.style.display = 'none';
+                }
+            }
+
+            // Filter post grid
+            const postCards = document.querySelectorAll('.post-card');
+            let visibleCount = 0;
+            postCards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Optional: Handle the "Latest posts" label if no grid posts are visible
+            const latestLabel = document.querySelector('.posts-section-label');
+            if (latestLabel) {
+                latestLabel.style.display = (visibleCount > 0 || category === 'all') ? 'block' : 'none';
+            }
+        }
+    </script>
 </body>
 
 </html>

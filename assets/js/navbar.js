@@ -50,6 +50,27 @@ function setupNavbarInteractions() {
             }
         });
     });
+
+    // Smooth scroll — handles both `#section` and `/#section` style links
+    document.querySelectorAll('a[href^="#"], a[href^="/#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+            const href = this.getAttribute("href");
+            if (!href || this.hasAttribute("onclick")) return;
+            // Extract hash from either `#id` or `/#id`
+            const hashIndex = href.indexOf("#");
+            if (hashIndex === -1) return;
+            const targetId = href.substring(hashIndex + 1);
+            if (!targetId) return;
+            const target = document.getElementById(targetId);
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                });
+            }
+        });
+    });
 }
 
 async function loadNavbar() {
